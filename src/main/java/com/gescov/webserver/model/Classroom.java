@@ -1,18 +1,23 @@
 package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.UUID;
-
+@Document(collection = "classrooms")
 public class Classroom {
 
-    private final UUID id;
+    private ObjectId id;
 
-    private final String name;
+    private String name;
 
-    private final int capacity;
+    private int capacity;
 
-    public Classroom(@JsonProperty("id") UUID id,
+    public Classroom() {
+
+    }
+
+    public Classroom(@JsonProperty("_id") ObjectId id,
                      @JsonProperty("name") String name,
                      @JsonProperty("capacity") int capacity) {
         this.id = id;
@@ -20,7 +25,19 @@ public class Classroom {
         this.capacity = capacity;
     }
 
-    public UUID getId() {
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public ObjectId getId() {
         return id;
     }
 
@@ -31,6 +48,5 @@ public class Classroom {
     public int getCapacity() {
         return capacity;
     }
-
 
 }
