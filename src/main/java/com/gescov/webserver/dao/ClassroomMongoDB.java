@@ -4,7 +4,6 @@ import com.gescov.webserver.model.Classroom;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,7 +42,7 @@ public class ClassroomMongoDB implements ClassroomDao {
         List<Classroom> allClasses = new ArrayList<>();
         FindIterable<Classroom> result = classroomCollection.find();
         for (Classroom cr : result) {
-            allClasses.add(new Classroom(cr.getId(), cr.getName(), cr.getCapacity()));
+            allClasses.add(new Classroom(cr.getId(), cr.getName(), cr.getCapacity(), cr.getCreator()));
         }
         return allClasses;
     }

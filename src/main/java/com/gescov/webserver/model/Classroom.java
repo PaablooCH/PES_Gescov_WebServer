@@ -13,16 +13,20 @@ public class Classroom {
 
     private int capacity;
 
+    private String creator;
+
     public Classroom() {
 
     }
 
     public Classroom(@JsonProperty("_id") ObjectId id,
                      @JsonProperty("name") String name,
-                     @JsonProperty("capacity") int capacity) {
+                     @JsonProperty("capacity") int capacity,
+                     @JsonProperty("creator") String creator) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
+        this.creator = creator;
     }
 
     public void setId(ObjectId id) {
@@ -37,6 +41,8 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    public void setCreator(String creator) { this.creator = creator; }
+
     public ObjectId getId() {
         return id;
     }
@@ -48,5 +54,7 @@ public class Classroom {
     public int getCapacity() {
         return capacity;
     }
+
+    public String getCreator() { return creator; }
 
 }
