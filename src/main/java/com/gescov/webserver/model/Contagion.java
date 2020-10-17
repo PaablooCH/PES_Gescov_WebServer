@@ -17,11 +17,22 @@ public class Contagion {
 
     public Contagion(){}
 
-    public Contagion(@JsonProperty("_id") ObjectId id, @JsonProperty("nameInfected") String nameContagion){
+    public Contagion(@JsonProperty("_id") ObjectId id,
+                     @JsonProperty("nameInfected") String nameContagion){
         this.id = id;
         this.nameInfected = nameContagion;
-        this.startContagion = new Date(); //Date() : Creates date object representing current date and time.
+        this.startContagion = new Date();
         this.endContagion = null;
+    }
+
+    public Contagion(@JsonProperty("_id") ObjectId id,
+                     @JsonProperty("nameInfected") String nameContagion,
+                     @JsonProperty("startContagion") Date startContagion,
+                     @JsonProperty("endContagion") Date endContagion){
+        this.id = id;
+        this.nameInfected = nameContagion;
+        this.startContagion = startContagion;
+        this.endContagion = endContagion;
     }
 
     public Date getStartContagion() {

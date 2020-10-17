@@ -4,7 +4,6 @@ import com.gescov.webserver.model.Contagion;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -32,34 +31,43 @@ public class ContagionMongoDB implements ContagionDao{
     }
 
     @Override
-    public int insertContagion(Contagion contagion) {
-        contagionCollection.insertOne(contagion);
-        return 1;
+    public int insertContagion(Contagion contagion) { //Eficiente Funciona// @Pablo CH
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",contagion.getNameInfected()));
+        boolean insert = true;
+        for (Contagion cr : result) {
+            if (cr.getEndContagion() == null) {
+                insert = false;
+                break;
+            }
+        }
+        if (insert) {
+            contagionCollection.insertOne(contagion);
+            return 1;
+        }
+        return 0;
     }
 
     @Override
-    public List<Contagion> selectAllContagion() {
+    public List<Contagion> selectAllContagion() { //Eficiente Funciona// @Pablo CH
         List<Contagion> allContagion = new ArrayList<>();
         FindIterable<Contagion> result = contagionCollection.find();
         for (Contagion cr : result) {
-            Contagion c = new Contagion(cr.getId(), cr.getNameInfected());
-            c.setStartContagion(cr.getStartContagion());
-            c.setEndContagion(cr.getEndContagion());
-            allContagion.add(c);
+            allContagion.add(new Contagion(cr.getId(),
+                    cr.getNameInfected(), cr.getStartContagion(), cr.getEndContagion()));
         }
         return allContagion;
     }
 
     @Override
-    public int updateContagion(String nameInfected) {
-        FindIterable<Contagion> result = contagionCollection.find();
+    public int updateContagion(String nameInfected) { //Eficiente Funciona// @Pablo CH
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",nameInfected));
         for (Contagion cr : result) {
-            if (cr.getNameInfected().equals(nameInfected) && cr.getEndContagion() == null) {
-                ObjectId id = cr.getId();
-                contagionCollection.findOneAndUpdate(eq("_id", id), set("endContagion", new Date()));
+            if (cr.getEndContagion() == null) {
+                contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", new Date()));
+                return 1;
             }
         }
-        return 1;
+        return 0;
     }
 
 }
