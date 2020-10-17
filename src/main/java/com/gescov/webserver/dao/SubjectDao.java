@@ -17,4 +17,5 @@ public interface SubjectDao {
     int deleteSubject(ObjectId id);
 
     int updateSubject(ObjectId id, Subject subject);
+
 }

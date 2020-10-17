@@ -2,22 +2,29 @@ package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+//@Document(collection = "contagion")
 public class Contagion {
-
+    @Id
     private ObjectId id;
 
+    @NotNull
     private Date startContagion; //Primary key
 
     private Date endContagion;
 
+    @NotNull
     String nameInfected; //Primary key
 
-    public Contagion(){}
+    public Contagion() {
 
-    public Contagion(@JsonProperty("_id") ObjectId id, @JsonProperty("nameInfected") String nameContagion){
+    }
+
+    public Contagion(@JsonProperty("_id") ObjectId id, @JsonProperty("nameInfected") String nameContagion) {
         this.id = id;
         this.nameInfected = nameContagion;
         this.startContagion = new Date(); //Date() : Creates date object representing current date and time.
