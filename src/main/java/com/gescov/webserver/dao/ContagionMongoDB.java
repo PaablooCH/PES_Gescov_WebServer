@@ -54,7 +54,6 @@ public class ContagionMongoDB implements ContagionDao{
     public int updateContagion(String nameInfected) {
         FindIterable<Contagion> result = contagionCollection.find();
         for (Contagion cr : result) {
-            System.out.println(cr.getNameInfected() + " " + cr.getEndContagion() + nameInfected);
             if (cr.getNameInfected().equals(nameInfected) && cr.getEndContagion() == null) {
                 ObjectId id = cr.getId();
                 contagionCollection.findOneAndUpdate(eq("_id", id), set("endContagion", new Date()));
