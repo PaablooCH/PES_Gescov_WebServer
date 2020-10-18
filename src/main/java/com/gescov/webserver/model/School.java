@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 
 //@Document(collection = "schools")
 public class School {
+
     @Id
     private ObjectId id;
 
-    @NotNull @Indexed(unique = true)
+    @Id
     private String name;
 
     private String state;
