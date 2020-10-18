@@ -15,7 +15,6 @@ public class SubjectService {
 
     private final SubjectDao subjectDao;
 
-
     @Autowired
     public SubjectService(@Qualifier("subjectMongo") SubjectDao subjectDao) {
         this.subjectDao = subjectDao;

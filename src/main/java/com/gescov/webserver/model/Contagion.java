@@ -2,17 +2,22 @@ package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Contagion {
 
+    @Id
     private ObjectId id;
 
+    @NotNull
     private Date startContagion; //Primary key
 
     private Date endContagion;
 
+    @NotNull
     String nameInfected; //Primary key
 
     public Contagion(){}

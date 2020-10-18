@@ -27,8 +27,9 @@ public class SubjectMongoDB implements SubjectDao {
     private MongoCollection<Subject> subjectCollection;
 
     @PostConstruct
-    void init(){
-        subjectCollection = client.getDatabase("Gescov").getCollection("subject", Subject.class);}
+    void init() {
+        subjectCollection = client.getDatabase("Gescov").getCollection("subject", Subject.class);
+    }
 
     @Override
     public int insertSubject(Subject subject) {
@@ -40,16 +41,16 @@ public class SubjectMongoDB implements SubjectDao {
     public List<Subject> selectAllSubjects() {
         List<Subject> allSubjects = new ArrayList<>();
         FindIterable<Subject> result = subjectCollection.find();
-        for(Subject m : result){
-            allSubjects.add(new Subject(m.getId(),m.getName()));
+        for(Subject s : result){
+            allSubjects.add(new Subject(s.getId(), s.getName()));
         }
         return allSubjects;
     }
 
     @Override
     public Optional<Subject> selectSubjectsById(ObjectId id) {
-        Subject m = subjectCollection.find(eq("_id",id)).first();
-        return Optional.ofNullable(m);
+        Subject s = subjectCollection.find(eq("_id",id)).first();
+        return Optional.ofNullable(s);
     }
 
     @Override

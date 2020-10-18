@@ -42,7 +42,7 @@ public class ClassroomController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateClassroom(@PathVariable("id") ObjectId id, @NonNull @RequestBody Classroom classroomtToUpdate) {
-        classroomService.updateClassroom(id, classroomtToUpdate);
+    public void updateClassroom(@PathVariable("id") ObjectId id, @NonNull @RequestBody Classroom classroomToUpdate) {
+        classroomService.updateClassroom(id, classroomToUpdate);
     }
 }

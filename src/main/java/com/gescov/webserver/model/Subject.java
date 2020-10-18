@@ -2,16 +2,21 @@ package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
 
 //@Document(collection = "subject")
 public class Subject {
-
+    @Id
     private ObjectId id;
 
+    @NotNull
     private String name;
 
-    public Subject(){
+    public Subject() {
 
     }
 
