@@ -12,7 +12,6 @@ public class Contagion {
     @Id
     private ObjectId id;
 
-    @NotNull
     private Date startContagion; //Primary key
 
     private Date endContagion;
