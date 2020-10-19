@@ -18,13 +18,18 @@ public class ContagionController {
     public ContagionController(ContagionService contagionService) { this.contagionService = contagionService; }
 
     @PostMapping
-    public void addContagion(@NonNull @RequestBody Contagion contagion) {
-        contagionService.addContagion(contagion);
-    }
+    public void addContagion(@NonNull @RequestBody Contagion contagion) { contagionService.addContagion(contagion); }
 
     @GetMapping
     public List<Contagion> getAllContagion() {
         return contagionService.getAllContagion();
+    }
+
+    @GetMapping(path = "{specific}")
+    public List<Contagion> getSpecificContagion(@PathVariable("specific") String specific) {
+        List<Contagion> returned = null;
+        if (specific.equals("now")) returned = contagionService.getNowContagion();
+        return returned;
     }
 
     @PutMapping(path = "{nameInfected}")

@@ -70,4 +70,15 @@ public class ContagionMongoDB implements ContagionDao{
         return 0;
     }
 
+    @Override
+    public List<Contagion> selectNowContagion() {
+        List<Contagion> nowContagion = new ArrayList<>();
+        FindIterable<Contagion> result = contagionCollection.find(eq("endContagion",null));
+        for (Contagion cr : result) {
+            nowContagion.add(new Contagion(cr.getId(),
+                    cr.getNameInfected(), cr.getStartContagion(), cr.getEndContagion()));
+        }
+        return nowContagion;
+    }
+
 }
