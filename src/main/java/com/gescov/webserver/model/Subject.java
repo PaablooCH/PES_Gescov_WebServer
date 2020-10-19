@@ -16,14 +16,22 @@ public class Subject {
     @NotNull
     private String name;
 
+    @NotNull
+    private String school;
+
     public Subject() {
 
     }
 
-    public Subject(@JsonProperty("_id") ObjectId id, @JsonProperty("name") String name) {
+    public Subject(@JsonProperty("_id") ObjectId id, @JsonProperty("name") String name, @JsonProperty("school") String school) {
         this.id = id;
         this.name = name;
+        this.school = school;
     }
+
+    public String getSchool() { return school; }
+
+    public void setSchool(String school) { this.school = school; }
 
     public ObjectId getId() {return id;}
 

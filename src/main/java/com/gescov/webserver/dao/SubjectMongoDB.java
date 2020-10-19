@@ -42,7 +42,7 @@ public class SubjectMongoDB implements SubjectDao {
         List<Subject> allSubjects = new ArrayList<>();
         FindIterable<Subject> result = subjectCollection.find();
         for(Subject s : result){
-            allSubjects.add(new Subject(s.getId(), s.getName()));
+            allSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
         }
         return allSubjects;
     }
