@@ -12,4 +12,5 @@ public interface ContagionDao {
 
     int updateContagion(String nameInfected);
 
+    List<Contagion> selectNowContagion();
 }

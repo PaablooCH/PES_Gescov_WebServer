@@ -18,13 +18,13 @@ public class ContagionService {
         this.contagionDao = contagionDao;
     }
 
-    public int addContagion(Contagion contagion) {
-        return contagionDao.insertContagion(contagion);
-    }
+    public int addContagion(Contagion contagion) { return contagionDao.insertContagion(contagion); }
 
     public List<Contagion> getAllContagion() { return contagionDao.selectAllContagion(); }
 
     public int updateContagion(String nameInfected) {
         return contagionDao.updateContagion(nameInfected);
     }
+
+    public List<Contagion> getNowContagion() { return contagionDao.selectNowContagion(); }
 }
