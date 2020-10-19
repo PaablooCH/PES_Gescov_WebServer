@@ -41,7 +41,7 @@ public class SubjectController {
         subjectService.deleteSubject(id);
     }
 
-    @PostMapping(path = "{id}")
+    @PutMapping(path = "{id}")
     public void updateSubject(@PathVariable ("id") ObjectId id, @NonNull @RequestBody Subject subject){
         subjectService.updateSubject(id, subject);
     }

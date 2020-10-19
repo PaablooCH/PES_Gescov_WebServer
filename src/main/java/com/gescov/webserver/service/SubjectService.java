@@ -40,7 +40,4 @@ public class SubjectService {
         return subjectDao.updateSubject(id, subject);
     }
 
-
-
-
 }

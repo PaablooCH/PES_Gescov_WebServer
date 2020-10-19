@@ -33,7 +33,14 @@ public class SubjectMongoDB implements SubjectDao {
 
     @Override
     public int insertSubject(Subject subject) {
-        subjectCollection.insertOne(subject);
+        if(subjectCollection.countDocuments(eq("name", subject.getName()))!=0) {
+            if(subjectCollection.countDocuments(eq("school", subject.getSchool()))==0){
+                subjectCollection.insertOne(subject);
+                return 1;
+            }
+            else return 0;
+        }
+        else subjectCollection.insertOne(subject);
         return 1;
     }
 
