@@ -31,10 +31,7 @@ public class SchoolMongoDB implements SchoolDao {
     }
 
     @Override
-    public int insertSchool(School school) { //Es un resultado a como hacer la primary key, pero sin usar en si
-        // nada de primary key, he buscado y @Id hacia funcion de primary key, así que lo que habías puesto
-        // de @notnull y @unique en name de school era una tonteria, he encontrado comandos para hacer 2 primary
-        // keys en una clase pero en to-do caso ID tiene que ser primary key separado de name por temas lógicos
+    public int insertSchool(School school) {
         if (schoolCollection.countDocuments(eq("name",school.getName())) == 0) {
             schoolCollection.insertOne(school);
             return 1;
