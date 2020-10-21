@@ -3,7 +3,6 @@ package com.gescov.webserver.dao;
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
 import java.util.List;
-import java.util.Optional;
 
 public interface ClassroomDao {
 
@@ -11,7 +10,7 @@ public interface ClassroomDao {
 
     List<Classroom> selectAllClassrooms();
 
-    Optional<Classroom> selectClassroomById(ObjectId id);
+    Classroom selectClassroomById(ObjectId id);
 
     int deleteClassroomById(ObjectId id);
 

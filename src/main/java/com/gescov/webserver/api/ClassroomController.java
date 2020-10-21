@@ -1,5 +1,6 @@
 package com.gescov.webserver.api;
 
+import com.gescov.webserver.exception.EntityNotFoundException;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.service.ClassroomService;
 import org.bson.types.ObjectId;
@@ -31,9 +32,8 @@ public class ClassroomController {
     }
 
     @GetMapping(path = "{id}")
-    public Classroom getClassroomById(@PathVariable("id") ObjectId id) throws Exception {
-        return classroomService.getClassroomById(id)
-                .orElse(null); //throw Exception
+    public Classroom getClassroomById(@PathVariable("id") ObjectId id) throws EntityNotFoundException {
+        return classroomService.getClassroomById(id);
     }
 
     @DeleteMapping(path = "{id}")
@@ -45,4 +45,5 @@ public class ClassroomController {
     public void updateClassroom(@PathVariable("id") ObjectId id, @NonNull @RequestBody Classroom classroomToUpdate) {
         classroomService.updateClassroom(id, classroomToUpdate);
     }
+
 }

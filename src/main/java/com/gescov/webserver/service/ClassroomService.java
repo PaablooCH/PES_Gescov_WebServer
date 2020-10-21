@@ -1,6 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.ClassroomDao;
+import com.gescov.webserver.exception.EntityNotFoundException;
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class ClassroomService {
@@ -29,7 +28,7 @@ public class ClassroomService {
         return classroomDao.selectAllClassrooms();
     }
 
-    public Optional<Classroom> getClassroomById(ObjectId id) {
+    public Classroom getClassroomById(ObjectId id) {
         return classroomDao.selectClassroomById(id);
     }
 
