@@ -1,5 +1,6 @@
 package com.gescov.webserver.dao;
 
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -55,20 +56,33 @@ public class SubjectMongoDB implements SubjectDao {
     }
 
     @Override
-    public Optional<Subject> selectSubjectsById(ObjectId id) {
-        Subject s = subjectCollection.find(eq("_id",id)).first();
-        return Optional.ofNullable(s);
+    public List<Subject> selectSubjectsByVariable(String variable) {
+        List<Subject> VariableSubjects = new ArrayList<>();
+        FindIterable<Subject> result = subjectCollection.find(eq("school", variable));
+        if (result.cursor().hasNext()) {
+            for (Subject s : result) {
+                VariableSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
+            }
+        }
+        else {
+            result = subjectCollection.find(eq("name", variable));
+            for (Subject s : result) {
+                VariableSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
+            }
+        }
+        return VariableSubjects;
     }
 
+
     @Override
-    public int deleteSubject(ObjectId id) {
-        subjectCollection.findOneAndDelete(eq("_id", id));
+    public int deleteSubject(String name) {
+        subjectCollection.findOneAndDelete(eq("name", name));
         return 1;
     }
 
     @Override
-    public int updateSubject(ObjectId id, Subject subject) {
-        subjectCollection.findOneAndUpdate(eq("_id", id), set("name", subject.getName()));
+    public int updateSubject(String name, Subject subject) {
+        subjectCollection.findOneAndUpdate(eq("name", name), set("name", subject.getName()));
         return 1;
     }
 }

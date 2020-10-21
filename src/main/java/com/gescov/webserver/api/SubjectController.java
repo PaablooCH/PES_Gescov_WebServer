@@ -4,7 +4,6 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.service.SubjectService;
 import com.mongodb.lang.NonNull;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,18 +30,18 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
-    @GetMapping(path = "{id}")
-    public Subject getSubjectById(@PathVariable("id") ObjectId id)throws Exception{
-        return subjectService.selectSubjectByID(id).orElse(null);
+    @GetMapping(path = "{specific}")
+    public List<Subject> getSubjectsByVariable(@PathVariable("specific") String specific){
+        return subjectService.getSubjectByVariable(specific);
     }
 
-    @DeleteMapping(path = "{id}")
-    public void deleteSubject(@PathVariable("id") ObjectId id){
-        subjectService.deleteSubject(id);
+    @DeleteMapping(path = "{name}")
+    public void deleteSubject(@PathVariable("name") String name){
+        subjectService.deleteSubject(name);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateSubject(@PathVariable ("id") ObjectId id, @NonNull @RequestBody Subject subject){
-        subjectService.updateSubject(id, subject);
+    @PutMapping(path = "{name}")
+    public void updateSubject(@PathVariable ("name") String name, @NonNull @RequestBody Subject subject){
+        subjectService.updateSubject(name, subject);
     }
 }

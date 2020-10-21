@@ -12,10 +12,10 @@ public interface SubjectDao {
 
     List<Subject> selectAllSubjects();
 
-    Optional<Subject> selectSubjectsById(ObjectId id);
+    List<Subject> selectSubjectsByVariable(String variable);
 
-    int deleteSubject(ObjectId id);
+    int deleteSubject(String name);
 
-    int updateSubject(ObjectId id, Subject subject);
+    int updateSubject(String name, Subject subject);
 
 }
