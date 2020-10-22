@@ -1,6 +1,6 @@
 package com.gescov.webserver.dao;
 
-import com.gescov.webserver.exception.EntityAlreadyExistsException;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -37,7 +37,7 @@ public class SubjectMongoDB implements SubjectDao {
                 subjectCollection.insertOne(subject);
                 return 1;
             }
-            else throw new EntityAlreadyExistsException(Subject.class, "school", subject.getSchool());
+            else throw new AlreadyExistsException(subject.getName() + " already exists in " + subject.getSchool());
         }
         else subjectCollection.insertOne(subject);
         return 1;

@@ -1,49 +1,24 @@
 package com.gescov.webserver.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.http.HttpStatus;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 public class ApiError {
-    
-    private HttpStatus status;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDateTime timestamp;
+    private Date timestamp;
     private String message;
-    private String debugMessage;
-    private List<ApiSubError> subErrors;
+    private String details;
 
-    private ApiError() {
-        timestamp = LocalDateTime.now();
-    }
-
-    ApiError(HttpStatus status) {
-        this();
-        this.status = status;
-    }
-
-    ApiError(HttpStatus status, Throwable ex) {
-        this();
-        this.status = status;
-        this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
-    }
-
-    ApiError(HttpStatus status, String message, Throwable ex) {
-        this();
-        this.status = status;
+    public ApiError(Date timestamp, String message, String details) {
+        this.timestamp = timestamp;
         this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        this.details = details;
     }
 
-    public HttpStatus getStatus() {
-        return status;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setStatus(HttpStatus status) {
-        this.status = status;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getMessage() {
@@ -54,12 +29,11 @@ public class ApiError {
         this.message = message;
     }
 
-    public String getDebugMessage() {
-        return debugMessage;
+    public String getDetails() {
+        return details;
     }
 
-    public void setDebugMessage(String debugMessage) {
-        this.debugMessage = debugMessage;
+    public void setDetails(String details) {
+        this.details = details;
     }
 }
-
