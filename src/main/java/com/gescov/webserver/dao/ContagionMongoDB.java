@@ -1,5 +1,7 @@
 package com.gescov.webserver.dao;
 
+import com.gescov.webserver.exception.AlreadyExistsException;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -40,11 +42,11 @@ public class ContagionMongoDB implements ContagionDao{
                 break;
             }
         }
-        if (insert) {
-            contagionCollection.insertOne(contagion);
-            return 1;
+        if (!insert) {
+            throw new AlreadyExistsException("Contagion with 'name' " + contagion.getNameInfected() + " is already infected");
         }
-        return 0;
+        contagionCollection.insertOne(contagion);
+        return 1;
     }
 
     @Override
@@ -67,13 +69,14 @@ public class ContagionMongoDB implements ContagionDao{
                 return 1;
             }
         }
-        return 0;
+        throw new NotFoundException(nameInfected + " is not infected at this moment");
     }
 
     @Override
     public List<Contagion> selectNowContagion() {
         List<Contagion> nowContagion = new ArrayList<>();
         FindIterable<Contagion> result = contagionCollection.find(eq("endContagion",null));
+        if (result.first() == null) throw new NotFoundException("Nobody is infected");
         for (Contagion cr : result) {
             nowContagion.add(new Contagion(cr.getId(),
                     cr.getNameInfected(), cr.getStartContagion(), cr.getEndContagion()));
