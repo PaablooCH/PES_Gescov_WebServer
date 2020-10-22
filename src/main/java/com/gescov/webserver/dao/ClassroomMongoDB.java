@@ -1,5 +1,6 @@
 package com.gescov.webserver.dao;
 
+import com.gescov.webserver.exception.EntityNotFoundException;
 import com.gescov.webserver.model.Classroom;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -48,15 +48,16 @@ public class ClassroomMongoDB implements ClassroomDao {
     }
 
     @Override
-    public Optional<Classroom> selectClassroomById(ObjectId id) {
+    public Classroom selectClassroomById(ObjectId id) {
         Classroom cr = classroomCollection.find(eq("_id", id)).first(); //first?
-        return Optional.ofNullable(cr);
+        if (cr == null) throw new EntityNotFoundException(Classroom.class, "id", id.toString());
+        return cr;
     }
 
     @Override
     public int deleteClassroomById(ObjectId id) {
-        Optional<Classroom> classroomMaybe = selectClassroomById(id);
-        if (classroomMaybe.isEmpty()) return 0;
+        Classroom classroomMaybe = selectClassroomById(id);
+        if (classroomMaybe == null) throw new EntityNotFoundException(Classroom.class, "id", id.toString());
         classroomCollection.deleteOne(eq("_id", id));
         return 1;
     }
