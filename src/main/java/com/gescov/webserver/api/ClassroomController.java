@@ -1,6 +1,6 @@
 package com.gescov.webserver.api;
 
-import com.gescov.webserver.exception.EntityNotFoundException;
+import com.gescov.webserver.exception.EntityAlreadyExistsException;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.service.ClassroomService;
 import org.bson.types.ObjectId;
@@ -32,7 +32,7 @@ public class ClassroomController {
     }
 
     @GetMapping(path = "{id}")
-    public Classroom getClassroomById(@PathVariable("id") ObjectId id) throws EntityNotFoundException {
+    public Classroom getClassroomById(@PathVariable("id") ObjectId id) throws EntityAlreadyExistsException {
         return classroomService.getClassroomById(id);
     }
 

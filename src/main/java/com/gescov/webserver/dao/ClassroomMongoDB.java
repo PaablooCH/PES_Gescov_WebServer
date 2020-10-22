@@ -1,6 +1,6 @@
 package com.gescov.webserver.dao;
 
-import com.gescov.webserver.exception.EntityNotFoundException;
+import com.gescov.webserver.exception.EntityAlreadyExistsException;
 import com.gescov.webserver.model.Classroom;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -50,14 +50,14 @@ public class ClassroomMongoDB implements ClassroomDao {
     @Override
     public Classroom selectClassroomById(ObjectId id) {
         Classroom cr = classroomCollection.find(eq("_id", id)).first(); //first?
-        if (cr == null) throw new EntityNotFoundException(Classroom.class, "id", id.toString());
+        if (cr == null) throw new EntityAlreadyExistsException(Classroom.class, "id", id.toString());
         return cr;
     }
 
     @Override
     public int deleteClassroomById(ObjectId id) {
         Classroom classroomMaybe = selectClassroomById(id);
-        if (classroomMaybe == null) throw new EntityNotFoundException(Classroom.class, "id", id.toString());
+        if (classroomMaybe == null) throw new EntityAlreadyExistsException(Classroom.class, "id", id.toString());
         classroomCollection.deleteOne(eq("_id", id));
         return 1;
     }

@@ -1,11 +1,10 @@
 package com.gescov.webserver.dao;
 
-import com.gescov.webserver.model.School;
+import com.gescov.webserver.exception.EntityAlreadyExistsException;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -39,7 +37,7 @@ public class SubjectMongoDB implements SubjectDao {
                 subjectCollection.insertOne(subject);
                 return 1;
             }
-            else return 0;
+            else throw new EntityAlreadyExistsException(Subject.class, "school", subject.getSchool());
         }
         else subjectCollection.insertOne(subject);
         return 1;

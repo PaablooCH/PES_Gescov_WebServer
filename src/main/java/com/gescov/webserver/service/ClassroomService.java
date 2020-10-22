@@ -1,7 +1,6 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.ClassroomDao;
-import com.gescov.webserver.exception.EntityNotFoundException;
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
