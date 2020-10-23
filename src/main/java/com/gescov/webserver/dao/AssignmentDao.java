@@ -1,0 +1,19 @@
+package com.gescov.webserver.dao;
+
+import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.Classroom;
+import org.bson.types.ObjectId;
+
+import java.util.List;
+
+public interface AssignmentDao {
+
+    int insertAssignment(Assignment assignment);
+
+    List<Assignment> selectAllAssignment();
+
+    int deleteClassroomById(ObjectId id);
+
+    int updateAssignmentByID(ObjectId id, Classroom classroom);
+
+}
