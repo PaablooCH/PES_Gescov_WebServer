@@ -12,8 +12,10 @@ public interface AssignmentDao {
 
     List<Assignment> selectAllAssignment();
 
-    int deleteClassroomById(ObjectId id);
+    int deleteAssignment(ObjectId id);
 
-    int updateAssignmentByID(ObjectId id, Classroom classroom);
+    int updateAssignmentRow(ObjectId id, int posRow);
+
+    int updateAssignmentCol(ObjectId id, int posCol);
 
 }

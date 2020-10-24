@@ -1,18 +1,22 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Assignment;
-import com.gescov.webserver.model.Classroom;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 
+@Repository("assignmentMongo")
 public class AssignmentMongoDB implements AssignmentDao{
 
     @Qualifier("mongoClient")
@@ -20,12 +24,13 @@ public class AssignmentMongoDB implements AssignmentDao{
     private MongoClient client;
     private MongoCollection<Assignment> assignmentCollection;
 
-    public AssignmentMongoDB(MongoCollection<Assignment> assignmentCollection) {
-        this.assignmentCollection = assignmentCollection;
+    @PostConstruct
+    void init() {
+        assignmentCollection = client.getDatabase("Gescov").getCollection("assignments", Assignment.class);
     }
 
     @Override
-    public int insertAssignment(Assignment assignment) {
+    public int insertAssignment(Assignment assignment) { //comprobar lugares ya ocupados en la clase
         FindIterable<Assignment> result = assignmentCollection.find(eq("nameSt",assignment.getNameSt()));
         boolean insert = true;
         for (Assignment as : result) {
@@ -43,16 +48,29 @@ public class AssignmentMongoDB implements AssignmentDao{
 
     @Override
     public List<Assignment> selectAllAssignment() {
-        return null;
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find();
+        for (Assignment as : result) {
+            allAssignment.add(as);
+        }
+        return allAssignment;
     }
 
     @Override
-    public int deleteClassroomById(ObjectId id) {
-        return 0;
+    public int deleteAssignment(ObjectId id) {
+        assignmentCollection.deleteOne(eq("id", id));
+        return 1;
     }
 
     @Override
-    public int updateAssignmentByID(ObjectId id, Classroom classroom) {
-        return 0;
+    public int updateAssignmentRow(ObjectId id, int posRow) {
+        assignmentCollection.findOneAndUpdate(eq("_id", id), set("posRow", posRow));
+        return 1;
+    }
+
+    @Override
+    public int updateAssignmentCol(ObjectId id, int posCol) {
+        assignmentCollection.findOneAndUpdate(eq("_id", id), set("posCol", posCol));
+        return 1;
     }
 }

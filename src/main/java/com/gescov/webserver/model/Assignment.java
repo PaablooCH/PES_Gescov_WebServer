@@ -1,20 +1,36 @@
 package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 public class Assignment {
 
-    int posCol;
+    @Id
+    private ObjectId id;
 
-    int posRow;
+    private int posCol;
 
-    String classSession;
+    private int posRow;
 
-    String nameSt;
+    private String classSession;
 
-    public Assignment(@JsonProperty("posCol") int posCol,
-                     @JsonProperty("posRow") int posRow, @JsonProperty("classSession") String classSession,
+    private String nameSt;
+
+    public Assignment() {
+    }
+
+    public Assignment(@JsonProperty("id") ObjectId id, @JsonProperty("posCol") int posCol,
+                      @JsonProperty("posRow") int posRow, @JsonProperty("classSession") String classSession,
                       @JsonProperty("nameSt") String nameSt) {
+        this.id = id;
+        this.posCol = posCol;
+        this.posRow = posRow;
+        this.classSession = classSession;
+        this.nameSt = nameSt;
+    }
+
+    public Assignment(int posCol, int posRow, String classSession, String nameSt) {
         this.posCol = posCol;
         this.posRow = posRow;
         this.classSession = classSession;
@@ -37,6 +53,10 @@ public class Assignment {
         return nameSt;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
     public void setPosCol(int posCol) {
         this.posCol = posCol;
     }
@@ -51,5 +71,9 @@ public class Assignment {
 
     public void setNameSt(String nameSt) {
         this.nameSt = nameSt;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 }
