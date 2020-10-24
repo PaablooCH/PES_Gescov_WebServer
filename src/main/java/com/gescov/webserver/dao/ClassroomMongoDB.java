@@ -26,7 +26,6 @@ public class ClassroomMongoDB implements ClassroomDao {
     private MongoClient client;
     private MongoCollection<Classroom> classroomCollection;
 
-
     @PostConstruct
     void init() {
         classroomCollection = client.getDatabase("Gescov").getCollection("classrooms", Classroom.class);
@@ -34,17 +33,18 @@ public class ClassroomMongoDB implements ClassroomDao {
 
     @Override
     public int insertClassroom(Classroom classroom) {
-        classroomCollection.insertOne(classroom);
-        return 1; //to do
+        if (classroomCollection.countDocuments(eq("name", classroom.getName())) == 0) {
+            classroomCollection.insertOne(classroom);
+            return 1;
+        }
+        throw new AlreadyExistsException("Classroom with 'name' " + classroom.getName() + " already exists!");
     }
 
     @Override
     public List<Classroom> selectAllClassrooms() {
         List<Classroom> allClasses = new ArrayList<>();
         FindIterable<Classroom> result = classroomCollection.find();
-        for (Classroom cr : result) {
-            allClasses.add(new Classroom(cr.getId(), cr.getName(), cr.getCapacity(), cr.getCreator()));
-        }
+        for (Classroom cr : result) allClasses.add(cr);
         return allClasses;
     }
 
@@ -57,14 +57,31 @@ public class ClassroomMongoDB implements ClassroomDao {
 
     @Override
     public int deleteClassroomById(ObjectId id) {
-        Classroom classroomMaybe = selectClassroomById(id);
-        classroomCollection.deleteOne(eq("_id", id));
+        classroomCollection.findOneAndDelete(eq("_id", id));
         return 1;
     }
 
     @Override
-    public int updateClassroomById(ObjectId id, Classroom update) { //only updates capacity field
-        classroomCollection.findOneAndUpdate(eq("_id", id), set("capacity", update.getCapacity()));
+    public int updateClassroomNameById(ObjectId id, String name) {
+        classroomCollection.findOneAndUpdate(eq("_id", id), set("name", name));
+        return 1;
+    }
+
+    @Override
+    public int updateClassroomCapacityById(ObjectId id, int capacity) {
+        classroomCollection.findOneAndUpdate(eq("_id", id), set("capacity", capacity));
+        return 1;
+    }
+
+    @Override
+    public int updateClassroomNumRowsById(ObjectId id, int numRows) {
+        classroomCollection.findOneAndUpdate(eq("_id", id), set("numRows", numRows));
+        return 1;
+    }
+
+    @Override
+    public int updateClassroomNumColsById(ObjectId id, int numCols) {
+        classroomCollection.findOneAndUpdate(eq("_id", id), set("numCols", numCols));
         return 1;
     }
 

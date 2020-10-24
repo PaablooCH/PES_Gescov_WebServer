@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -27,7 +26,7 @@ public class SchoolService {
         return schoolDao.selectAllSchools();
     }
 
-    public Optional<School> getSchoolById(ObjectId id) {
+    public School getSchoolById(ObjectId id) {
         return schoolDao.selectSchoolById(id);
     }
 
@@ -35,8 +34,12 @@ public class SchoolService {
         return schoolDao.deleteSchoolById(id);
     }
 
-    public int updateSchool(ObjectId id, School newSchool) {
-        return schoolDao.updateSchoolById(id, newSchool);
+    public int updateSchoolName(ObjectId id, String name) {
+        return schoolDao.updateSchoolNameById(id, name);
+    }
+
+    public int updateSchoolState(ObjectId id, String state) {
+        return schoolDao.updateSchoolStateById(id, state);
     }
 
 }

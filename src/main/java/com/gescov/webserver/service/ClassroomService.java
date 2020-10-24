@@ -35,8 +35,20 @@ public class ClassroomService {
         return classroomDao.deleteClassroomById(id);
     }
 
-    public int updateClassroom(ObjectId id, Classroom newClassroom) {
-        return classroomDao.updateClassroomById(id, newClassroom);
+    public int updateClassroomCapacity(ObjectId id, int capacity) {
+        return classroomDao.updateClassroomCapacityById(id, capacity);
+    }
+
+    public int updateClassroomName(ObjectId id, String name) {
+        return classroomDao.updateClassroomNameById(id, name);
+    }
+
+    public int updateClassroomNumRows(ObjectId id, int numRows) {
+        return classroomDao.updateClassroomNumRowsById(id, numRows);
+    }
+
+    public int updateClassroomNumCols(ObjectId id, int numCols) {
+        return classroomDao.updateClassroomNumColsById(id, numCols);
     }
 
 }

@@ -40,9 +40,17 @@ public class ClassroomController {
         classroomService.deleteClassroom(id);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateClassroom(@PathVariable("id") ObjectId id, @NonNull @RequestBody Classroom classroomToUpdate) {
-        classroomService.updateClassroom(id, classroomToUpdate);
+    @PutMapping
+    public void updateClassroom(@NonNull @RequestParam("id") ObjectId id, @NonNull @RequestParam("name") String name) {
+        classroomService.updateClassroomName(id, name);
+    }
+
+    @PutMapping(path = "{specific}")
+    public void updateClassroom(@PathVariable("specific") String specific, @NonNull @RequestParam("id") ObjectId id,
+                                @NonNull @RequestParam("update") int update) {
+        if (specific.equals("capacity")) classroomService.updateClassroomCapacity(id, update);
+        else if (specific.equals("numRows")) classroomService.updateClassroomNumRows(id, update);
+        else if (specific.equals("numCols")) classroomService.updateClassroomNumCols(id, update);
     }
 
 }

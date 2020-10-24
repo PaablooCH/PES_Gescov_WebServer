@@ -1,5 +1,7 @@
 package com.gescov.webserver.dao;
 
+import com.gescov.webserver.exception.AlreadyExistsException;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -32,27 +33,26 @@ public class SchoolMongoDB implements SchoolDao {
 
     @Override
     public int insertSchool(School school) {
-        if (schoolCollection.countDocuments(eq("name",school.getName())) == 0) {
+        if (schoolCollection.countDocuments(eq("name", school.getName())) == 0) {
             schoolCollection.insertOne(school);
             return 1;
         }
-        return 0;
+        throw new AlreadyExistsException("School with 'name' " + school.getName() + " already exists!");
     }
 
     @Override
     public List<School> selectAllSchools() {
         List<School> allSchools = new ArrayList<>();
         FindIterable<School> result = schoolCollection.find();
-        for(School s : result){
-            allSchools.add(new School(s.getId(), s.getName(), s.getState()));
-        }
+        for (School s : result) allSchools.add(s);
         return allSchools;
     }
 
     @Override
-    public Optional<School> selectSchoolById(ObjectId id) {
-        School s = schoolCollection.find(eq("_id",id)).first();
-        return Optional.ofNullable(s);
+    public School selectSchoolById(ObjectId id) {
+        School s = schoolCollection.find(eq("_id", id)).first();
+        if (s == null) throw new NotFoundException("School with 'id' " + id + " not found!");
+        return s;
     }
 
     @Override
@@ -62,8 +62,14 @@ public class SchoolMongoDB implements SchoolDao {
     }
 
     @Override
-    public int updateSchoolById(ObjectId id, School newSchool) {
-        schoolCollection.findOneAndUpdate(eq("_id", id), set("name", newSchool.getName()));
+    public int updateSchoolNameById(ObjectId id, String name) {
+        schoolCollection.findOneAndUpdate(eq("_id", id), set("name", name));
+        return 1;
+    }
+
+    @Override
+    public int updateSchoolStateById(ObjectId id, String state) {
+        schoolCollection.findOneAndUpdate(eq("_id", id), set("state", state));
         return 1;
     }
 

@@ -31,9 +31,8 @@ public class SchoolController {
     }
 
     @GetMapping(path = "{id}")
-    public School getSchoolById(@PathVariable("id") ObjectId id) throws Exception {
-        return schoolService.getSchoolById(id)
-                .orElse(null); //throw Exception
+    public School getSchoolById(@PathVariable("id") ObjectId id) {
+        return schoolService.getSchoolById(id);
     }
 
     @DeleteMapping(path = "{id}")
@@ -41,10 +40,12 @@ public class SchoolController {
         schoolService.deleteSchool(id);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateSchool(@PathVariable("id") ObjectId id, @NonNull @RequestBody School schoolToUpdate) {
-        schoolService.updateSchool(id, schoolToUpdate);
+    @PutMapping(path = "{specific}")
+    public void updateSchoolName(@PathVariable("specific") String specific, @NonNull @RequestParam("id") ObjectId id, @NonNull @RequestParam("update") String update) {
+        if (specific.equals("name")) schoolService.updateSchoolName(id, update);
+        else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
     }
+
 
 }
 

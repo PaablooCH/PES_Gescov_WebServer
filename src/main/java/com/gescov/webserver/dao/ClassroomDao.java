@@ -2,6 +2,7 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
+
 import java.util.List;
 
 public interface ClassroomDao {
@@ -14,7 +15,13 @@ public interface ClassroomDao {
 
     int deleteClassroomById(ObjectId id);
 
-    int updateClassroomById(ObjectId id, Classroom classroom);
+    int updateClassroomNameById(ObjectId id, String name);
+
+    int updateClassroomCapacityById(ObjectId id, int capacity);
+
+    int updateClassroomNumRowsById(ObjectId id, int numCols);
+
+    int updateClassroomNumColsById(ObjectId id, int numCols);
 
 }
 

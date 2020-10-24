@@ -3,9 +3,7 @@ package com.gescov.webserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
 
 //@Document(collection = "schools")
 public class School {
@@ -18,16 +16,54 @@ public class School {
 
     private String state;
 
+    private String address;
+
+    private float longitude;
+    
+    private float latitude;
+
     public School() {
 
     }
 
     public School(@JsonProperty("id") ObjectId id,
-                     @JsonProperty("name") String name,
-                     @JsonProperty("state") String state) {
+                  @JsonProperty("name") String name,
+                  @JsonProperty("state") String state,
+                  @JsonProperty("address") String address,
+                  @JsonProperty("longitude") float longitude,
+                  @JsonProperty("latitude") float latitude) {
         this.id = id;
         this.name = name;
         this.state = state;
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+
+    }
+
+    @NonNull
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NonNull String address) {
+        this.address = address;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
     public ObjectId getId() {
