@@ -19,7 +19,7 @@ public class School {
     private String address;
 
     private float longitude;
-    
+
     private float latitude;
 
     public School() {
