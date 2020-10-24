@@ -26,14 +26,14 @@ public class ContagionController {
     }
 
     @GetMapping(path = "{specific}")
-    public List<Contagion> getSpecificContagion(@PathVariable("specific") String specific) {
-        List<Contagion> returned = null;
-        if (specific.equals("now")) returned = contagionService.getNowContagion();
+    public Contagion getSpecificContagion(@PathVariable("specific") String specific, @RequestParam("nameIn") String nameInfected) {
+        Contagion returned = null;
+        if (specific.equals("now")) returned = contagionService.getNowContagion(nameInfected);
         return returned;
     }
 
-    @PutMapping(path = "{nameInfected}")
-    public void updateContagion(@PathVariable("nameInfected") String nameInfected) {
+    @PutMapping
+    public void updateContagion(@RequestParam("nameInfected") String nameInfected) {
         contagionService.updateContagion(nameInfected);
     }
 
