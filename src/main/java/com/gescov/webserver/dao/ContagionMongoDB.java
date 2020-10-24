@@ -54,8 +54,7 @@ public class ContagionMongoDB implements ContagionDao{
         List<Contagion> allContagion = new ArrayList<>();
         FindIterable<Contagion> result = contagionCollection.find();
         for (Contagion cr : result) {
-            allContagion.add(new Contagion(cr.getId(),
-                    cr.getNameInfected(), cr.getStartContagion(), cr.getEndContagion()));
+            allContagion.add(cr);
         }
         return allContagion;
     }
@@ -78,8 +77,7 @@ public class ContagionMongoDB implements ContagionDao{
         FindIterable<Contagion> result = contagionCollection.find(eq("endContagion",null));
         if (result.first() == null) throw new NotFoundException("Nobody is infected");
         for (Contagion cr : result) {
-            nowContagion.add(new Contagion(cr.getId(),
-                    cr.getNameInfected(), cr.getStartContagion(), cr.getEndContagion()));
+            nowContagion.add(cr);
         }
         return nowContagion;
     }
