@@ -22,14 +22,14 @@ public class Contagion {
     public Contagion(){}
 
     public Contagion(@JsonProperty("_id") ObjectId id,
-                     @JsonProperty("nameInfected") String nameInfected){
+                     @JsonProperty("nameInfected") String nameInfected) {
         this.id = id;
         this.nameInfected = nameInfected;
         this.startContagion = new Date();
         this.endContagion = null;
     }
 
-    public Contagion(ObjectId id, String nameInfected, Date startContagion, Date endContagion){
+    public Contagion(ObjectId id, String nameInfected, Date startContagion, Date endContagion) {
         this.id = id;
         this.nameInfected = nameInfected;
         this.startContagion = startContagion;
