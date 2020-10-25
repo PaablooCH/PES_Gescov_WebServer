@@ -5,6 +5,7 @@ import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public class ClassroomService {
         return classroomDao.selectClassroomById(id);
     }
 
+    public Pair<Integer, Integer> getClassroomDistributionById(ObjectId id) {
+        return classroomDao.selectClassroomDistributionById(id);
+    }
+
     public int deleteClassroom(ObjectId id) {
         return classroomDao.deleteClassroomById(id);
     }
@@ -50,5 +55,4 @@ public class ClassroomService {
     public int updateClassroomNumCols(ObjectId id, int numCols) {
         return classroomDao.updateClassroomNumColsById(id, numCols);
     }
-
 }

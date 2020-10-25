@@ -1,6 +1,7 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class SubjectMongoDB implements SubjectDao {
                 subjectCollection.insertOne(subject);
                 return 1;
             }
-            else throw new AlreadyExistsException(subject.getName() + " already exists in " + subject.getSchool());
+            else throw new AlreadyExistsException(subject.getName() + " already exists in " + subject.getSchool().getName());
         }
         else subjectCollection.insertOne(subject);
         return 1;
@@ -48,29 +50,30 @@ public class SubjectMongoDB implements SubjectDao {
         List<Subject> allSubjects = new ArrayList<>();
         FindIterable<Subject> result = subjectCollection.find();
         for(Subject s : result){
-            allSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
+            allSubjects.add(s);
         }
         return allSubjects;
     }
 
     @Override
-    public List<Subject> selectSubjectsByVariable(String variable) {
-        List<Subject> VariableSubjects = new ArrayList<>();
-        FindIterable<Subject> result = subjectCollection.find(eq("school", variable));
-        if (result.cursor().hasNext()) {
-            for (Subject s : result) {
-                VariableSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
-            }
+    public List<Subject> selectSubjectsBySchool(String school) {
+        List<Subject> SchoolSubjects = new ArrayList<>();
+        FindIterable<Subject> result = subjectCollection.find(eq("school.name",school));
+        for (Subject s : result) {
+            SchoolSubjects.add(s);
         }
-        else {
-            result = subjectCollection.find(eq("name", variable));
-            for (Subject s : result) {
-                VariableSubjects.add(new Subject(s.getId(), s.getName(), s.getSchool()));
-            }
-        }
-        return VariableSubjects;
+        return SchoolSubjects;
     }
 
+    @Override
+    public List<Subject> selectSubjectsByName(String name) {
+        List<Subject> NameSubjects = new ArrayList<>();
+        FindIterable<Subject> result = subjectCollection.find(eq("name", name));
+        for (Subject s : result) {
+            NameSubjects.add(s);
+        }
+        return NameSubjects;
+    }
 
     @Override
     public int deleteSubject(String name) {

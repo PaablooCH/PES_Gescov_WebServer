@@ -1,6 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.SubjectDao;
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +27,9 @@ public class SubjectService {
         return subjectDao.selectAllSubjects();
     }
 
-    public List<Subject> getSubjectByVariable(String school){ return subjectDao.selectSubjectsByVariable(school); }
+    public List<Subject> getSubjectBySchool(String school){ return subjectDao.selectSubjectsBySchool(school); }
+
+    public List<Subject> getSubjectByName(String name){ return subjectDao.selectSubjectsByName(name); }
 
     public int deleteSubject(String name){
         return subjectDao.deleteSubject(name);

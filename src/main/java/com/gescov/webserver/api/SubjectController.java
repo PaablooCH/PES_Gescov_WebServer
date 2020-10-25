@@ -2,6 +2,7 @@ package com.gescov.webserver.api;
 
 
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.service.SubjectService;
 import com.mongodb.lang.NonNull;
@@ -31,10 +32,14 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
-    @GetMapping(path = "{option}")
-    public List<Subject> getSubjectsByVariable(@PathVariable ("option") String option, @NonNull @RequestParam("nombre") String nombre){
-        if(option.equals("schools") || option.equals("names"))return subjectService.getSubjectByVariable(nombre);
-        else throw new NotFoundException("The field you're searching doesn't exists");
+    @GetMapping("/schools")
+    public List<Subject> getSubjectsBySchool(@NonNull @RequestParam("nombre") String nombre){
+        return subjectService.getSubjectBySchool(nombre);
+    }
+
+    @GetMapping("/names")
+    public List<Subject> getSubjectsByName(@NonNull @RequestParam("nombre") String nombre){
+        return subjectService.getSubjectByName(nombre);
     }
 
     @DeleteMapping

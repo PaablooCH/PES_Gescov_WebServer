@@ -1,5 +1,6 @@
 package com.gescov.webserver.dao;
 
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface SubjectDao {
 
     List<Subject> selectAllSubjects();
 
-    List<Subject> selectSubjectsByVariable(String variable);
+    List<Subject> selectSubjectsBySchool(String school);
+
+    List<Subject> selectSubjectsByName(String name);
 
     int deleteSubject(String name);
 
