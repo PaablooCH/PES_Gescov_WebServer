@@ -19,14 +19,17 @@ public class Contagion {
     @NotNull
     String nameInfected; //Primary key
 
+    String nameCen;
+
     public Contagion(){}
 
     public Contagion(@JsonProperty("_id") ObjectId id,
-                     @JsonProperty("nameInfected") String nameInfected) {
+                     @JsonProperty("nameInfected") String nameInfected, @JsonProperty("nameCen") String nameCen) {
         this.id = id;
         this.nameInfected = nameInfected;
         this.startContagion = new Date();
         this.endContagion = null;
+        this.nameCen = nameCen;
     }
 
     public Contagion(ObjectId id, String nameInfected, Date startContagion, Date endContagion) {
@@ -52,7 +55,7 @@ public class Contagion {
         this.startContagion = startContagion;
     }
 
-    public void setEndContagion(@JsonProperty("startContagion") Date endContagion) {
+    public void setEndContagion(@JsonProperty("endContagion") Date endContagion) {
         this.endContagion = endContagion;
     }
 

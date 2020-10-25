@@ -26,5 +26,5 @@ public class ContagionService {
         return contagionDao.updateContagion(nameInfected);
     }
 
-    public Contagion getNowContagion(String nameInfected) { return contagionDao.selectNowContagion(nameInfected); }
+    public Contagion getNowContagion(String nameInfected, String nameCen) { return contagionDao.selectNowContagion(nameInfected, nameCen); }
 }

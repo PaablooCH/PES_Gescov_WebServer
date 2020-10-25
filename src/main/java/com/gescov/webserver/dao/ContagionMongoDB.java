@@ -72,11 +72,11 @@ public class ContagionMongoDB implements ContagionDao{
     }
 
     @Override
-    public Contagion selectNowContagion(String nameInfected) {
+    public Contagion selectNowContagion(String nameInfected, String nameCen) {
         Contagion nowContagion = null;
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",nameInfected));
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameCen",nameCen));
         for (Contagion cr : result) {
-            if (cr.getEndContagion() == null) {
+            if (cr.getNameInfected().equals(nameInfected) && cr.getEndContagion() == null) {
                 nowContagion = cr;
                 break;
             }
