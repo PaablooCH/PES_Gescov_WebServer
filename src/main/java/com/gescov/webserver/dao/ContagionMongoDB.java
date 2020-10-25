@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -64,7 +64,7 @@ public class ContagionMongoDB implements ContagionDao{
         FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",nameInfected));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
-                contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", new Date()));
+                contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", LocalDate.now()));
                 return 1;
             }
         }

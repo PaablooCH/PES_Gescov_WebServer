@@ -3,7 +3,6 @@ package com.gescov.webserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.lang.NonNull;
 
 //@Document(collection = "schools")
 public class School {
@@ -22,6 +21,8 @@ public class School {
 
     private float latitude;
 
+    private String creator;
+
     public School() {
 
     }
@@ -31,39 +32,15 @@ public class School {
                   @JsonProperty("state") String state,
                   @JsonProperty("address") String address,
                   @JsonProperty("longitude") float longitude,
-                  @JsonProperty("latitude") float latitude) {
+                  @JsonProperty("latitude") float latitude,
+                  @JsonProperty("creator") String creator) {
         this.id = id;
         this.name = name;
         this.state = state;
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
-
-    }
-
-    @NonNull
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(@NonNull String address) {
-        this.address = address;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
+        this.creator = creator;
     }
 
     public ObjectId getId() {
@@ -89,4 +66,37 @@ public class School {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
 }
