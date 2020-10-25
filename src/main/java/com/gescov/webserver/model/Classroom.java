@@ -3,7 +3,7 @@ package com.gescov.webserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.lang.NonNull;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 //@Document(collection = "classrooms")
 public class Classroom {
@@ -20,7 +20,8 @@ public class Classroom {
 
     private int numCols;
 
-    private String school;
+    @DBRef
+    private School school;
 
     private String creator;
 
@@ -34,7 +35,7 @@ public class Classroom {
                      @JsonProperty("capacity") int capacity,
                      @JsonProperty("numRows") int numRows,
                      @JsonProperty("numCols") int numCols,
-                     @JsonProperty("school") String school,
+                     @JsonProperty("school") final School school,
                      @JsonProperty("creator") String creator) {
         this.id = id;
         this.name = name;
@@ -53,12 +54,11 @@ public class Classroom {
         this.id = id;
     }
 
-    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -68,24 +68,6 @@ public class Classroom {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    @NonNull
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(@NonNull String school) {
-        this.school = school;
-    }
-
-    @NonNull
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(@NonNull String creator) {
-        this.creator = creator;
     }
 
     public int getNumRows() {
@@ -104,4 +86,19 @@ public class Classroom {
         this.numCols = numCols;
     }
 
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 }

@@ -2,6 +2,7 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
+import org.springframework.data.util.Pair;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface ClassroomDao {
 
     Classroom selectClassroomById(ObjectId id);
 
+    Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id);
+
     int deleteClassroomById(ObjectId id);
 
     int updateClassroomNameById(ObjectId id, String name);
@@ -22,6 +25,7 @@ public interface ClassroomDao {
     int updateClassroomNumRowsById(ObjectId id, int numCols);
 
     int updateClassroomNumColsById(ObjectId id, int numCols);
+
 
 }
 
