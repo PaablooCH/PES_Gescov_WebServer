@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Contagion {
 
@@ -18,6 +19,14 @@ public class Contagion {
 
     @NotNull
     String nameInfected; //Primary key
+
+    public String getNameCen() {
+        return nameCen;
+    }
+
+    public void setNameCen(String nameCen) {
+        this.nameCen = nameCen;
+    }
 
     String nameCen;
 
@@ -32,11 +41,12 @@ public class Contagion {
         this.nameCen = nameCen;
     }
 
-    public Contagion(ObjectId id, String nameInfected, LocalDate startContagion, LocalDate endContagion) {
+    public Contagion(ObjectId id, String nameInfected, LocalDate startContagion, LocalDate endContagion, String nameCen) {
         this.id = id;
         this.nameInfected = nameInfected;
         this.startContagion = startContagion;
         this.endContagion = endContagion;
+        this.nameCen = nameCen;
     }
 
     public LocalDate getStartContagion() {
