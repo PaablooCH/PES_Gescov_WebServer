@@ -76,7 +76,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
     @Override
     public List<ClassSession> selectSessionsByStudent(String name) {
         List<ClassSession> StudentSessions = new ArrayList<>();
-        FindIterable<ClassSession> result = sessionCollection.find(eq("student", name));
+        FindIterable<ClassSession> result = sessionCollection.find(eq("student.name", name));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
                 StudentSessions.add(cs);

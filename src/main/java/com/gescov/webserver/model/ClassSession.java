@@ -27,8 +27,8 @@ public class ClassSession {
     @DBRef
     private Subject subject;
 
-    @NotNull
-    private String student;
+    @DBRef
+    private User student;
 
     @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
     private String hour;
@@ -40,7 +40,7 @@ public class ClassSession {
 
     }
 
-    public ClassSession(@JsonProperty ("_id") ObjectId id, @JsonProperty("classroom") final Classroom classroom, @JsonProperty("subject") final Subject subject, @JsonProperty ("student") String student, @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
+    public ClassSession(@JsonProperty ("_id") ObjectId id, @JsonProperty("classroom") final Classroom classroom, @JsonProperty("subject") final Subject subject, @JsonProperty ("student") final User student, @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
         this.id = id;
         this.classroom = classroom;
         this.subject = subject;
@@ -49,11 +49,11 @@ public class ClassSession {
         this.date = date;
     }
 
-    public String getStudent() {
+    public User getStudent() {
         return student;
     }
 
-    public void setStudent(String student) {
+    public void setStudent(User student) {
         this.student = student;
     }
 
