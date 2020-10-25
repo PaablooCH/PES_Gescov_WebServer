@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -53,6 +54,12 @@ public class ClassroomMongoDB implements ClassroomDao {
         Classroom cr = classroomCollection.find(eq("_id", id)).first(); //first?
         if (cr == null) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
         return cr;
+    }
+
+    @Override
+    public Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id) {
+        Classroom cr = selectClassroomById(id);
+        return Pair.of(cr.getNumRows(), cr.getNumCols());
     }
 
     @Override
