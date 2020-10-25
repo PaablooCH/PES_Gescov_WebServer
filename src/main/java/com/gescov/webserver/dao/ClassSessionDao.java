@@ -17,6 +17,10 @@ public interface ClassSessionDao {
 
     List<ClassSession> selectSessionsByStudent(String variable);
 
+    List<ClassSession> selectSessionsByHour(String variable);
+
+    List<ClassSession> selectSessionsByDate(String variable);
+
     int deleteSession(ObjectId id);
 
     int updateSession(ObjectId id, ClassSession session);

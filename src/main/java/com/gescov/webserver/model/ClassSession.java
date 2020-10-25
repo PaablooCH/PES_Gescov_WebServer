@@ -1,12 +1,19 @@
 package com.gescov.webserver.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.lang.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import javax.swing.text.DateFormatter;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 
 //@Document(collection = "classSession")
 public class ClassSession {
@@ -23,23 +30,23 @@ public class ClassSession {
     @NotNull
     private String student;
 
-    @NotNull
-    private String Hora;
+    @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
+    private String hour;
 
-    @NotNull
-    private String Date;
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    private String date;
 
     public ClassSession() {
 
     }
 
-    public ClassSession(@JsonProperty ("_id") ObjectId id, Classroom classroom, Subject subject, @JsonProperty ("student") String student, @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
+    public ClassSession(@JsonProperty ("_id") ObjectId id, @JsonProperty("classroom") final Classroom classroom, @JsonProperty("subject") final Subject subject, @JsonProperty ("student") String student, @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
         this.id = id;
         this.classroom = classroom;
         this.subject = subject;
         this.student = student;
-        Hora = hour;
-        Date = date;
+        this.hour = hour;
+        this.date = date;
     }
 
     public String getStudent() {
@@ -68,20 +75,20 @@ public class ClassSession {
 
     @NonNull
     public String getHora() {
-        return Hora;
+        return hour;
     }
 
     public void setHora(String hora) {
-        Hora = hora;
+        hour = hora;
     }
 
     @NonNull
     public String getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(String date) {
-        Date = date;
+        this.date = date;
     }
 
     public ObjectId getId() {

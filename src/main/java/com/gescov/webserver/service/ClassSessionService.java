@@ -24,11 +24,15 @@ public class ClassSessionService {
         return sessionDao.selectAllSessions();
     }
 
-    public List<ClassSession> getSessionByClassroom(String school){ return sessionDao.selectSessionsByClassroom(school); }
+    public List<ClassSession> getSessionByClassroom(String name){ return sessionDao.selectSessionsByClassroom(name); }
 
-    public List<ClassSession> getSessionBySubject(String school){ return sessionDao.selectSessionsBySubject(school); }
+    public List<ClassSession> getSessionBySubject(String name){ return sessionDao.selectSessionsBySubject(name); }
 
-    public List<ClassSession> getSessionByStudent(String school){ return sessionDao.selectSessionsByStudent(school); }
+    public List<ClassSession> getSessionByStudent(String name){ return sessionDao.selectSessionsByStudent(name); }
+
+    public List<ClassSession> getSessionByHour(String hour){ return sessionDao.selectSessionsByHour(hour); }
+
+    public List<ClassSession> getSessionByDate(String date){ return sessionDao.selectSessionsByDate(date); }
 
     public int deleteSession(ObjectId id){
         return sessionDao.deleteSession(id);

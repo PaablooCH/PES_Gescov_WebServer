@@ -27,10 +27,34 @@ public class ClassSessionController {
     }
 
     @GetMapping
-    public List<ClassSession> getAllSubject(){
+    public List<ClassSession> getAllSessions(){
         return sessionService.getAllSessions();
     }
 
+    @GetMapping("/classroom")
+    public List<ClassSession> getClassroomSessions(@NonNull @RequestParam("name") String name){
+        return sessionService.getSessionByClassroom(name);
+    }
+
+    @GetMapping("/subject")
+    public List<ClassSession> getSubjectSessions(@NonNull @RequestParam("name") String name){
+        return sessionService.getSessionBySubject(name);
+    }
+
+    @GetMapping("/student")
+    public List<ClassSession> getStudentSessions(@NonNull @RequestParam("name") String name){
+        return sessionService.getSessionByStudent(name);
+    }
+
+    @GetMapping("/hour")
+    public List<ClassSession> getHourSessions(@NonNull @RequestParam("hour") String hour){
+        return sessionService.getSessionByHour(hour);
+    }
+
+    @GetMapping("/date")
+    public List<ClassSession> getDateSessions(@NonNull @RequestParam("date") String date){
+        return sessionService.getSessionByDate(date);
+    }
 
     @DeleteMapping
     public void deleteSubject(@NonNull @RequestParam("id")ObjectId id){
