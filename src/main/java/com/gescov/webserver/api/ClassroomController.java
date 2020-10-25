@@ -4,6 +4,7 @@ import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.service.ClassroomService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,11 @@ public class ClassroomController {
         return classroomService.getClassroomById(id);
     }
 
+    @GetMapping(path = "/distribution")
+    public Pair<Integer, Integer> getClassroomDistributionById(@NonNull @RequestParam("id") ObjectId id) { return classroomService.getClassroomDistributionById(id); }
+
     @DeleteMapping(path = "{id}")
-    public void deletePersonById(@PathVariable("id") ObjectId id) {
+    public void deleteClassroomById(@PathVariable("id") ObjectId id) {
         classroomService.deleteClassroom(id);
     }
 
