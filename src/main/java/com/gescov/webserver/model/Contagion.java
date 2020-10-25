@@ -5,16 +5,16 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Contagion {
 
     @Id
     private ObjectId id;
 
-    private Date startContagion; //Primary key
+    private LocalDate startContagion; //Primary key
 
-    private Date endContagion;
+    private LocalDate endContagion;
 
     @NotNull
     String nameInfected; //Primary key
@@ -27,23 +27,23 @@ public class Contagion {
                      @JsonProperty("nameInfected") String nameInfected, @JsonProperty("nameCen") String nameCen) {
         this.id = id;
         this.nameInfected = nameInfected;
-        this.startContagion = new Date();
+        this.startContagion = LocalDate.now();
         this.endContagion = null;
         this.nameCen = nameCen;
     }
 
-    public Contagion(ObjectId id, String nameInfected, Date startContagion, Date endContagion) {
+    public Contagion(ObjectId id, String nameInfected, LocalDate startContagion, LocalDate endContagion) {
         this.id = id;
         this.nameInfected = nameInfected;
         this.startContagion = startContagion;
         this.endContagion = endContagion;
     }
 
-    public Date getStartContagion() {
+    public LocalDate getStartContagion() {
         return startContagion;
     }
 
-    public Date getEndContagion() {
+    public LocalDate getEndContagion() {
         return endContagion;
     }
 
@@ -51,11 +51,11 @@ public class Contagion {
 
     public ObjectId getId() { return id; }
 
-    public void setStartContagion(Date startContagion) {
+    public void setStartContagion(LocalDate startContagion) {
         this.startContagion = startContagion;
     }
 
-    public void setEndContagion(@JsonProperty("endContagion") Date endContagion) {
+    public void setEndContagion(@JsonProperty("endContagion") LocalDate endContagion) {
         this.endContagion = endContagion;
     }
 
