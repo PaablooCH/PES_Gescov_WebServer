@@ -13,16 +13,16 @@ public class Assignment {
 
     private int posRow;
 
-    private String classSession;
+    private ClassSession classSession;
 
-    private String nameSt;
+    private User nameSt;
 
     public Assignment() {
     }
 
     public Assignment(@JsonProperty("id") ObjectId id, @JsonProperty("posCol") int posCol,
-                      @JsonProperty("posRow") int posRow, @JsonProperty("classSession") String classSession,
-                      @JsonProperty("nameSt") String nameSt) {
+                      @JsonProperty("posRow") int posRow, @JsonProperty("classSession") ClassSession classSession,
+                      @JsonProperty("nameSt") User nameSt) {
         this.id = id;
         this.posCol = posCol;
         this.posRow = posRow;
@@ -30,7 +30,7 @@ public class Assignment {
         this.nameSt = nameSt;
     }
 
-    public Assignment(int posCol, int posRow, String classSession, String nameSt) {
+    public Assignment(int posCol, int posRow, ClassSession classSession, User nameSt) {
         this.posCol = posCol;
         this.posRow = posRow;
         this.classSession = classSession;
@@ -45,11 +45,11 @@ public class Assignment {
         return posRow;
     }
 
-    public String getClassSession() {
+    public ClassSession getClassSession() {
         return classSession;
     }
 
-    public String getNameSt() {
+    public User getNameSt() {
         return nameSt;
     }
 
@@ -65,11 +65,11 @@ public class Assignment {
         this.posRow = posRow;
     }
 
-    public void setClassSession(String classSession) {
+    public void setClassSession(ClassSession classSession) {
         this.classSession = classSession;
     }
 
-    public void setNameSt(String nameSt) {
+    public void setNameSt(User nameSt) {
         this.nameSt = nameSt;
     }
 
