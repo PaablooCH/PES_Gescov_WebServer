@@ -46,8 +46,8 @@ public class UserMongoDB implements UserDao {
     }
 
     @Override
-    public School getUserSchool(ObjectId id) {
-        return selectUserById(id).getSchool();
+    public List<School> getUserSchools(ObjectId id) {
+        return selectUserById(id).getSchools();
     }
 
     @Override

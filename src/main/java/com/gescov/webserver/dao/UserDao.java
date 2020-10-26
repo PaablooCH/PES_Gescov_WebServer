@@ -15,5 +15,5 @@ public interface UserDao {
 
     User selectUserById(ObjectId id);
 
-    School getUserSchool(ObjectId id);
+    List<School> getUserSchools(ObjectId id);
 }

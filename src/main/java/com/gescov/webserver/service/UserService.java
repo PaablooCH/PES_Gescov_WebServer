@@ -34,5 +34,5 @@ public class UserService {
         return userDao.selectUserById(id);
     }
 
-    public School getUserSchool(ObjectId id) { return userDao.getUserSchool(id); }
+    public List<School> getUserSchools(ObjectId id) { return userDao.getUserSchools(id); }
 }
