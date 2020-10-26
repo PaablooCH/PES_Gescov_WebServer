@@ -29,4 +29,7 @@ public class AssignmentService {
 
     public List<Assignment> getAllAssignment() { return assignmentDao.selectAllAssignment(); }
 
+    public List<Assignment> getAssignmentBySchool(String nameCen) {
+        return assignmentDao.selectAssignmentBySchool(nameCen);
+    }
 }

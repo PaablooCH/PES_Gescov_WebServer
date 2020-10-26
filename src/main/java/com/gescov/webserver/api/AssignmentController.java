@@ -2,12 +2,14 @@ package com.gescov.webserver.api;
 
 
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.service.AssignmentService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api/assignment")
@@ -27,6 +29,13 @@ public class AssignmentController {
 
     @GetMapping
     public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
+
+    @GetMapping(path = "{specific}")
+    public List<Assignment> getAssignmentBySchool(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) {
+        List<Assignment> returned = new ArrayList<>();
+        if (specific.equals("school")) returned = assignmentService.getAssignmentBySchool(nameCen);
+        return returned;
+    }
 
     @PutMapping
     public void updateAssignment(@RequestParam("id") ObjectId id, @RequestParam("row") int posRow,

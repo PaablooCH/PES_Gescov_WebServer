@@ -36,7 +36,7 @@ public class AssignmentMongoDB implements AssignmentDao{
         boolean nameRepeated = false;
         boolean posNotValid = false;
         for (Assignment as : result) {
-            if (as.getNameSt().equals(assignment.getNameSt())) {
+            if (as.getStudent().getName().equals(assignment.getStudent().getName())) {
                 nameRepeated = true;
                 break;
             }
@@ -47,7 +47,7 @@ public class AssignmentMongoDB implements AssignmentDao{
         }
 
         if (nameRepeated) {
-            throw new AlreadyExistsException("The person with 'name' " + assignment.getNameSt() +
+            throw new AlreadyExistsException("The person with 'name' " + assignment.getStudent().getName() +
                     " is already in the classSession");
         }
         else if (posNotValid) {
@@ -85,5 +85,15 @@ public class AssignmentMongoDB implements AssignmentDao{
     public int updateAssignmentCol(ObjectId id, int posCol) { //Eficiente Funciona// @Pablo CH
         assignmentCollection.findOneAndUpdate(eq("_id", id), set("posCol", posCol));
         return 1;
+    }
+
+    @Override
+    public List<Assignment> selectAssignmentBySchool(String nameCen) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom.school.name", nameCen));
+        for (Assignment as : result) {
+            allAssignment.add(as);
+        }
+        return allAssignment;
     }
 }
