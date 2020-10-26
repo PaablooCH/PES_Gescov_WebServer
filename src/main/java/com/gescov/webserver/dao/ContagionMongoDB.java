@@ -34,7 +34,7 @@ public class ContagionMongoDB implements ContagionDao{
 
     @Override
     public int insertContagion(Contagion contagion) { //Eficiente Funciona// @Pablo CH
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.name",contagion.getNameInfected()));
+        FindIterable<Contagion> result = contagionCollection.find(eq("infected",contagion.getInfected()));
         boolean insert = true;
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
@@ -43,7 +43,7 @@ public class ContagionMongoDB implements ContagionDao{
             }
         }
         if (!insert) {
-            throw new AlreadyExistsException("Contagion with 'name' " + contagion.getNameInfected() + " is already infected");
+            throw new AlreadyExistsException("Contagion with 'name' " + contagion.getInfected().getName() + " is already infected");
         }
         contagionCollection.insertOne(contagion);
         return 1;
@@ -61,7 +61,7 @@ public class ContagionMongoDB implements ContagionDao{
 
     @Override
     public int updateContagion(String nameInfected) { //Eficiente Funciona// @Pablo CH
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.name",nameInfected));
+        FindIterable<Contagion> result = contagionCollection.find(eq("infected.name",nameInfected));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
                 contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", LocalDate.now()));
@@ -74,7 +74,7 @@ public class ContagionMongoDB implements ContagionDao{
     @Override
     public List<Contagion> selectNowContagion(String nameCen) {
         List<Contagion> nowContagion = new ArrayList<>();
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.school.name", nameCen));
+        FindIterable<Contagion> result = contagionCollection.find(eq("infected.schools.name", nameCen));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
                 nowContagion.add(cr);

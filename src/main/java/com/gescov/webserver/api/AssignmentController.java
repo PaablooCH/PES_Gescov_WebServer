@@ -31,7 +31,7 @@ public class AssignmentController {
     public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
 
     @GetMapping(path = "{specific}")
-    public List<Assignment> getAssignmentBySchool(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) {
+    public List<Assignment> getAssignmentBySchool(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) { //hacerlo pero con mas campos
         List<Assignment> returned = new ArrayList<>();
         if (specific.equals("school")) returned = assignmentService.getAssignmentBySchool(nameCen);
         return returned;

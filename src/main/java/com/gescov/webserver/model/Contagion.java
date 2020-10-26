@@ -17,21 +17,21 @@ public class Contagion {
     private LocalDate endContagion;
 
     @DBRef
-    User nameInfected;
+    User infected;
 
     public Contagion() {}
 
     public Contagion(@JsonProperty("_id") ObjectId id,
-                     @JsonProperty("nameInfected") final User nameInfected) {
+                     @JsonProperty("infected") final User infected) {
         this.id = id;
-        this.nameInfected = nameInfected;
+        this.infected = infected;
         this.startContagion = LocalDate.now();
         this.endContagion = null;
     }
 
     public Contagion(ObjectId id, User nameInfected, LocalDate startContagion, LocalDate endContagion) {
         this.id = id;
-        this.nameInfected = nameInfected;
+        this.infected = nameInfected;
         this.startContagion = startContagion;
         this.endContagion = endContagion;
     }
@@ -44,7 +44,7 @@ public class Contagion {
         return endContagion;
     }
 
-    public User getNameInfected() { return nameInfected; }
+    public User getInfected() { return infected; }
 
     public ObjectId getId() { return id; }
 
@@ -56,7 +56,7 @@ public class Contagion {
         this.endContagion = endContagion;
     }
 
-    public void setNameInfected(User nameInfected) { this.nameInfected = nameInfected; }
+    public void setInfected(User infected) { this.infected = infected; }
 
     public void setId(ObjectId id) { this.id = id; }
 }
