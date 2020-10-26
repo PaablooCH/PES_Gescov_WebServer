@@ -34,7 +34,7 @@ public class ContagionMongoDB implements ContagionDao{
 
     @Override
     public int insertContagion(Contagion contagion) { //Eficiente Funciona// @Pablo CH
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",contagion.getNameInfected()));
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.name",contagion.getNameInfected()));
         boolean insert = true;
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
@@ -61,7 +61,7 @@ public class ContagionMongoDB implements ContagionDao{
 
     @Override
     public int updateContagion(String nameInfected) { //Eficiente Funciona// @Pablo CH
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected",nameInfected));
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.name",nameInfected));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
                 contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", LocalDate.now()));
@@ -72,13 +72,12 @@ public class ContagionMongoDB implements ContagionDao{
     }
 
     @Override
-    public Contagion selectNowContagion(String nameInfected, String nameCen) {
-        Contagion nowContagion = null;
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameCen",nameCen)); //cambiar cuando tengamos usuario
+    public List<Contagion> selectNowContagion(String nameCen) {
+        List<Contagion> nowContagion = new ArrayList<>();
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.school.name",nameCen));
         for (Contagion cr : result) {
-            if (cr.getNameInfected().equals(nameInfected) && cr.getEndContagion() == null) { //cambiar cuando tengamos usuario
-                nowContagion = cr;
-                break;
+            if (cr.getEndContagion() == null) {
+                nowContagion.add(cr);
             }
         }
         return nowContagion;
