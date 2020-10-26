@@ -41,9 +41,9 @@ public class ClassSessionController {
         return sessionService.getSessionBySubject(name);
     }
 
-    @GetMapping("/student")
-    public List<ClassSession> getStudentSessions(@NonNull @RequestParam("name") String name){
-        return sessionService.getSessionByStudent(name);
+    @GetMapping("/teacher")
+    public List<ClassSession> getTeacherSessions(@NonNull @RequestParam("name") String name){
+        return sessionService.getSessionByTeacher(name);
     }
 
     @GetMapping("/hour")

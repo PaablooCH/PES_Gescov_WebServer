@@ -15,7 +15,7 @@ public interface ClassSessionDao {
 
     List<ClassSession> selectSessionsBySubject(String variable);
 
-    List<ClassSession> selectSessionsByStudent(String variable);
+    List<ClassSession> selectSessionsByTeacher(String variable);
 
     List<ClassSession> selectSessionsByHour(String variable);
 
