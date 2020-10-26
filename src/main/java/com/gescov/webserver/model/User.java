@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.List;
+
 public class User {
 
     @Id
@@ -13,7 +15,7 @@ public class User {
     private String name;
 
     @DBRef
-    private School school;
+    private List<School> schools;
 
     public User() {
 
@@ -21,10 +23,10 @@ public class User {
 
     public User(@JsonProperty("id") ObjectId id,
                      @JsonProperty("name") String name,
-                     @JsonProperty("school") final School school) {
+                     @JsonProperty("schools") final List<School> schools) {
         this.id = id;
         this.name = name;
-        this.school = school;
+        this.schools = schools;
     }
 
     public ObjectId getId() {
@@ -43,11 +45,12 @@ public class User {
         this.name = name;
     }
 
-    public School getSchool() {
-        return school;
+    public List<School> getSchools() {
+        return schools;
     }
 
-    public void setSchool(School school) {
-        this.school = school;
+    public void setSchools(List<School> schools) {
+        this.schools = schools;
     }
+
 }
