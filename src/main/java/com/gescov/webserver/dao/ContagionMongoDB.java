@@ -74,7 +74,7 @@ public class ContagionMongoDB implements ContagionDao{
     @Override
     public List<Contagion> selectNowContagion(String nameCen) {
         List<Contagion> nowContagion = new ArrayList<>();
-        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.school.name",nameCen));
+        FindIterable<Contagion> result = contagionCollection.find(eq("nameInfected.school.name", nameCen));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
                 nowContagion.add(cr);
