@@ -26,9 +26,9 @@ public class ContagionController {
     }
 
     @GetMapping(path = "{specific}")
-    public Contagion getSpecificContagion(@PathVariable("specific") String specific, @RequestParam("nameIn") String nameInfected, @RequestParam("nameCen") String nameCen) {
-        Contagion returned = null;
-        if (specific.equals("now")) returned = contagionService.getNowContagion(nameInfected, nameCen);
+    public List<Contagion> getSpecificContagion(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) {
+        List<Contagion> returned = null;
+        if (specific.equals("now")) returned = contagionService.getNowContagion(nameCen);
         return returned;
     }
 
