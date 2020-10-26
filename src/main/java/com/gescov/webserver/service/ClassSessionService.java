@@ -28,7 +28,7 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionBySubject(String name){ return sessionDao.selectSessionsBySubject(name); }
 
-    public List<ClassSession> getSessionByStudent(String name){ return sessionDao.selectSessionsByStudent(name); }
+    public List<ClassSession> getSessionByTeacher(String name){ return sessionDao.selectSessionsByTeacher(name); }
 
     public List<ClassSession> getSessionByHour(String hour){ return sessionDao.selectSessionsByHour(hour); }
 

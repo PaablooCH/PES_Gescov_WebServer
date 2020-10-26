@@ -28,7 +28,8 @@ public class ClassSessionMongoDB implements ClassSessionDao{
 
     @PostConstruct
     void init() {
-        sessionCollection = client.getDatabase("Gescov").getCollection("classSession", ClassSession.class);
+        sessionCollection = client.getDatabase("Gescov").getCollection("classSession",
+                ClassSession.class);
     }
 
     @Override
@@ -74,16 +75,16 @@ public class ClassSessionMongoDB implements ClassSessionDao{
     }
 
     @Override
-    public List<ClassSession> selectSessionsByStudent(String name) {
-        List<ClassSession> StudentSessions = new ArrayList<>();
-        FindIterable<ClassSession> result = sessionCollection.find(eq("student.name", name));
+    public List<ClassSession> selectSessionsByTeacher(String name) {
+        List<ClassSession> TeacherSessions = new ArrayList<>();
+        FindIterable<ClassSession> result = sessionCollection.find(eq("teacher.name", name));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                StudentSessions.add(cs);
+                TeacherSessions.add(cs);
             }
-            return StudentSessions;
+            return TeacherSessions;
         }
-        else throw new NotFoundException("The session with a student named :" + name + " doesn't exists");
+        else throw new NotFoundException("The session with a teacher named :" + name + " doesn't exists");
     }
 
     @Override
@@ -121,7 +122,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
 
     @Override
     public int updateSession(ObjectId id, ClassSession session) {
-        sessionCollection.findOneAndUpdate(eq("_id", id),set("student", session.getStudent()));
+        sessionCollection.findOneAndUpdate(eq("_id", id),set("student", session.getTeacher()));
         return 1;
     }
 }
