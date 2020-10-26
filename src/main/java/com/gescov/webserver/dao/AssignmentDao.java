@@ -18,4 +18,5 @@ public interface AssignmentDao {
 
     int updateAssignmentCol(ObjectId id, int posCol);
 
+    List<Assignment> selectAssignmentBySchool(String nameCen);
 }

@@ -3,6 +3,7 @@ package com.gescov.webserver.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Assignment {
 
@@ -13,28 +14,30 @@ public class Assignment {
 
     private int posRow;
 
+    @DBRef
     private ClassSession classSession;
 
-    private User nameSt;
+    @DBRef
+    private User student;
 
     public Assignment() {
     }
 
     public Assignment(@JsonProperty("id") ObjectId id, @JsonProperty("posCol") int posCol,
-                      @JsonProperty("posRow") int posRow, @JsonProperty("classSession") ClassSession classSession,
-                      @JsonProperty("nameSt") User nameSt) {
+                      @JsonProperty("posRow") int posRow, @JsonProperty("classSession") final ClassSession classSession,
+                      @JsonProperty("student") final User student) {
         this.id = id;
         this.posCol = posCol;
         this.posRow = posRow;
         this.classSession = classSession;
-        this.nameSt = nameSt;
+        this.student = student;
     }
 
     public Assignment(int posCol, int posRow, ClassSession classSession, User nameSt) {
         this.posCol = posCol;
         this.posRow = posRow;
         this.classSession = classSession;
-        this.nameSt = nameSt;
+        this.student = nameSt;
     }
 
     public int getPosCol() {
@@ -49,8 +52,8 @@ public class Assignment {
         return classSession;
     }
 
-    public User getNameSt() {
-        return nameSt;
+    public User getStudent() {
+        return student;
     }
 
     public ObjectId getId() {
@@ -69,8 +72,8 @@ public class Assignment {
         this.classSession = classSession;
     }
 
-    public void setNameSt(User nameSt) {
-        this.nameSt = nameSt;
+    public void setStudent(User student) {
+        this.student = student;
     }
 
     public void setId(ObjectId id) {
