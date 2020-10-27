@@ -1,7 +1,6 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.SubjectDao;
-import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

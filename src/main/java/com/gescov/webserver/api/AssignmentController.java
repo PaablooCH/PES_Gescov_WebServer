@@ -2,7 +2,6 @@ package com.gescov.webserver.api;
 
 
 import com.gescov.webserver.model.Assignment;
-import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.service.AssignmentService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.mongodb.client.FindIterable;

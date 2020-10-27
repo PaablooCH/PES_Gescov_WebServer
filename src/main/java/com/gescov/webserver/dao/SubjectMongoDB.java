@@ -1,7 +1,6 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
-import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 

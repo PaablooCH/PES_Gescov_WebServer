@@ -1,10 +1,8 @@
 package com.gescov.webserver.api;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
-import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
-import com.gescov.webserver.service.ClassroomService;
 import com.gescov.webserver.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.ClassroomDao;
 import com.gescov.webserver.dao.UserDao;
-import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import org.bson.types.ObjectId;

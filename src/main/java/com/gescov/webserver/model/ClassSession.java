@@ -7,13 +7,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.swing.text.DateFormatter;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 
 //@Document(collection = "classSession")
 public class ClassSession {

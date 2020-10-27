@@ -1,8 +1,6 @@
 package com.gescov.webserver.api;
 
 
-import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.service.SubjectService;
 import com.mongodb.lang.NonNull;
