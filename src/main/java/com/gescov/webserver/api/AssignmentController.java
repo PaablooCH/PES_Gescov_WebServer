@@ -33,13 +33,7 @@ public class AssignmentController {
     public List<Assignment> getAssignmentBySchool(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) { //hacerlo pero con mas campos
         List<Assignment> returned = new ArrayList<>();
         if (specific.equals("school")) returned = assignmentService.getAssignmentBySchool(nameCen);
-        return returned;
-    }
-
-    @GetMapping(path = "{specific}")
-    public List<Assignment> getAssignmentByClassSession(@PathVariable("specific") String specific, @RequestParam("id") ObjectId id) { //hacerlo pero con mas campos
-        List<Assignment> returned = new ArrayList<>();
-        if (specific.equals("session")) returned = assignmentService.getAssignmentByClassSession(id);
+        if (specific.equals("classroom")) returned = assignmentService.getAssignmentByAula(nameCen);
         return returned;
     }
 
