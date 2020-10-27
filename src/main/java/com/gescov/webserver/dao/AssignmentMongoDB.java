@@ -96,4 +96,14 @@ public class AssignmentMongoDB implements AssignmentDao{
         }
         return allAssignment;
     }
+
+    @Override
+    public List<Assignment> selectAssignmentBySession(ObjectId id) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.id", id));
+        for (Assignment as : result) {
+            allAssignment.add(as);
+        }
+        return allAssignment;
+    }
 }

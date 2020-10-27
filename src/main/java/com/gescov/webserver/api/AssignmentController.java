@@ -36,6 +36,13 @@ public class AssignmentController {
         return returned;
     }
 
+    @GetMapping(path = "{specific}")
+    public List<Assignment> getAssignmentByClassSession(@PathVariable("specific") String specific, @RequestParam("id") ObjectId id) { //hacerlo pero con mas campos
+        List<Assignment> returned = new ArrayList<>();
+        if (specific.equals("session")) returned = assignmentService.getAssignmentByClassSession(id);
+        return returned;
+    }
+
     @PutMapping
     public void updateAssignment(@RequestParam("id") ObjectId id, @RequestParam("row") int posRow,
                                  @RequestParam("col") int posCol) {

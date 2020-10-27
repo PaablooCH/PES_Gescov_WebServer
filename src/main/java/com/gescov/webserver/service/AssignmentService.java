@@ -32,4 +32,8 @@ public class AssignmentService {
     public List<Assignment> getAssignmentBySchool(String nameCen) {
         return assignmentDao.selectAssignmentBySchool(nameCen);
     }
+
+    public List<Assignment> getAssignmentByClassSession(ObjectId id) {
+        return assignmentDao.selectAssignmentBySession(id);
+    }
 }
