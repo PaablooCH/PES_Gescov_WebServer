@@ -51,9 +51,11 @@ public class UserMongoDB implements UserDao {
 
     @Override
     public User selectUserById(ObjectId id) {
-        User us = userCollection.find(eq("_id", id)).first(); //first?
-        if (us == null) throw new NotFoundException("User with 'id' " + id + " not found!");
-        return us;
+        FindIterable<User> result = userCollection.find(eq("_id", id));
+        User u = null;
+        for (User us : result) u = us;
+        if (u == null) throw new NotFoundException("User with 'id' " + id + " not found!");
+        return u;
     }
 
 }

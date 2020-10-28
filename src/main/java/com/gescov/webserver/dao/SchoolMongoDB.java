@@ -2,6 +2,7 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -50,7 +51,9 @@ public class SchoolMongoDB implements SchoolDao {
 
     @Override
     public School selectSchoolById(ObjectId id) {
-        School s = schoolCollection.find(eq("_id", id)).first();
+        FindIterable<School> result = schoolCollection.find(eq("_id", id));
+        School s = null;
+        for (School sc : result) s = sc;
         if (s == null) throw new NotFoundException("School with 'id' " + id + " not found!");
         return s;
     }

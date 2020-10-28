@@ -3,10 +3,12 @@ package com.gescov.webserver.dao;
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
+import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import org.bson.types.ObjectId;
+import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
@@ -51,9 +53,11 @@ public class ClassroomMongoDB implements ClassroomDao {
 
     @Override
     public Classroom selectClassroomById(ObjectId id) {
-        Classroom cr = classroomCollection.find(eq("_id", id)).first(); //first?
-        if (cr == null) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
-        return cr;
+        FindIterable<Classroom> result = classroomCollection.find(eq("_id", id));
+        Classroom cl = null;
+        for (Classroom cr : result) cl = cr;
+        if (cl == null) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
+        return cl;
     }
 
     @Override
