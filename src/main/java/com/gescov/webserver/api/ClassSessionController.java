@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api/classSession")
@@ -31,29 +32,15 @@ public class ClassSessionController {
         return sessionService.getAllSessions();
     }
 
-    @GetMapping("/classroom")
-    public List<ClassSession> getClassroomSessions(@NonNull @RequestParam("name") String name){
-        return sessionService.getSessionByClassroom(name);
-    }
-
-    @GetMapping("/subject")
-    public List<ClassSession> getSubjectSessions(@NonNull @RequestParam("name") String name){
-        return sessionService.getSessionBySubject(name);
-    }
-
-    @GetMapping("/teacher")
-    public List<ClassSession> getTeacherSessions(@NonNull @RequestParam("name") String name){
-        return sessionService.getSessionByTeacher(name);
-    }
-
-    @GetMapping("/hour")
-    public List<ClassSession> getHourSessions(@NonNull @RequestParam("hour") String hour){
-        return sessionService.getSessionByHour(hour);
-    }
-
-    @GetMapping("/date")
-    public List<ClassSession> getDateSessions(@NonNull @RequestParam("date") String date){
-        return sessionService.getSessionByDate(date);
+    @GetMapping(path = "{specific}")
+    public List<ClassSession> getSpecificSessions(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String name){
+        List<ClassSession> returned = new ArrayList<>();
+        if(specific.equals("classroom")) returned = sessionService.getSessionByClassroom(name);
+        if(specific.equals("subject")) returned = sessionService.getSessionBySubject(name);
+        if(specific.equals("teacher")) returned = sessionService.getSessionByTeacher(name);
+        if(specific.equals("hour")) returned = sessionService.getSessionByHour(name);
+        if(specific.equals("date")) returned = sessionService.getSessionByDate(name);
+        return returned;
     }
 
     @DeleteMapping
