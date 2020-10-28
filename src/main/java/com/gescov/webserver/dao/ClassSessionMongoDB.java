@@ -24,7 +24,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
     @Autowired
     private MongoClient client;
     private MongoCollection<ClassSession> sessionCollection;
-    private final static String notExistError = " does not exist";
+    private static final String notExistError = " does not exist";
 
     @PostConstruct
     void init() {
