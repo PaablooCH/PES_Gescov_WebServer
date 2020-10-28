@@ -7,6 +7,7 @@ import com.mongodb.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api/subject")
@@ -30,14 +31,12 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
-    @GetMapping("/schools")
-    public List<Subject> getSubjectsBySchool(@NonNull @RequestParam("nombre") String nombre){
-        return subjectService.getSubjectBySchool(nombre);
-    }
-
-    @GetMapping("/names")
-    public List<Subject> getSubjectsByName(@NonNull @RequestParam("nombre") String nombre){
-        return subjectService.getSubjectByName(nombre);
+    @GetMapping(path = "{specific}")
+    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("nombre") String nombre){
+        List<Subject> returned = new ArrayList<>();
+        if(specific.equals("schools")) returned =  subjectService.getSubjectBySchool(nombre);
+        if(specific.equals("names")) returned = subjectService.getSubjectByName(nombre);
+        return returned;
     }
 
     @DeleteMapping
