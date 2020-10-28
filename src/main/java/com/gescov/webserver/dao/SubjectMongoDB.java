@@ -55,22 +55,22 @@ public class SubjectMongoDB implements SubjectDao {
 
     @Override
     public List<Subject> selectSubjectsBySchool(String school) {
-        List<Subject> SchoolSubjects = new ArrayList<>();
+        List<Subject> schoolSubjects = new ArrayList<>();
         FindIterable<Subject> result = subjectCollection.find(eq("school.name",school));
         for (Subject s : result) {
-            SchoolSubjects.add(s);
+            schoolSubjects.add(s);
         }
-        return SchoolSubjects;
+        return schoolSubjects;
     }
 
     @Override
     public List<Subject> selectSubjectsByName(String name) {
-        List<Subject> NameSubjects = new ArrayList<>();
+        List<Subject> nameSubjects = new ArrayList<>();
         FindIterable<Subject> result = subjectCollection.find(eq("name", name));
         for (Subject s : result) {
-            NameSubjects.add(s);
+            nameSubjects.add(s);
         }
-        return NameSubjects;
+        return nameSubjects;
     }
 
     @Override

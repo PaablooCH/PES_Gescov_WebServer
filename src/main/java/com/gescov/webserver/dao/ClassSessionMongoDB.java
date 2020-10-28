@@ -24,6 +24,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
     @Autowired
     private MongoClient client;
     private MongoCollection<ClassSession> sessionCollection;
+    private final static String notExistError = " does not exist";
 
     @PostConstruct
     void init() {
@@ -49,67 +50,67 @@ public class ClassSessionMongoDB implements ClassSessionDao{
 
     @Override
     public List<ClassSession> selectSessionsByClassroom(String name) {
-        List<ClassSession> ClassroomSessions = new ArrayList<>();
+        List<ClassSession> classroomSessions = new ArrayList<>();
         FindIterable<ClassSession> result = sessionCollection.find(eq("classroom.name", name));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                ClassroomSessions.add(cs);
+                classroomSessions.add(cs);
             }
-            return ClassroomSessions;
+            return classroomSessions;
         }
-        else throw new NotFoundException("The session in a classroom named: " + name + " doesn't exists");
+        else throw new NotFoundException("The session in a classroom named: " + name + notExistError);
     }
 
     @Override
     public List<ClassSession> selectSessionsBySubject(String name) {
-        List<ClassSession> SubjectSessions = new ArrayList<>();
+        List<ClassSession> subjectSessions = new ArrayList<>();
         FindIterable<ClassSession> result = sessionCollection.find(eq("subject.name", name));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                SubjectSessions.add(cs);
+                subjectSessions.add(cs);
             }
-            return SubjectSessions;
+            return subjectSessions;
         }
-        else throw new NotFoundException("The session with a subject named: " + name + " doesn't exists");
+        else throw new NotFoundException("The session with a subject named: " + name + notExistError);
     }
 
     @Override
     public List<ClassSession> selectSessionsByTeacher(String name) {
-        List<ClassSession> TeacherSessions = new ArrayList<>();
+        List<ClassSession> teacherSessions = new ArrayList<>();
         FindIterable<ClassSession> result = sessionCollection.find(eq("teacher.name", name));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                TeacherSessions.add(cs);
+                teacherSessions.add(cs);
             }
-            return TeacherSessions;
+            return teacherSessions;
         }
-        else throw new NotFoundException("The session with a teacher named :" + name + " doesn't exists");
+        else throw new NotFoundException("The session with a teacher named :" + name + notExistError);
     }
 
     @Override
     public List<ClassSession> selectSessionsByHour(String hour) {
-        List<ClassSession> HourSessions = new ArrayList<>();
+        List<ClassSession> hourSessions = new ArrayList<>();
         FindIterable<ClassSession> result = sessionCollection.find(eq("hora", hour));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                HourSessions.add(cs);
+                hourSessions.add(cs);
             }
-            return HourSessions;
+            return hourSessions;
         }
-        else throw new NotFoundException("The session with the hour: " + hour + " doesn't exists");
+        else throw new NotFoundException("The session with the hour: " + hour + notExistError);
     }
 
     @Override
     public List<ClassSession> selectSessionsByDate(String date) {
-        List<ClassSession> DateSessions = new ArrayList<>();
+        List<ClassSession> dateSessions = new ArrayList<>();
         FindIterable<ClassSession> result = sessionCollection.find(eq("date", date));
         if(result.cursor().hasNext()) {
             for (ClassSession cs : result) {
-                DateSessions.add(cs);
+                dateSessions.add(cs);
             }
-            return DateSessions;
+            return dateSessions;
         }
-        else throw new NotFoundException("The session with the date: " + date + " doesn't exists");
+        else throw new NotFoundException("The session with the date: " + date + notExistError);
     }
 
     @Override
