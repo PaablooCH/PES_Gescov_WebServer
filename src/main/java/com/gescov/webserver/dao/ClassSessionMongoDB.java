@@ -24,7 +24,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
     @Autowired
     private MongoClient client;
     private MongoCollection<ClassSession> sessionCollection;
-    private static final String notExistError = " does not exist";
+    private static final String NOT_EXIST_ERROR = " does not exist";
 
     @PostConstruct
     void init() {
@@ -58,7 +58,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
             }
             return classroomSessions;
         }
-        else throw new NotFoundException("The session in a classroom named: " + name + notExistError);
+        else throw new NotFoundException("The session in a classroom named: " + name + NOT_EXIST_ERROR);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
             }
             return subjectSessions;
         }
-        else throw new NotFoundException("The session with a subject named: " + name + notExistError);
+        else throw new NotFoundException("The session with a subject named: " + name + NOT_EXIST_ERROR);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
             }
             return teacherSessions;
         }
-        else throw new NotFoundException("The session with a teacher named :" + name + notExistError);
+        else throw new NotFoundException("The session with a teacher named :" + name + NOT_EXIST_ERROR);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
             }
             return hourSessions;
         }
-        else throw new NotFoundException("The session with the hour: " + hour + notExistError);
+        else throw new NotFoundException("The session with the hour: " + hour + NOT_EXIST_ERROR);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ClassSessionMongoDB implements ClassSessionDao{
             }
             return dateSessions;
         }
-        else throw new NotFoundException("The session with the date: " + date + notExistError);
+        else throw new NotFoundException("The session with the date: " + date + NOT_EXIST_ERROR);
     }
 
     @Override
