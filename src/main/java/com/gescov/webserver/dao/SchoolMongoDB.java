@@ -2,7 +2,6 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
