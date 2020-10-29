@@ -28,6 +28,10 @@ public class ClassroomService {
         return classroomDao.selectAllClassrooms();
     }
 
+    public List<Classroom> getSchoolClassrooms(String schoolName) {
+        return classroomDao.selectSchoolClassrooms(schoolName);
+    }
+
     public Classroom getClassroomById(ObjectId id) {
         return classroomDao.selectClassroomById(id);
     }
@@ -55,4 +59,5 @@ public class ClassroomService {
     public int updateClassroomNumCols(ObjectId id, int numCols) {
         return classroomDao.updateClassroomNumColsById(id, numCols);
     }
+
 }

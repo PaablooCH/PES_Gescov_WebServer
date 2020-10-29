@@ -12,6 +12,8 @@ public interface ClassroomDao {
 
     List<Classroom> selectAllClassrooms();
 
+    List<Classroom> selectSchoolClassrooms(String schoolName);
+
     Classroom selectClassroomById(ObjectId id);
 
     Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id);

@@ -50,6 +50,14 @@ public class ClassroomMongoDB implements ClassroomDao {
     }
 
     @Override
+    public List<Classroom> selectSchoolClassrooms(String schoolName) {
+        List<Classroom> allClasses = new ArrayList<>();
+        FindIterable<Classroom> result = classroomCollection.find(eq("school.name", schoolName));
+        for (Classroom cr : result) allClasses.add(cr);
+        return allClasses;
+    }
+
+    @Override
     public Classroom selectClassroomById(ObjectId id) {
         FindIterable<Classroom> result = classroomCollection.find(eq("_id", id));
         Classroom cl = null;
