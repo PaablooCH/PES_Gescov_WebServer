@@ -2,6 +2,8 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.Classroom;
+import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -106,4 +108,15 @@ public class AssignmentMongoDB implements AssignmentDao{
         }
         return allAssignment;
     }
+
+    @Override
+    public List<Assignment> getAssignmentById(ObjectId id) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("_id", id));
+        for (Assignment as : result) {
+            allAssignment.add(as);
+        }
+        return allAssignment;
+    }
+
 }
