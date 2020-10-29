@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 //@Document(collection = "schools")
 public class School {
 
@@ -23,6 +25,8 @@ public class School {
 
     private String creator;
 
+    private List<String> administrators;
+
     public School() {
 
     }
@@ -33,7 +37,8 @@ public class School {
                   @JsonProperty("address") String address,
                   @JsonProperty("longitude") float longitude,
                   @JsonProperty("latitude") float latitude,
-                  @JsonProperty("creator") String creator) {
+                  @JsonProperty("creator") String creator,
+                  @JsonProperty("administrators") List<String> administrators) {
         this.id = id;
         this.name = name;
         this.state = state;
@@ -41,6 +46,7 @@ public class School {
         this.longitude = longitude;
         this.latitude = latitude;
         this.creator = creator;
+        this.administrators = administrators;
     }
 
     public ObjectId getId() {
@@ -99,4 +105,11 @@ public class School {
         this.creator = creator;
     }
 
+    public List<String> getAdministrators() {
+        return administrators;
+    }
+
+    public void setAdministrators(List<String> administrators) {
+        this.administrators = administrators;
+    }
 }

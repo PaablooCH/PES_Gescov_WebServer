@@ -46,7 +46,6 @@ public class SchoolController {
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
     }
 
-
 }
 
 
