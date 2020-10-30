@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@Document(collection = "schools")
@@ -27,26 +28,24 @@ public class School {
 
     private List<String> administrators;
 
-    public School() {
-
-    }
+    public School() {}
 
     public School(@JsonProperty("id") ObjectId id,
                   @JsonProperty("name") String name,
-                  @JsonProperty("state") String state,
                   @JsonProperty("address") String address,
                   @JsonProperty("longitude") float longitude,
                   @JsonProperty("latitude") float latitude,
-                  @JsonProperty("creator") String creator,
-                  @JsonProperty("administrators") List<String> administrators) {
+                  @JsonProperty("creator") String creator) {
         this.id = id;
         this.name = name;
-        this.state = state;
+        this.state = "open";
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
         this.creator = creator;
-        this.administrators = administrators;
+        this.administrators = new ArrayList<>();
+        this.administrators.add(creator);
+
     }
 
     public ObjectId getId() {
