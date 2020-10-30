@@ -30,6 +30,10 @@ public class SchoolService {
         return schoolDao.selectSchoolById(id);
     }
 
+    public School getSchoolByName(String schoolName) {
+        return schoolDao.selectSchoolByName(schoolName);
+    }
+
     public int deleteSchool(ObjectId id) {
         return schoolDao.deleteSchoolById(id);
     }

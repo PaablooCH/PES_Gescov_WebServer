@@ -58,6 +58,15 @@ public class SchoolMongoDB implements SchoolDao {
     }
 
     @Override
+    public School selectSchoolByName(String schoolName) {
+        FindIterable<School> result = schoolCollection.find(eq("name", schoolName));
+        School s = null;
+        for (School sc : result) s = sc;
+        if (s == null) throw new NotFoundException("School with 'name' " + schoolName + " not found!");
+        return s;
+    }
+
+    @Override
     public int deleteSchoolById(ObjectId id) {
         schoolCollection.findOneAndDelete(eq("_id", id));
         return 1;

@@ -13,6 +13,8 @@ public interface SchoolDao {
 
     School selectSchoolById(ObjectId id);
 
+    School selectSchoolByName(String schoolName);
+
     int deleteSchoolById(ObjectId id);
 
     int updateSchoolNameById(ObjectId id, String name);
