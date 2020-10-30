@@ -25,15 +25,15 @@ public class AssignmentController {
         assignmentService.addAssignment(assignment);
     }
 
-    @GetMapping
-    public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
+    /*@GetMapping
+    public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }*/
 
     @GetMapping
     public List<Assignment> getAssignmentByClassId(@RequestParam("id") ObjectId id) {
         return assignmentService.getAssignmentByClassId(id);
     }
 
-    @GetMapping
+    @GetMapping(path = "/classDate")
     public List<Assignment> getAssignmentByClassroomDate(@RequestParam("class") ObjectId idClassroom, @RequestParam("date") String date,
                                                          @RequestParam("date") String hour) {
         return assignmentService.getAssignmentByClassroomDate(idClassroom, date, hour);
