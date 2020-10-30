@@ -38,15 +38,18 @@ public class AssignmentMongoDB implements AssignmentDao{
         for (Assignment as : result) {
             if (as.getStudent().getName().equals(assignment.getStudent().getName())) {
                 nameRepeated = true;
-                break;
             }
             if (as.getPosCol() == assignment.getPosCol() && as.getPosRow() == assignment.getPosRow()) {
                 posNotValid = true;
-                break;
             }
         }
 
-        if (nameRepeated) {
+        if(nameRepeated && posNotValid){
+            throw new AlreadyExistsException("The person with 'name' " + assignment.getStudent().getName() +
+                    " is already in the classSession and the position with 'row' " + assignment.getPosRow() + " and 'col' "
+                    +  assignment.getPosCol() + " is already occupied");
+        }
+        else if (nameRepeated) {
             throw new AlreadyExistsException("The person with 'name' " + assignment.getStudent().getName() +
                     " is already in the classSession");
         }
