@@ -30,9 +30,14 @@ public class SchoolController {
         return schoolService.getAllSchools();
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/id/{id}")
     public School getSchoolById(@PathVariable("id") ObjectId id) {
         return schoolService.getSchoolById(id);
+    }
+
+    @GetMapping(path = "/name/{schoolName}")
+    public School getSchoolByName(@PathVariable("schoolName") String schoolName) {
+        return schoolService.getSchoolByName(schoolName);
     }
 
     @DeleteMapping(path = "{id}")
