@@ -2,8 +2,6 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Assignment;
-import com.gescov.webserver.model.Classroom;
-import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -100,7 +98,7 @@ public class AssignmentMongoDB implements AssignmentDao{
     }
 
     @Override
-    public List<Assignment> selectAssignmentByAula(String nomClass) {
+    public List<Assignment> getAssignmentByClassroom(String nomClass) {
         List<Assignment> allAssignment = new ArrayList<>();
         FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom.name", nomClass));
         for (Assignment as : result) {
@@ -110,11 +108,22 @@ public class AssignmentMongoDB implements AssignmentDao{
     }
 
     @Override
-    public List<Assignment> getAssignmentById(ObjectId id) {
+    public List<Assignment> getAssignmentByClassId(ObjectId id) {
         List<Assignment> allAssignment = new ArrayList<>();
-        FindIterable<Assignment> result = assignmentCollection.find(eq("_id", id));
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession._id", id));
         for (Assignment as : result) {
             allAssignment.add(as);
+        }
+        return allAssignment;
+    }
+
+    @Override
+    public List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom._id", idClassroom));
+        for (Assignment as : result) {
+            if (as.getClassSession().getDate().equals(date) && as.getClassSession().getHora().equals(hour))
+                allAssignment.add(as);
         }
         return allAssignment;
     }

@@ -2,8 +2,6 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.AssignmentDao;
 import com.gescov.webserver.model.Assignment;
-import com.gescov.webserver.model.Classroom;
-import com.gescov.webserver.model.Subject;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,11 +33,15 @@ public class AssignmentService {
         return assignmentDao.selectAssignmentBySchool(nameCen);
     }
 
-    public List<Assignment> getAssignmentByAula(String nameClass) {
-        return assignmentDao.selectAssignmentByAula(nameClass);
+    public List<Assignment> getAssignmentByClassroom(String nameClass) {
+        return assignmentDao.getAssignmentByClassroom(nameClass);
     }
 
-    public List<Assignment> getAssignmentById(ObjectId id) {
-        return assignmentDao.getAssignmentById(id);
+    public List<Assignment> getAssignmentByClassId(ObjectId id) {
+        return assignmentDao.getAssignmentByClassId(id);
+    }
+
+    public List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour) {
+        return assignmentDao.getAssignmentByClassroomDate(idClassroom, date, hour);
     }
 }

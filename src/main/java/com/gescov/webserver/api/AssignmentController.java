@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api/assignment")
@@ -29,17 +28,25 @@ public class AssignmentController {
     @GetMapping
     public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
 
-    @GetMapping(path = "/DateSubClass")
-    public List<Assignment> getAssignmentById(@RequestParam("id") ObjectId id) { //hacerlo pero con mas campos
-        return assignmentService.getAssignmentById(id);
+    @GetMapping
+    public List<Assignment> getAssignmentByClassId(@RequestParam("id") ObjectId id) {
+        return assignmentService.getAssignmentByClassId(id);
     }
 
-    @GetMapping(path = "{specific}")
-    public List<Assignment> getAssignmentBySchool(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) { //hacerlo pero con mas campos
-        List<Assignment> returned = new ArrayList<>();
-        if (specific.equals("school")) returned = assignmentService.getAssignmentBySchool(nameCen);
-        if (specific.equals("classroom")) returned = assignmentService.getAssignmentByAula(nameCen);
-        return returned;
+    @GetMapping
+    public List<Assignment> getAssignmentByClassroomDate(@RequestParam("class") ObjectId idClassroom, @RequestParam("date") String date,
+                                                         @RequestParam("date") String hour) {
+        return assignmentService.getAssignmentByClassroomDate(idClassroom, date, hour);
+    }
+
+    /*@GetMapping(path = "/school")
+    public List<Assignment> getAssignmentBySchool(@RequestParam("name") String nameCen) {
+        return assignmentService.getAssignmentBySchool(nameCen);
+    }*/
+
+    @GetMapping(path = "/classroom")
+    public List<Assignment> getAssignmentByClassroom(@RequestParam("name") String nameClassroom) {
+        return assignmentService.getAssignmentByClassroom(nameClassroom);
     }
 
     @PutMapping
