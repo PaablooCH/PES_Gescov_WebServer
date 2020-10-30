@@ -19,5 +19,9 @@ public interface AssignmentDao {
 
     List<Assignment> selectAssignmentBySchool(String nameCen);
 
-    List<Assignment> selectAssignmentByAula(String nameClass);
+    List<Assignment> getAssignmentByClassroom(String nameClass);
+
+    List<Assignment> getAssignmentByClassId(ObjectId id);
+
+    List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour);
 }

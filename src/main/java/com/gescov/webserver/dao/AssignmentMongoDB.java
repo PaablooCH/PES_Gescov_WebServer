@@ -98,7 +98,7 @@ public class AssignmentMongoDB implements AssignmentDao{
     }
 
     @Override
-    public List<Assignment> selectAssignmentByAula(String nomClass) {
+    public List<Assignment> getAssignmentByClassroom(String nomClass) {
         List<Assignment> allAssignment = new ArrayList<>();
         FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom.name", nomClass));
         for (Assignment as : result) {
@@ -106,4 +106,26 @@ public class AssignmentMongoDB implements AssignmentDao{
         }
         return allAssignment;
     }
+
+    @Override
+    public List<Assignment> getAssignmentByClassId(ObjectId id) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession._id", id));
+        for (Assignment as : result) {
+            allAssignment.add(as);
+        }
+        return allAssignment;
+    }
+
+    @Override
+    public List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour) {
+        List<Assignment> allAssignment = new ArrayList<>();
+        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom._id", idClassroom));
+        for (Assignment as : result) {
+            if (as.getClassSession().getDate().equals(date) && as.getClassSession().getHora().equals(hour))
+                allAssignment.add(as);
+        }
+        return allAssignment;
+    }
+
 }

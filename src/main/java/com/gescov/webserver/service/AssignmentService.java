@@ -33,7 +33,15 @@ public class AssignmentService {
         return assignmentDao.selectAssignmentBySchool(nameCen);
     }
 
-    public List<Assignment> getAssignmentByAula(String nameClass) {
-        return assignmentDao.selectAssignmentByAula(nameClass);
+    public List<Assignment> getAssignmentByClassroom(String nameClass) {
+        return assignmentDao.getAssignmentByClassroom(nameClass);
+    }
+
+    public List<Assignment> getAssignmentByClassId(ObjectId id) {
+        return assignmentDao.getAssignmentByClassId(id);
+    }
+
+    public List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour) {
+        return assignmentDao.getAssignmentByClassroomDate(idClassroom, date, hour);
     }
 }
