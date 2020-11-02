@@ -23,9 +23,6 @@ public class Classroom {
     @DBRef
     private School school;
 
-    private String creator;
-
-
     public Classroom() {
 
     }
@@ -35,15 +32,13 @@ public class Classroom {
                      @JsonProperty("capacity") int capacity,
                      @JsonProperty("numRows") int numRows,
                      @JsonProperty("numCols") int numCols,
-                     @JsonProperty("school") final School school,
-                     @JsonProperty("creator") String creator) {
+                     @JsonProperty("school") final School school) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.numRows = numRows;
         this.numCols = numCols;
         this.school = school;
-        this.creator = creator;
     }
 
     public ObjectId getId() {
@@ -92,13 +87,5 @@ public class Classroom {
 
     public void setSchool(School school) {
         this.school = school;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 }
