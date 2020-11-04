@@ -1,49 +1,52 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.SchoolDao;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolService {
-    private final SchoolDao schoolDao;
 
     @Autowired
-    public SchoolService(@Qualifier("schoolMongo")SchoolDao schoolDao) {
-        this.schoolDao = schoolDao;
-    }
+    SchoolDao schoolDao;
 
-    public int addSchool(School school) {
-        return schoolDao.insertSchool(school);
+    public School addSchool(School school) {
+        return schoolDao.insert(school);
     }
 
     public List<School> getAllSchools() {
-        return schoolDao.selectAllSchools();
+        return schoolDao.findAll();
     }
 
-    public School getSchoolById(ObjectId id) {
-        return schoolDao.selectSchoolById(id);
+    public Optional<School> getSchoolById(String id) {
+        return schoolDao.findById(id);
     }
 
     public School getSchoolByName(String schoolName) {
-        return schoolDao.selectSchoolByName(schoolName);
+        return schoolDao.findAllByName(schoolName);
     }
 
-    public int deleteSchool(ObjectId id) {
-        return schoolDao.deleteSchoolById(id);
+    public void deleteSchool(String id) {
+        schoolDao.deleteById(id);
     }
 
-    public int updateSchoolName(ObjectId id, String name) {
-        return schoolDao.updateSchoolNameById(id, name);
+    public void updateSchoolName(String id, String update) {
+        Optional<School> s = schoolDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
+        s.get().setName(update);
+        schoolDao.insert(s.get());
     }
 
-    public int updateSchoolState(ObjectId id, String state) {
-        return schoolDao.updateSchoolStateById(id, state);
+    public void updateSchoolState(String id, String update) {
+        Optional<School> s = schoolDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
+        s.get().setState(update);
+        schoolDao.insert(s.get());
     }
 
 }

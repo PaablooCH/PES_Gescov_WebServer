@@ -1,5 +1,6 @@
 package com.gescov.webserver.api;
 
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.service.SchoolService;
 import org.bson.types.ObjectId;
@@ -13,16 +14,12 @@ import java.util.List;
 @RestController
 public class SchoolController {
 
-    private final SchoolService schoolService;
-
     @Autowired
-    public SchoolController(SchoolService schoolService) {
-        this.schoolService = schoolService;
-    }
+    SchoolService schoolService;
 
     @PostMapping
-    public void addSchool(@NonNull @RequestBody School school) {
-        schoolService.addSchool(school);
+    public School addSchool(@NonNull @RequestBody School school) {
+        return schoolService.addSchool(school);
     }
 
     @GetMapping
@@ -31,8 +28,8 @@ public class SchoolController {
     }
 
     @GetMapping(path = "/id/{id}")
-    public School getSchoolById(@PathVariable("id") ObjectId id) {
-        return schoolService.getSchoolById(id);
+    public School getSchoolById(@PathVariable("id") String id) {
+        return schoolService.getSchoolById(id).orElse(null);
     }
 
     @GetMapping(path = "/name/{schoolName}")
@@ -41,12 +38,12 @@ public class SchoolController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deletePersonById(@PathVariable("id") ObjectId id) {
+    public void deletePersonById(@PathVariable("id") String id) {
         schoolService.deleteSchool(id);
     }
 
     @PutMapping(path = "{specific}")
-    public void updateSchoolName(@PathVariable("specific") String specific, @NonNull @RequestParam("id") ObjectId id, @NonNull @RequestParam("update") String update) {
+    public void updateSchoolName(@PathVariable("specific") String specific, @NonNull @RequestParam("id") String id, @NonNull @RequestParam("update") String update) {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
     }
