@@ -11,9 +11,6 @@ import java.util.List;
 
 
 @NoArgsConstructor
-//@AllArgsConstructor
-@Getter
-//@Setter
 @Document(collection = "schools")
 public class School {
 
@@ -55,6 +52,14 @@ public class School {
         this.administrators.add(creator);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -63,7 +68,52 @@ public class School {
         this.name = name;
     }
 
+    public String getState() {
+        return state;
+    }
+
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public List<String> getAdministrators() {
+        return administrators;
+    }
+
+    public void setAdministrators(List<String> administrators) {
+        this.administrators = administrators;
+    }
+
 }

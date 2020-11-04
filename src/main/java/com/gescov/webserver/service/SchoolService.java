@@ -28,7 +28,7 @@ public class SchoolService {
     }
 
     public School getSchoolByName(String schoolName) {
-        return schoolDao.findAllByName(schoolName);
+        return schoolDao.findByName(schoolName);
     }
 
     public void deleteSchool(String id) {
