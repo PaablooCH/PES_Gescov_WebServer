@@ -1,16 +1,19 @@
 package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.bson.types.ObjectId;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 
-//@Document(collection = "subject")
+@NoArgsConstructor
+//@AllArgsConstructor
+@Document(collection = "subjects")
 public class Subject {
     @Id
-    private ObjectId id;
+    private String id;
 
     @NotNull
     private String name;
@@ -18,11 +21,8 @@ public class Subject {
     @DBRef
     private School school;
 
-    public Subject() {
 
-    }
-
-    public Subject(@JsonProperty("_id") ObjectId id, @JsonProperty("name") String name, final School school) {
+    public Subject(@JsonProperty("_id") String id, @JsonProperty("name") String name, final School school) {
         this.id = id;
         this.name = name;
         this.school = school;
@@ -32,9 +32,9 @@ public class Subject {
 
     public void setSchool(School school) { this.school = school; }
 
-    public ObjectId getId() {return id;}
+    public String getId() {return id;}
 
-    public void setId(ObjectId id) {this.id = id;}
+    public void setId(String id) {this.id = id;}
 
     public String getName() { return name; }
 
