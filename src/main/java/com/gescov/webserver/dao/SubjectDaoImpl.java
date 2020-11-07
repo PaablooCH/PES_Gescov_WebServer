@@ -1,5 +1,5 @@
 package com.gescov.webserver.dao;
-
+/*
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Updates.set;
 
 
 @Repository("subjectMongo")
-public class SubjectMongoDB implements SubjectDao {
+public class SubjectDaoImpl implements SubjectDaoCustom {
 
     @Qualifier("mongoClient")
     @Autowired
@@ -27,7 +27,7 @@ public class SubjectMongoDB implements SubjectDao {
 
     @PostConstruct
     void init() {
-        subjectCollection = client.getDatabase("Gescov").getCollection("subject", Subject.class);
+        subjectCollection = client.getDatabase("Gescov").getCollection("subjects", Subject.class);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class SubjectMongoDB implements SubjectDao {
         return 1;
     }
 
+    /*
     @Override
     public List<Subject> selectAllSubjects() {
         List<Subject> allSubjects = new ArrayList<>();
@@ -84,4 +85,5 @@ public class SubjectMongoDB implements SubjectDao {
         subjectCollection.findOneAndUpdate(eq("name", name), set("name", subject.getName()));
         return 1;
     }
-}
+}*/
+ 

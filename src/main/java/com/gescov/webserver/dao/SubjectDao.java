@@ -1,21 +1,16 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Subject;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface SubjectDao {
+@Repository
+public interface SubjectDao extends MongoRepository<Subject, String> {
 
-    int insertSubject(Subject subject);
+    List<Subject> findAllBySchool(String school);
 
-    List<Subject> selectAllSubjects();
-
-    List<Subject> selectSubjectsBySchool(String school);
-
-    List<Subject> selectSubjectsByName(String name);
-
-    int deleteSubject(String name);
-
-    int updateSubject(String name, Subject subject);
+    List<Subject> findAllByName(String name);
 
 }

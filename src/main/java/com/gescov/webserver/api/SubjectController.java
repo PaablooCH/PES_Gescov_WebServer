@@ -9,23 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/subject")
 @RestController
 public class SubjectController {
 
-    private final SubjectService subjectService;
-
     @Autowired
-    public SubjectController(SubjectService subjectService) {
-        this.subjectService = subjectService;
-    }
+    SubjectService subjectService;
 
     @PostMapping
-    public Subject addSubject(@NonNull @RequestBody Subject subject){
-
-        subjectService.addSubject(subject);
-        return subject;
+    public Subject addSubject(@NonNull @RequestBody Subject subject) {
+        return subjectService.addSubject(subject);
     }
 
     @GetMapping
@@ -33,8 +28,11 @@ public class SubjectController {
         return subjectService.getAllSubject();
     }
 
+    @GetMapping(path = "/id")
+    public Optional<Subject> getSubjectById(@NonNull @RequestParam("id") String id) { return subjectService.findById(id); }
+
     @GetMapping(path = "{specific}")
-    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("nombre") String nombre){
+    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String nombre){
         List<Subject> returned = new ArrayList<>();
         if(specific.equals("schools")) returned =  subjectService.getSubjectBySchool(nombre);
         if(specific.equals("names")) returned = subjectService.getSubjectByName(nombre);
@@ -42,12 +40,12 @@ public class SubjectController {
     }
 
     @DeleteMapping
-    public void deleteSubject(@NonNull @RequestParam("name") String name){
-        subjectService.deleteSubject(name);
+    public void deleteSubject(@NonNull @RequestParam("id") String id){
+        subjectService.deleteSubject(id);
     }
 
     @PutMapping
-    public void updateSubject(@NonNull @RequestParam ("name") String name, @NonNull @RequestBody Subject subject){
-        subjectService.updateSubject(name, subject);
+    public void updateSubject(@NonNull @RequestParam ("id") String id, @NonNull @RequestBody String name){
+        subjectService.updateSubject(id, name);
     }
 }
