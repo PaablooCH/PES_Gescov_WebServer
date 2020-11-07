@@ -15,8 +15,8 @@ public class SubjectService {
     @Autowired
     SubjectDao subjectDao;
 
-    public int addSubject(Subject subject){
-        return subjectDao.insertSubject(subject);
+    public Subject addSubject(Subject subject){
+        return subjectDao.insert(subject);
     }
 
     public List<Subject> getAllSubject() { return subjectDao.findAll(); }

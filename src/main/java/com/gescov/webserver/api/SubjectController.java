@@ -20,8 +20,7 @@ public class SubjectController {
 
     @PostMapping
     public Subject addSubject(@NonNull @RequestBody Subject subject) {
-        subjectService.addSubject(subject);
-        return subject;
+        return subjectService.addSubject(subject);
     }
 
     @GetMapping

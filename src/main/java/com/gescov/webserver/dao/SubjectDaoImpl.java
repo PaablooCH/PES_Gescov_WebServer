@@ -1,5 +1,5 @@
 package com.gescov.webserver.dao;
-
+/*
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Subject;
 import com.mongodb.client.FindIterable;
@@ -84,6 +84,6 @@ public class SubjectDaoImpl implements SubjectDaoCustom {
     public int updateSubject(String name, Subject subject) {
         subjectCollection.findOneAndUpdate(eq("name", name), set("name", subject.getName()));
         return 1;
-    }*/
-}
+    }
+}*/
  
