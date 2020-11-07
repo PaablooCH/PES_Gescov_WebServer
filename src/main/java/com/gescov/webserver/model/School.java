@@ -6,30 +6,38 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @NoArgsConstructor
+@Setter
+@Getter
 @Document(collection = "schools")
 public class School {
 
     @Id
     private String id;
 
+    @NotNull(message = "School's creator must not be null")
     @Indexed(unique = true)
     private String name;
 
     private String state;
 
-    @NonNull
+    @NotNull(message = "School's address must not be null")
     private String address;
 
-    private float longitude;
+    private float longitude = (float)0.0;
 
-    private float latitude;
+    private float latitude= (float)0.0;
 
-    @NonNull
+    private String phone;
+
+    private String website;
+
+    @NotNull(message = "School's creator must not be null")
     private String creator;
 
     private List<String> administrators;
@@ -40,6 +48,8 @@ public class School {
                   @JsonProperty("address") String address,
                   @JsonProperty("longitude") float longitude,
                   @JsonProperty("latitude") float latitude,
+                  @JsonProperty("phone") String phone,
+                  @JsonProperty("website") String website,
                   @JsonProperty("creator") String creator) {
         this.id = id;
         this.name = name;
@@ -47,73 +57,11 @@ public class School {
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.phone = phone;
+        this.website = website;
         this.creator = creator;
         this.administrators = new ArrayList<>();
         this.administrators.add(creator);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public List<String> getAdministrators() {
-        return administrators;
-    }
-
-    public void setAdministrators(List<String> administrators) {
-        this.administrators = administrators;
     }
 
 }

@@ -1,24 +1,27 @@
 package com.gescov.webserver.api;
 
-import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.service.SchoolService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RequestMapping("api/school")
 @RestController
 public class SchoolController {
 
+    private final SchoolService schoolService;
+
     @Autowired
-    SchoolService schoolService;
+    public SchoolController(SchoolService schoolService) {
+        this.schoolService = schoolService;
+    }
+
 
     @PostMapping
-    public School addSchool(@NonNull @RequestBody School school) {
+    public School addSchool(@RequestBody School school) {
         return schoolService.addSchool(school);
     }
 
@@ -43,7 +46,7 @@ public class SchoolController {
     }
 
     @PutMapping(path = "{specific}")
-    public void updateSchoolName(@PathVariable("specific") String specific, @NonNull @RequestParam("id") String id, @NonNull @RequestParam("update") String update) {
+    public void updateSchoolName(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
     }

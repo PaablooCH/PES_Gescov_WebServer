@@ -2,6 +2,7 @@ package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.School;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

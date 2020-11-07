@@ -12,8 +12,13 @@ import java.util.Optional;
 @Service
 public class SchoolService {
 
+    private final SchoolDao schoolDao;
+
     @Autowired
-    SchoolDao schoolDao;
+    public SchoolService(SchoolDao schoolDao) {
+        this.schoolDao = schoolDao;
+    }
+
 
     public School addSchool(School school) {
         return schoolDao.insert(school);
@@ -39,14 +44,14 @@ public class SchoolService {
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
         s.get().setName(update);
-        schoolDao.insert(s.get());
+        schoolDao.save(s.get());
     }
 
     public void updateSchoolState(String id, String update) {
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
         s.get().setState(update);
-        schoolDao.insert(s.get());
+        schoolDao.save(s.get());
     }
 
 }
