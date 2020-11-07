@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Updates.set;
 
 
 @Repository("subjectMongo")
-public class SubjectDaoImpl implements SubjectDaoCustom {
+public class SubjectCustomizedMongoRepositoryImpl<T,ID> implements SubjectCustomizedMongoRepository<T,ID> {
 
     @Qualifier("mongoClient")
     @Autowired
