@@ -30,17 +30,17 @@ public class ClassroomService {
         return classroomDao.findAll();
     }
 
-    /*public List<Classroom> getSchoolClassrooms(String schoolName) {
+    public List<Classroom> getSchoolClassrooms(String schoolName) {
         return classroomDao.selectSchoolClassrooms(schoolName);
-    }*/
+    }
 
     public Optional<Classroom> getClassroomById(String id) {
         return classroomDao.findById(id);
     }
 
-    /*public Pair<Integer, Integer> getClassroomDistributionById(ObjectId id) {
+    public Pair<Integer, Integer> getClassroomDistributionById(String id) {
         return classroomDao.selectClassroomDistributionById(id);
-    }*/
+    }
 
     public void deleteClassroom(String id) {
         classroomDao.deleteById(id);

@@ -3,6 +3,7 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,18 +31,18 @@ public class ClassroomController {
         return classroomService.getAllClassrooms();
     }
 
-    /*@GetMapping(path = "/school/{schoolName}")
+    @GetMapping(path = "/school/{schoolName}")
     public List<Classroom> getSchoolClassrooms(@PathVariable("schoolName") String schoolName)  {
         return classroomService.getSchoolClassrooms(schoolName);
-    }*/
+    }
 
     @GetMapping(path = "{id}")
     public Classroom getClassroomById(@PathVariable("id") String id)  {
         return classroomService.getClassroomById(id).orElse(null);
     }
 
-    //@GetMapping(path = "/distribution")
-    //public Pair<Integer, Integer> getClassroomDistributionById(@NonNull @RequestParam("id") ObjectId id) { return classroomService.getClassroomDistributionById(id); }
+    @GetMapping(path = "/distribution")
+    public Pair<Integer, Integer> getClassroomDistributionById(@NonNull @RequestParam("id") String id) { return classroomService.getClassroomDistributionById(id); }
 
     @DeleteMapping(path = "{id}")
     public void deleteClassroomById(@PathVariable("id") String id) {
