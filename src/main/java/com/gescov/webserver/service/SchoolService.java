@@ -12,8 +12,13 @@ import java.util.Optional;
 @Service
 public class SchoolService {
 
+    private final SchoolDao schoolDao;
+
     @Autowired
-    SchoolDao schoolDao;
+    public SchoolService(SchoolDao schoolDao) {
+        this.schoolDao = schoolDao;
+    }
+
 
     public School addSchool(School school) {
         return schoolDao.insert(school);
