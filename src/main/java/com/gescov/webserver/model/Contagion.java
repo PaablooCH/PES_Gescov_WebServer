@@ -1,27 +1,34 @@
 package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.bson.types.ObjectId;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@Getter
+@Setter
+@Document(collection = "contagion")
 public class Contagion {
 
     @Id
-    private ObjectId id;
+    private String id;
 
-    private LocalDate startContagion; //Primary key
+    private LocalDate startContagion;
 
     private LocalDate endContagion;
 
-    @DBRef
+    @DBRef(db = "users")
     User infected;
 
-    public Contagion() {}
-
-    public Contagion(@JsonProperty("_id") ObjectId id,
+    public Contagion(@JsonProperty("_id") String id,
                      @JsonProperty("infected") final User infected) {
         this.id = id;
         this.infected = infected;
@@ -29,34 +36,4 @@ public class Contagion {
         this.endContagion = null;
     }
 
-    public Contagion(ObjectId id, User nameInfected, LocalDate startContagion, LocalDate endContagion) {
-        this.id = id;
-        this.infected = nameInfected;
-        this.startContagion = startContagion;
-        this.endContagion = endContagion;
-    }
-
-    public LocalDate getStartContagion() {
-        return startContagion;
-    }
-
-    public LocalDate getEndContagion() {
-        return endContagion;
-    }
-
-    public User getInfected() { return infected; }
-
-    public ObjectId getId() { return id; }
-
-    public void setStartContagion(LocalDate startContagion) {
-        this.startContagion = startContagion;
-    }
-
-    public void setEndContagion(@JsonProperty("endContagion") LocalDate endContagion) {
-        this.endContagion = endContagion;
-    }
-
-    public void setInfected(User infected) { this.infected = infected; }
-
-    public void setId(ObjectId id) { this.id = id; }
 }
