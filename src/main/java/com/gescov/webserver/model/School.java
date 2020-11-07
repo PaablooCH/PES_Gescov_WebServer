@@ -21,7 +21,7 @@ public class School {
     private String id;
 
     @NotNull(message = "School's creator must not be null")
-    @Indexed(unique = true)
+    @Indexed(name = "no_same_school", unique = true)
     private String name;
 
     private String state;
