@@ -1,33 +1,43 @@
 package com.gescov.webserver.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.bson.types.ObjectId;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-//@Document(collection = "classrooms")
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+@NoArgsConstructor
+@Setter
+@Getter
+@Document(collection = "classrooms")
 public class Classroom {
 
     @Id
-    private ObjectId id;
+    private String id;
 
-    @Id
+    @NotNull(message = "Classrooms' name must not be null")
+    @Indexed(unique = true)
     private String name;
 
+    @Min(1)
     private int capacity;
 
+    @Min(1)
     private int numRows;
 
+    @Min(1)
     private int numCols;
 
     @DBRef
     private School school;
 
-    public Classroom() {
-
-    }
-
-    public Classroom(@JsonProperty("id") ObjectId id,
+    public Classroom(@JsonProperty("id") String id,
                      @JsonProperty("name") String name,
                      @JsonProperty("capacity") int capacity,
                      @JsonProperty("numRows") int numRows,
@@ -41,51 +51,4 @@ public class Classroom {
         this.school = school;
     }
 
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getNumRows() {
-        return numRows;
-    }
-
-    public void setNumRows(int numRows) {
-        this.numRows = numRows;
-    }
-
-    public int getNumCols() {
-        return numCols;
-    }
-
-    public void setNumCols(int numCols) {
-        this.numCols = numCols;
-    }
-
-    public School getSchool() {
-        return school;
-    }
-
-    public void setSchool(School school) {
-        this.school = school;
-    }
 }

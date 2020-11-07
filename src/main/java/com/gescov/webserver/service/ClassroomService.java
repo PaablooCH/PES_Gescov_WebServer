@@ -1,14 +1,15 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.ClassroomDao;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassroomService {
@@ -16,48 +17,61 @@ public class ClassroomService {
     private final ClassroomDao classroomDao;
 
     @Autowired
-    public ClassroomService(@Qualifier("classroomMongo")ClassroomDao classroomDao) {
+    public ClassroomService(ClassroomDao classroomDao) {
         this.classroomDao = classroomDao;
     }
 
-    public int addClassroom(Classroom classroom) {
-        return classroomDao.insertClassroom(classroom);
+
+    public Classroom addClassroom(Classroom classroom) {
+        return classroomDao.insert(classroom);
     }
 
     public List<Classroom> getAllClassrooms() {
-        return classroomDao.selectAllClassrooms();
+        return classroomDao.findAll();
     }
 
-    public List<Classroom> getSchoolClassrooms(String schoolName) {
+    /*public List<Classroom> getSchoolClassrooms(String schoolName) {
         return classroomDao.selectSchoolClassrooms(schoolName);
+    }*/
+
+    public Optional<Classroom> getClassroomById(String id) {
+        return classroomDao.findById(id);
     }
 
-    public Classroom getClassroomById(ObjectId id) {
-        return classroomDao.selectClassroomById(id);
-    }
-
-    public Pair<Integer, Integer> getClassroomDistributionById(ObjectId id) {
+    /*public Pair<Integer, Integer> getClassroomDistributionById(ObjectId id) {
         return classroomDao.selectClassroomDistributionById(id);
+    }*/
+
+    public void deleteClassroom(String id) {
+        classroomDao.deleteById(id);
     }
 
-    public int deleteClassroom(ObjectId id) {
-        return classroomDao.deleteClassroomById(id);
+    public void updateClassroomCapacity(String id, int capacity) {
+        Optional<Classroom> s = classroomDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        s.get().setCapacity(capacity);
+        classroomDao.save(s.get());
     }
 
-    public int updateClassroomCapacity(ObjectId id, int capacity) {
-        return classroomDao.updateClassroomCapacityById(id, capacity);
+    public void updateClassroomName(String id, String name) {
+        Optional<Classroom> s = classroomDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        s.get().setName(name);
+        classroomDao.save(s.get());
     }
 
-    public int updateClassroomName(ObjectId id, String name) {
-        return classroomDao.updateClassroomNameById(id, name);
+    public void updateClassroomNumRows(String id, int numRows) {
+        Optional<Classroom> s = classroomDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        s.get().setNumRows(numRows);
+        classroomDao.save(s.get());
     }
 
-    public int updateClassroomNumRows(ObjectId id, int numRows) {
-        return classroomDao.updateClassroomNumRowsById(id, numRows);
-    }
-
-    public int updateClassroomNumCols(ObjectId id, int numCols) {
-        return classroomDao.updateClassroomNumColsById(id, numCols);
+    public void updateClassroomNumCols(String id, int numCols) {
+        Optional<Classroom> s = classroomDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        s.get().setNumCols(numCols);
+        classroomDao.save(s.get());
     }
 
 }

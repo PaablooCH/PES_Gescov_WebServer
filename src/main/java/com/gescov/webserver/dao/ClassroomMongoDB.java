@@ -1,6 +1,6 @@
 package com.gescov.webserver.dao;
 
-import com.gescov.webserver.exception.AlreadyExistsException;
+/*import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
 import com.mongodb.client.FindIterable;
@@ -102,4 +102,4 @@ public class ClassroomMongoDB implements ClassroomDao {
         return 1;
     }
 
-}
+}*/

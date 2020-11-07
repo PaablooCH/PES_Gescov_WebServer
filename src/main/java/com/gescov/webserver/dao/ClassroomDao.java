@@ -1,33 +1,20 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Classroom;
+import com.gescov.webserver.model.School;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ClassroomDao {
+@Repository
+public interface ClassroomDao extends MongoRepository<Classroom, String> {
 
-    int insertClassroom(Classroom classroom);
+    //List<Classroom> selectSchoolClassrooms(String schoolName);
 
-    List<Classroom> selectAllClassrooms();
-
-    List<Classroom> selectSchoolClassrooms(String schoolName);
-
-    Classroom selectClassroomById(ObjectId id);
-
-    Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id);
-
-    int deleteClassroomById(ObjectId id);
-
-    int updateClassroomNameById(ObjectId id, String name);
-
-    int updateClassroomCapacityById(ObjectId id, int capacity);
-
-    int updateClassroomNumRowsById(ObjectId id, int numCols);
-
-    int updateClassroomNumColsById(ObjectId id, int numCols);
-
+    //Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id);
 
 }
 
