@@ -15,8 +15,10 @@ import java.util.Optional;
 @RestController
 public class SubjectController {
 
+    private final SubjectService subjectService;
+
     @Autowired
-    SubjectService subjectService;
+    public SubjectController(SubjectService subjectService) { this.subjectService = subjectService; }
 
     @PostMapping
     public Subject addSubject(@NonNull @RequestBody Subject subject) {

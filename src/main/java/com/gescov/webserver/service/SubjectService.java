@@ -12,8 +12,10 @@ import java.util.Optional;
 @Service
 public class SubjectService {
 
+    private final SubjectDao subjectDao;
+
     @Autowired
-    SubjectDao subjectDao;
+    public SubjectService(SubjectDao subjectDao) { this.subjectDao = subjectDao; }
 
     public Subject addSubject(Subject subject){
         return subjectDao.insert(subject);
