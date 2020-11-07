@@ -3,8 +3,6 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.ContagionDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
-import com.gescov.webserver.model.Subject;
-import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,22 +21,18 @@ public class ContagionService {
     }
 
     public Contagion addContagion(Contagion contagion) {
-        //comprobar si existe ya el contagion
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(contagion.getInfected().getId());
         return contagionDao.insert(contagion);
     }
 
     public List<Contagion> getAllContagion() { return contagionDao.findAll(); }
 
-    public void updateContagion(String idInfected) {
-        FindIterable<Contagion> con = contagionDao.findAllByInfected(idInfected);
-        for (Contagion cr : con) {
-            if (cr.getEndContagion() == null) {
-                cr.setEndContagion(LocalDate.now());
-                contagionDao.insert(cr);
-                return;
-            }
-        }
-        throw new NotFoundException("Contagion with 'id'" + idInfected + "is not infected!");
+    public void updateContagion(String infectedId) {
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(infectedId);
+        if (con.isEmpty()) throw new NotFoundException("Contagion with 'id'" + infectedId + "is not infected!");
+        con.get().setEndContagion(LocalDate.now());
+        contagionDao.insert(con.get());
+        return;
     }
 
     //falta comprobar el centro del usuario etc
