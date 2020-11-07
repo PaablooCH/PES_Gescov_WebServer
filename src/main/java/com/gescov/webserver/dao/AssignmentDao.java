@@ -1,27 +1,20 @@
 package com.gescov.webserver.dao;
 
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.School;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.expression.spel.ast.Assign;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface AssignmentDao {
+@Repository
+public interface AssignmentDao extends MongoRepository<Assignment, String>, AssignmentDaoCustom{
 
-    int insertAssignment(Assignment assignment);
+    /*List<Assignment> findByClassroomDate(String idClassroom, String date, String hour);
 
-    List<Assignment> selectAllAssignment();
+    List<Assignment> findByClassroom(String nameClass);
 
-    int deleteAssignment(ObjectId id);
-
-    int updateAssignmentRow(ObjectId id, int posRow);
-
-    int updateAssignmentCol(ObjectId id, int posCol);
-
-    List<Assignment> selectAssignmentBySchool(String nameCen);
-
-    List<Assignment> getAssignmentByClassroom(String nameClass);
-
-    List<Assignment> getAssignmentByClassId(ObjectId id);
-
-    List<Assignment> getAssignmentByClassroomDate(ObjectId idClassroom, String date, String hour);
+    List<Assignment> findByClassId(String idClassroom);*/
 }
