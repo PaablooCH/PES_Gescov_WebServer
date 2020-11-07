@@ -10,11 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClassroomDao extends MongoRepository<Classroom, String> {
-
-    //List<Classroom> selectSchoolClassrooms(String schoolName);
-
-    //Pair<Integer, Integer> selectClassroomDistributionById(ObjectId id);
+public interface ClassroomDao extends MongoRepository<Classroom, String>, ClassroomCustomizedMongoRepository<Classroom, String> {
 
 }
 

@@ -34,7 +34,7 @@ public class Classroom {
     @Min(1)
     private int numCols;
 
-    @DBRef
+    @DBRef(db = "schools")
     private School school;
 
     public Classroom(@JsonProperty("id") String id,
