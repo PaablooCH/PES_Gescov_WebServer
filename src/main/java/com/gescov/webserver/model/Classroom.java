@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +16,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Setter
 @Getter
+@CompoundIndexes({
+        @CompoundIndex(name="classAtSchoolExists", def = "{'name' : 1, 'school.id' : 1}", unique = true)
+})
 @Document(collection = "classrooms")
 public class Classroom {
 
@@ -22,7 +26,6 @@ public class Classroom {
     private String id;
 
     @NotNull(message = "Classrooms' name must not be null")
-    @Indexed(unique = true)
     private String name;
 
     @Min(1)
@@ -36,6 +39,7 @@ public class Classroom {
 
     @DBRef(db = "schools")
     private School school;
+
 
     public Classroom(@JsonProperty("id") String id,
                      @JsonProperty("name") String name,

@@ -1,5 +1,5 @@
-package com.gescov.webserver.dao;
-
+package com.gescov.webserver.dao.contagion;
+/*
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
@@ -19,7 +19,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
 
 @Repository("contagionMongo")
-public class ContagionMongoDB implements ContagionDao{
+public class ContagionDaoImpl implements ContagionDaoCustom{
 
     @Qualifier("mongoClient")
     @Autowired
@@ -60,12 +60,12 @@ public class ContagionMongoDB implements ContagionDao{
     }
 
     @Override
-    public int updateContagion(String nameInfected) { //Eficiente Funciona// @Pablo CH
+    public void updateContagion(String nameInfected) { //Eficiente Funciona// @Pablo CH
         FindIterable<Contagion> result = contagionCollection.find(eq("infected.name",nameInfected));
         for (Contagion cr : result) {
             if (cr.getEndContagion() == null) {
                 contagionCollection.findOneAndUpdate(eq("_id", cr.getId()), set("endContagion", LocalDate.now()));
-                return 1;
+                return;
             }
         }
         throw new NotFoundException(nameInfected + " is not infected at this moment");
@@ -83,4 +83,4 @@ public class ContagionMongoDB implements ContagionDao{
         return nowContagion;
     }
 
-}
+}*/
