@@ -1,6 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.UserDao;
+import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

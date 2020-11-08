@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.user;
 
 import com.gescov.webserver.model.School;
 

@@ -1,6 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.SchoolDao;
+import com.gescov.webserver.dao.school.SchoolDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
 import org.springframework.beans.factory.annotation.Autowired;
