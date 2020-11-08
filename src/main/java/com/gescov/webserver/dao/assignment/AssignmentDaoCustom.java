@@ -1,9 +1,5 @@
 package com.gescov.webserver.dao.assignment;
 
-import com.gescov.webserver.model.Assignment;
-
-import java.util.List;
-
 public interface AssignmentDaoCustom {
 
     /*List<Assignment> findByClassroomDate(String idClassroom, String date, String hour);
