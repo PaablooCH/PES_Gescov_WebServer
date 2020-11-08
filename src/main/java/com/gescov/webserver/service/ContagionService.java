@@ -1,6 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.ContagionDao;
+import com.gescov.webserver.dao.contagion.ContagionDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
 import org.springframework.beans.factory.annotation.Autowired;

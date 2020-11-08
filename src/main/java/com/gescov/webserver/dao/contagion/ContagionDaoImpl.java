@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.contagion;
 /*
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;

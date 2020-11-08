@@ -1,7 +1,6 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.contagion;
 
 import com.gescov.webserver.model.Contagion;
-import com.mongodb.client.FindIterable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

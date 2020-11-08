@@ -1,6 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.AssignmentDao;
+import com.gescov.webserver.dao.assignment.AssignmentDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;

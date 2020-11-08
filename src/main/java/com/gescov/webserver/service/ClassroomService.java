@@ -1,9 +1,8 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.ClassroomDao;
+import com.gescov.webserver.dao.classroom.ClassroomDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;

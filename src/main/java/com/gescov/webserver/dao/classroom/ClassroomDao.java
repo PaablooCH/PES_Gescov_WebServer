@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.classroom;
 
 import com.gescov.webserver.model.Classroom;
 import org.springframework.data.mongodb.repository.MongoRepository;
