@@ -1,5 +1,5 @@
 package com.gescov.webserver.dao;
-
+/*
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
@@ -58,4 +58,4 @@ public class UserMongoDB implements UserDao {
         return u;
     }
 
-}
+}*/

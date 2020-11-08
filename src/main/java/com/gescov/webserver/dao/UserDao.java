@@ -1,18 +1,10 @@
 package com.gescov.webserver.dao;
 
-import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
-import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface UserDao extends MongoRepository<User, String>, UserCustomizedMongoRepository<User, String> {
 
-public interface UserDao {
-
-    int insertUser(User user);
-
-    List<User> selectAllUsers();
-
-    User selectUserById(ObjectId id);
-
-    List<School> getUserSchools(ObjectId id);
 }
