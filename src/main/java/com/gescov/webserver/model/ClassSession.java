@@ -32,7 +32,7 @@ public class ClassSession {
     @DBRef(db = "subjects")
     private Subject subject;
 
-    @DBRef(db = "user")
+    @DBRef(db = "users")
     private User teacher;
 
     @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
