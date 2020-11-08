@@ -13,4 +13,7 @@ public interface ContagionDao extends MongoRepository<Contagion, String>, Contag
     List<Contagion> selectNowContagion(String nameCen);
 
     Optional<Contagion> findByEndContagionNullAndInfected_Id(String infectedId);
+
+    List<Contagion> findByInfectedSchools(String idSchool); //revisar esta funcion que pide una lista de Schools
+
 }

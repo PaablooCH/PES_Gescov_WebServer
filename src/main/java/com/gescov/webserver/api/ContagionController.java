@@ -32,6 +32,11 @@ public class ContagionController {
         return returned;
     }*/
 
+    @GetMapping(path = "/now")
+    public List<Contagion> getContagionNow(@RequestParam("idCen") String idCen) {
+        return contagionService.getNowContagion(idCen);
+    }
+
     @PutMapping
     public void updateContagion(@RequestParam("nameInfected") String nameInfected) {
         contagionService.updateContagion(nameInfected);

@@ -32,9 +32,10 @@ public class ContagionService {
         if (con.isEmpty()) throw new NotFoundException("Contagion with 'id'" + infectedId + "is not infected!");
         con.get().setEndContagion(LocalDate.now());
         contagionDao.insert(con.get());
-        return;
     }
 
-    //falta comprobar el centro del usuario etc
-    //public List<Contagion> getNowContagion(String idCen) { return contagionDao.selectNowContagion(idCen); }
+    public List<Contagion> getNowContagion(String idSchool) {
+        return contagionDao.findByInfectedSchools(idSchool); //revisar esta funcion que pide una lista de Schools
+    }
+
 }
