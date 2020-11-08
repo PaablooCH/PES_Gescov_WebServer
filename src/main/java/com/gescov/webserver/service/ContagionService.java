@@ -22,7 +22,7 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(contagion.getInfected().getId());
-        if (con.isPresent()) throw new NotFoundException("Contagion with 'id'" + contagion.getInfected().getId() + "is already infected!");
+        if (con.isPresent()) throw new NotFoundException("Contagion with 'id' " + contagion.getInfected().getId() + " is already infected!");
         return contagionDao.insert(contagion);
     }
 
@@ -30,9 +30,10 @@ public class ContagionService {
 
     public void updateContagion(String infectedId) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(infectedId);
-        if (con.isEmpty()) throw new NotFoundException("Contagion with 'id'" + infectedId + "is not infected!");
+        if (con.isEmpty()) throw new NotFoundException("Contagion with 'id' " + infectedId + " is not infected!");
+        System.out.println(con.get().getId());
         con.get().setEndContagion(LocalDate.now());
-        contagionDao.insert(con.get());
+        contagionDao.save(con.get());
     }
 
     public List<Contagion> getNowContagion(String idSchool) {

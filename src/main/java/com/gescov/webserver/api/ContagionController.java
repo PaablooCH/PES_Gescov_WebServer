@@ -38,8 +38,8 @@ public class ContagionController {
     }
 
     @PutMapping
-    public void updateContagion(@RequestParam("nameInfected") String nameInfected) {
-        contagionService.updateContagion(nameInfected);
+    public void updateContagion(@RequestParam("infectedId") String infectedId) {
+        contagionService.updateContagion(infectedId);
     }
 
 }
