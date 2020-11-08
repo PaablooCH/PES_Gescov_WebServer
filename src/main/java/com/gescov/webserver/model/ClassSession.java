@@ -3,24 +3,36 @@ package com.gescov.webserver.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.lang.NonNull;
+import lombok.Generated;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-
-//@Document(collection = "classSession")
+@NoArgsConstructor
+@Setter
+@Getter
+@Document(collection = "classSession")
+@CompoundIndexes({
+        @CompoundIndex(name="classroom_hour_date_indx", def = "{'classroom.id' : 1, 'hour' : 1, 'date' : 1}" ,unique = true)
+})
 public class ClassSession {
 
     @Id
-    private ObjectId id;
+    private String id;
 
-    @DBRef
+    @DBRef(db = "classrooms")
     private Classroom classroom;
 
-    @DBRef
+    @DBRef(db = "subjects")
     private Subject subject;
 
-    @DBRef
+    @DBRef(db = "user")
     private User teacher;
 
     @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
@@ -29,11 +41,8 @@ public class ClassSession {
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private String date;
 
-    public ClassSession() {
 
-    }
-
-    public ClassSession(@JsonProperty ("_id") ObjectId id, @JsonProperty("classroom") final Classroom classroom,
+    public ClassSession(@JsonProperty ("_id") String id, @JsonProperty("classroom") final Classroom classroom,
                         @JsonProperty("subject") final Subject subject, @JsonProperty ("teacher") final User teacher,
                         @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
         this.id = id;
@@ -44,53 +53,4 @@ public class ClassSession {
         this.date = date;
     }
 
-    public User getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
-    }
-
-    public Classroom getClassroom() {
-        return classroom;
-    }
-
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    @NonNull
-    public String getHora() {
-        return hour;
-    }
-
-    public void setHora(String hora) {
-        hour = hora;
-    }
-
-    @NonNull
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 }

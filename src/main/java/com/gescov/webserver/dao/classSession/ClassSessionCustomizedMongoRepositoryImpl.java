@@ -1,5 +1,5 @@
-package com.gescov.webserver.dao;
-
+package com.gescov.webserver.dao.classSession;
+/*
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.ClassSession;
 import com.mongodb.client.FindIterable;
@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
 
 @Repository("classSessionMongo")
-public class ClassSessionMongoDB implements ClassSessionDao{
+public class ClassSessionCustomizedMongoRepositoryImpl<T,ID> implements ClassSessionCustomizedMongoRepository<T,ID>{
 
     @Qualifier("mongoClient")
     @Autowired
@@ -126,3 +126,4 @@ public class ClassSessionMongoDB implements ClassSessionDao{
         return 1;
     }
 }
+ */

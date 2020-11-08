@@ -16,7 +16,6 @@ public class ClassSessionController {
 
     private final ClassSessionService sessionService;
 
-
     @Autowired
     public ClassSessionController(ClassSessionService sessionService) {
         this.sessionService = sessionService;
@@ -44,12 +43,13 @@ public class ClassSessionController {
     }
 
     @DeleteMapping
-    public void deleteSubject(@NonNull @RequestParam("id")ObjectId id){
+    public void deleteSubject(@NonNull @RequestParam("id")String id){
         sessionService.deleteSession(id);
     }
-
+/*
     @PutMapping
     public void updateSubject(@NonNull @RequestParam ("id") ObjectId id, @NonNull @RequestBody ClassSession session){
         sessionService.updateSubject(id, session);
     }
+ */
 }
