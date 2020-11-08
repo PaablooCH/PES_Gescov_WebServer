@@ -18,7 +18,7 @@ public class ContagionController {
     public ContagionController(ContagionService contagionService) { this.contagionService = contagionService; }
 
     @PostMapping
-    public Contagion addContagion(@NonNull @RequestBody Contagion contagion) { return contagionService.addContagion(contagion); }
+    public void addContagion(@NonNull @RequestBody Contagion contagion) { contagionService.addContagion(contagion); }
 
     @GetMapping
     public List<Contagion> getAllContagion() {
@@ -38,8 +38,8 @@ public class ContagionController {
     }
 
     @PutMapping
-    public void updateContagion(@RequestParam("infectedId") String infectedId) {
-        contagionService.updateContagion(infectedId);
+    public void updateContagion(@RequestParam("nameInfected") String nameInfected) {
+        contagionService.updateContagion(nameInfected);
     }
 
 }
