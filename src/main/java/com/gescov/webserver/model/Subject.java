@@ -16,10 +16,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Document(collection = "subjects")
-/*@CompoundIndexes({
+@CompoundIndexes({
         @CompoundIndex(name="subject_school_indx", def = "{'name' : 1, 'school.id' : 1}" ,unique = true)
 })
-*/
+
 public class Subject {
     @Id
     private String id;

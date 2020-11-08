@@ -31,7 +31,6 @@ public class ContagionService {
     public void updateContagion(String infectedId) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(infectedId);
         if (con.isEmpty()) throw new NotFoundException("Contagion with 'id' " + infectedId + " is not infected!");
-        System.out.println(con.get().getId());
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
     }
