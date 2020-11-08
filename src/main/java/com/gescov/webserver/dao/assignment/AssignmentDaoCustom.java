@@ -1,8 +1,4 @@
-package com.gescov.webserver.dao;
-
-import com.gescov.webserver.model.Assignment;
-
-import java.util.List;
+package com.gescov.webserver.dao.assignment;
 
 public interface AssignmentDaoCustom {
 
