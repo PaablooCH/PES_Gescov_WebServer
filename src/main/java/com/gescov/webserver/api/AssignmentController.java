@@ -3,6 +3,7 @@ package com.gescov.webserver.api;
 
 import com.gescov.webserver.model.Assignment;
 import com.gescov.webserver.service.AssignmentService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
