@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @NoArgsConstructor
 @Setter
@@ -28,14 +27,14 @@ public class User {
     private boolean risk;
 
     @DBRef(db="schools")
-    private List<School> schools;
+    private School[] schools;
 
 
     public User(@JsonProperty("id") String id,
                 @JsonProperty("name") String name,
                 @JsonProperty("email") String email,
                 @JsonProperty("risk") boolean risk,
-                @JsonProperty("schools") final List<School> schools) {
+                @JsonProperty("schools") final School[] schools) {
         this.id = id;
         this.name = name;
         this.email = email;
