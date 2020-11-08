@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.subject;
 /*
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.model.Subject;
@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Updates.set;
 
 
 @Repository("subjectMongo")
-public class SubjectDaoImpl implements SubjectDaoCustom {
+public class SubjectCustomizedMongoRepositoryImpl<T,ID> implements SubjectCustomizedMongoRepository<T,ID> {
 
     @Qualifier("mongoClient")
     @Autowired
