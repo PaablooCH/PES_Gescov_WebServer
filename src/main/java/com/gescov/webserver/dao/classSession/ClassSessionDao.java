@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao;
+package com.gescov.webserver.dao.classSession;
 
 import com.gescov.webserver.model.ClassSession;
 import org.bson.types.ObjectId;

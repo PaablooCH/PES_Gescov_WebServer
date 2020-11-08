@@ -1,16 +1,11 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.ClassSessionDao;
-import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.dao.classSession.ClassSessionDao;
 import com.gescov.webserver.model.ClassSession;
-import com.gescov.webserver.model.Subject;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClassSessionService {
