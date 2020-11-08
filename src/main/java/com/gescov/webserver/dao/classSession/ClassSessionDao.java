@@ -1,7 +1,6 @@
 package com.gescov.webserver.dao.classSession;
 
 import com.gescov.webserver.model.ClassSession;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
