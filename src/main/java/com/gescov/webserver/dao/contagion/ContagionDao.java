@@ -10,8 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom{
 
-    List<Contagion> selectNowContagion(String nameCen);
-
     Optional<Contagion> findByEndContagionNullAndInfected_Id(String infectedId);
 
     List<Contagion> findByInfectedSchools(String idSchool); //revisar esta funcion que pide una lista de Schools

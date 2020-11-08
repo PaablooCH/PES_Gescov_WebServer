@@ -22,6 +22,7 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(contagion.getInfected().getId());
+        if (con.isPresent()) throw new NotFoundException("Contagion with 'id'" + contagion.getInfected().getId() + "is already infected!");
         return contagionDao.insert(contagion);
     }
 
