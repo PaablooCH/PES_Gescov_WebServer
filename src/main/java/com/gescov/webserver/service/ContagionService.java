@@ -37,7 +37,7 @@ public class ContagionService {
 
     public List<Contagion> getNowContagion(String idSchool) {
         List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
-        if (con.isEmpty()) throw new NotFoundException("In this 'School' " + idSchool + " doesn't exists Contagions");
+        if (con.isEmpty()) throw new NotFoundException("In 'School' " + idSchool + " doesn't exists Contagions");
         return con;
     }
 
