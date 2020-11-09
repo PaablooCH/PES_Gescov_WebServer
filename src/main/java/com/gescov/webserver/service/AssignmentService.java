@@ -29,15 +29,15 @@ public class AssignmentService {
 
     public List<Assignment> getAllAssignment() { return assignmentDao.findAll(); }
 
-    /*public List<Assignment> getAssignmentByClassroom(String nameClass) {
-        return assignmentDao.findByClassroom(nameClass);
+    public List<Assignment> getAssignmentByClassroom(String classroomID) {
+        return assignmentDao.findByClassroom(classroomID);
     }
 
-    public List<Assignment> getAssignmentByClassId(String idClassroom) {
-        return assignmentDao.findByClassId(idClassroom);
+    public List<Assignment> getAssignmentByClassSessionId(String classSessionID) {
+        return assignmentDao.findAllByClassSessionID(classSessionID);
     }
 
-    public List<Assignment> getAssignmentByClassroomDate(String idClassroom, String date, String hour) {
+    /*public List<Assignment> getAssignmentByClassroomDate(String idClassroom, String date, String hour) {
         return assignmentDao.findByClassroomDate(idClassroom, date, hour);
     }*/
 }

@@ -1,92 +1,37 @@
 package com.gescov.webserver.dao.assignment;
-/*
-import com.gescov.webserver.exception.AlreadyExistsException;
+
+import com.gescov.webserver.dao.classSession.ClassSessionDao;
 import com.gescov.webserver.model.Assignment;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import org.bson.types.ObjectId;
+import com.gescov.webserver.model.ClassSession;
+import com.gescov.webserver.model.Contagion;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
-
-public class AssignmentDaoImpl implements AssignmentDaoCustom{
+@Repository("assignmentMongo")
+public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
 
     private final MongoTemplate mongoTemplate;
+    private final ClassSessionDao classSessionDao;
 
-    public AssignmentDaoImpl(MongoTemplate mongoTemplate) {
+    @Autowired
+    public AssignmentDaoImpl(MongoTemplate mongoTemplate, ClassSessionDao classSessionDao) {
         this.mongoTemplate = mongoTemplate;
+        this.classSessionDao = classSessionDao;
     }
 
     @Override
-    public int insertAssignment(Assignment assignment) { //Eficiente Funciona// @Pablo CH
-        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession", assignment.getClassSession()));
-        boolean nameRepeated = false;
-        boolean posNotValid = false;
-        for (Assignment as : result) {
-            if (as.getStudent().getName().equals(assignment.getStudent().getName())) {
-                nameRepeated = true;
-            }
-            if (as.getPosCol() == assignment.getPosCol() && as.getPosRow() == assignment.getPosRow()) {
-                posNotValid = true;
-            }
-        }
-
-        if(nameRepeated && posNotValid){
-            throw new AlreadyExistsException("The person with 'name' " + assignment.getStudent().getName() +
-                    " is already in the classSession and the position with 'row' " + assignment.getPosRow() + " and 'col' "
-                    +  assignment.getPosCol() + " is already occupied");
-        }
-        else if (nameRepeated) {
-            throw new AlreadyExistsException("The person with 'name' " + assignment.getStudent().getName() +
-                    " is already in the classSession");
-        }
-        else if (posNotValid) {
-            throw new AlreadyExistsException("The position with 'row' " + assignment.getPosRow() + " and 'col' " +
-                    assignment.getPosCol() + " is already occupied");
-        }
-
-        assignmentCollection.insertOne(assignment);
-        return 1;
+    public List<Assignment> findByClassroom(String classroomID) {
+        List<ClassSession> classSessions = classSessionDao.selectAllByClassroomId(classroomID);
+        List<String> classSessionID = new ArrayList<>();
+        Query q = new Query();
+        for (ClassSession cs : classSessions) classSessionID.add(cs.getId());
+        q.addCriteria(Criteria.where("classSessionID").in(classSessionID));
+        return mongoTemplate.find(q, Assignment.class);
     }
-
-
-    @Override
-    public List<Assignment> findByClassroomDate(String idClassroom, String date, String hour) {
-        List<Assignment> allAssignment = new ArrayList<>();
-        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom._id", idClassroom));
-        for (Assignment as : result) {
-            if (as.getClassSession().getDate().equals(date) && as.getClassSession().getHora().equals(hour))
-                allAssignment.add(as);
-        }
-        return allAssignment;
-    }
-
-    @Override
-    public List<Assignment> findByClassroom(String nameClass) {
-        List<Assignment> allAssignment = new ArrayList<>();
-        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession.classroom.name", nomClass));
-        for (Assignment as : result) {
-            allAssignment.add(as);
-        }
-        return allAssignment;
-    }
-
-    @Override
-    public List<Assignment> findByClassId(String idClassroom) {
-        List<Assignment> allAssignment = new ArrayList<>();
-        FindIterable<Assignment> result = assignmentCollection.find(eq("classSession._id", id));
-        for (Assignment as : result) {
-            allAssignment.add(as);
-        }
-        return allAssignment;
-    }
-}*/
+}

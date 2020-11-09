@@ -23,7 +23,7 @@ public class Contagion {
 
     private LocalDate endContagion;
 
-    @NotNull(message = "Contagion' infectedID must not be null")
+    @NotNull(message = "Contagion's infectedID must not be null")
     private String infectedID;
 
     public Contagion(@JsonProperty("id") String id,
