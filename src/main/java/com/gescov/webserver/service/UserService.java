@@ -38,4 +38,7 @@ public class UserService {
         return us.get().getSchoolsID();
     }
 
+    public boolean existUser(String userID) {
+        return userDao.existsById(userID);
+    }
 }

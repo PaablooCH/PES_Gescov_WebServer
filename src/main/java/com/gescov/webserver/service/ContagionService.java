@@ -1,6 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.contagion.ContagionDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,20 @@ import java.util.Optional;
 public class ContagionService {
 
     private final ContagionDao contagionDao;
+    private final UserService userService;
 
     @Autowired
-    public ContagionService(ContagionDao contagionDao) {
+    public ContagionService(ContagionDao contagionDao, UserService userService) {
         this.contagionDao = contagionDao;
+        this.userService = userService;
     }
 
     public Contagion addContagion(Contagion contagion) {
+        if(!userService.existUser(contagion.getInfectedID())) throw new NotFoundException("User with 'id' " +
+                contagion.getInfectedID() + " not exists!");
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
-        if (con.isPresent()) throw new NotFoundException("Contagion with 'id' " + contagion.getInfectedID() + " is already infected!");
+        if (con.isPresent()) throw new AlreadyExistsException("Contagion with 'id' " + contagion.getInfectedID() +
+                " is already infected!");
         return contagionDao.insert(contagion);
     }
 
@@ -37,7 +43,7 @@ public class ContagionService {
 
     public List<Contagion> getNowContagion(String idSchool) {
         List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
-        if (con.isEmpty()) throw new NotFoundException("In 'School' " + idSchool + " doesn't exists Contagions");
+        if (con.isEmpty()) throw new NotFoundException("In School " + idSchool + " doesn't exists Contagions");
         return con;
     }
 
