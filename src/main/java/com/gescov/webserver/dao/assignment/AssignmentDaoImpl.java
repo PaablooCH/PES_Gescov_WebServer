@@ -3,7 +3,6 @@ package com.gescov.webserver.dao.assignment;
 import com.gescov.webserver.dao.classSession.ClassSessionDao;
 import com.gescov.webserver.model.Assignment;
 import com.gescov.webserver.model.ClassSession;
-import com.gescov.webserver.model.Contagion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

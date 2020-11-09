@@ -4,7 +4,6 @@ import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;

@@ -3,11 +3,9 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.User;
-import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

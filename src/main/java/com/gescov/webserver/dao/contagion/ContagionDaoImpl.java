@@ -3,7 +3,6 @@ package com.gescov.webserver.dao.contagion;
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.User;
-import com.gescov.webserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
