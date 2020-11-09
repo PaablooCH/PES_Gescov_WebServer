@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Min;
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 @CompoundIndexes({
-        @CompoundIndex(name="classAtSchoolExists", def = "{'name' : 1, 'school.id' : 1}", unique = true)
+        @CompoundIndex(name="classAtSchoolExists", def = "{'name' : 1, 'schoolID' : 1}", unique = true)
 })
 @Document(collection = "classrooms")
 public class Classroom {
@@ -37,22 +36,21 @@ public class Classroom {
     @Min(1)
     private int numCols;
 
-    @DBRef(db = "schools")
-    private School school;
-
+    @NotNull(message = "Classrooms' schoolID must not be null")
+    private String schoolID;
 
     public Classroom(@JsonProperty("id") String id,
                      @JsonProperty("name") String name,
                      @JsonProperty("capacity") int capacity,
                      @JsonProperty("numRows") int numRows,
                      @JsonProperty("numCols") int numCols,
-                     @JsonProperty("school") final School school) {
+                     @JsonProperty("schoolID") String schoolID) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.numRows = numRows;
         this.numCols = numCols;
-        this.school = school;
+        this.schoolID = schoolID;
     }
 
 }
