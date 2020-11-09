@@ -39,7 +39,21 @@ public class SubjectService {
         Optional<Subject> s = subjectDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
         s.get().setName(name);
-        subjectDao.insert(s.get());
+        subjectDao.save(s.get());
+    }
+
+    public void addStudent(String id, String userId){
+        Optional<Subject> s = subjectDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
+        s.get().addStudent(userId);
+        subjectDao.save(s.get());
+    }
+
+    public void addTeacher(String id, String userId){
+        Optional<Subject> s = subjectDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
+        s.get().addTeacher(userId);
+        subjectDao.save(s.get());
     }
 }
 

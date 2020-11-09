@@ -6,6 +6,7 @@ import com.mongodb.lang.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ClassSessionController {
     }
 
     @PostMapping
-    public void addSession(@NonNull @RequestBody ClassSession sessions){
+    public void addSession(@NotNull @RequestBody ClassSession sessions){
         sessionService.addSession(sessions);
     }
 
@@ -31,7 +32,7 @@ public class ClassSessionController {
     }
 
     @GetMapping(path = "{specific}")
-    public List<ClassSession> getSpecificSessions(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String name){
+    public List<ClassSession> getSpecificSessions(@PathVariable("specific") String specific, @NotNull @RequestParam("name") String name){
         List<ClassSession> returned = new ArrayList<>();
         if(specific.equals("classroom")) returned = sessionService.getSessionByClassroom(name);
         if(specific.equals("subject")) returned = sessionService.getSessionBySubject(name);
@@ -42,7 +43,7 @@ public class ClassSessionController {
     }
 
     @DeleteMapping
-    public void deleteSubject(@NonNull @RequestParam("id")String id){
+    public void deleteSubject(@NotNull @RequestParam("id")String id){
         sessionService.deleteSession(id);
     }
 /*
