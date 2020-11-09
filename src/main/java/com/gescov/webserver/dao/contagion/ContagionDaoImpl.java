@@ -1,6 +1,7 @@
 package com.gescov.webserver.dao.contagion;
 
 import com.gescov.webserver.dao.user.UserDao;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.UserService;
