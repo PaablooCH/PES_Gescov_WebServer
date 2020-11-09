@@ -29,7 +29,7 @@ public class ClassroomService {
         return classroomDao.findAll();
     }
 
-    public List<Classroom> getSchoolClassrooms(String schoolName) {
+    public List<Classroom> getClassroomsBySchool(String schoolName) {
         return classroomDao.selectSchoolClassrooms(schoolName);
     }
 

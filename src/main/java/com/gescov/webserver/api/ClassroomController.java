@@ -31,9 +31,9 @@ public class ClassroomController {
         return classroomService.getAllClassrooms();
     }
 
-    @GetMapping(path = "/school/{schoolName}")
-    public List<Classroom> getSchoolClassrooms(@PathVariable("schoolName") String schoolName)  {
-        return classroomService.getSchoolClassrooms(schoolName);
+    @GetMapping(path = "/school")
+    public List<Classroom> getClassroomsBySchool(@NotNull @RequestParam("schoolName") String schoolName)  {
+        return classroomService.getClassroomsBySchool(schoolName);
     }
 
     @GetMapping(path = "{id}")
@@ -42,7 +42,7 @@ public class ClassroomController {
     }
 
     @GetMapping(path = "/distribution")
-    public Pair<Integer, Integer> getClassroomDistributionById(@NonNull @RequestParam("id") String id) { return classroomService.getClassroomDistributionById(id); }
+    public Pair<Integer, Integer> getClassroomDistributionById(@NotNull @RequestParam("id") String id) { return classroomService.getClassroomDistributionById(id); }
 
     @DeleteMapping(path = "{id}")
     public void deleteClassroomById(@PathVariable("id") String id) {
@@ -50,7 +50,7 @@ public class ClassroomController {
     }
 
     @PutMapping
-    public void updateClassroom(@NonNull @RequestParam("id") String id, @NonNull @RequestParam("name") String name) {
+    public void updateClassroom(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("name") String name) {
         classroomService.updateClassroomName(id, name);
     }
 

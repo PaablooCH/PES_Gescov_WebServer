@@ -36,12 +36,11 @@ public class User {
     public User(@JsonProperty("id") String id,
                 @JsonProperty("name") String name,
                 @JsonProperty("email") String email,
-                @JsonProperty("risk") boolean risk,
                 @JsonProperty("schoolsID") List<String> schoolsID) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.risk = risk;
+        this.risk = false;
         this.schoolsID = schoolsID;
     }
 
