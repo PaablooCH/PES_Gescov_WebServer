@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 @Repository("classSessionMongo")
-public class ClassSessionCustomizedMongoRepositoryImpl<T,ID> implements ClassSessionCustomizedMongoRepository<T,ID> {
+public class ClassSessionDaoImpl<T,ID> implements ClassSessionDaoCustom<T,ID> {
 
     private final MongoTemplate mongoTemplate;
     private final SubjectDao subjectDao;
@@ -23,7 +23,7 @@ public class ClassSessionCustomizedMongoRepositoryImpl<T,ID> implements ClassSes
     private final ClassroomDao classroomDao;
 
     @Autowired
-    public ClassSessionCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate, SubjectDao subjectDao, UserDao userDao, ClassroomDao classroomDao) {
+    public ClassSessionDaoImpl(MongoTemplate mongoTemplate, SubjectDao subjectDao, UserDao userDao, ClassroomDao classroomDao) {
         this.mongoTemplate = mongoTemplate;
         this.subjectDao = subjectDao;
         this.userDao = userDao;

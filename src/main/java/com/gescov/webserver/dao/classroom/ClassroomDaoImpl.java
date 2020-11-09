@@ -10,13 +10,13 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
 
-public class ClassroomCustomizedMongoRepositoryImpl<T, ID> implements ClassroomCustomizedMongoRepository<T, ID> {
+public class ClassroomDaoImpl<T, ID> implements ClassroomDaoCustom<T, ID> {
 
     private final MongoTemplate mongoTemplate;
     private final SchoolService schoolService;
 
     @Autowired
-    public ClassroomCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate, SchoolService schoolService) {
+    public ClassroomDaoImpl(MongoTemplate mongoTemplate, SchoolService schoolService) {
         this.mongoTemplate = mongoTemplate;
         this.schoolService = schoolService;
     }

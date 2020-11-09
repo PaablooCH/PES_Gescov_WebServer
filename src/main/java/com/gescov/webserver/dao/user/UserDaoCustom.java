@@ -5,7 +5,7 @@ import com.mongodb.client.FindIterable;
 
 import java.util.List;
 
-public interface UserCustomizedMongoRepository<T, ID> {
+public interface UserDaoCustom<T, ID> {
 
     List<User> findAllBySchoolsID(String schoolID);
 

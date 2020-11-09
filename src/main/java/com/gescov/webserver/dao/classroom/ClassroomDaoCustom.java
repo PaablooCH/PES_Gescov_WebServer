@@ -6,7 +6,7 @@ import org.springframework.data.util.Pair;
 
 import java.util.List;
 
-public interface ClassroomCustomizedMongoRepository<T, ID> {
+public interface ClassroomDaoCustom<T, ID> {
 
     List<Classroom> selectSchoolClassrooms(String schoolName);
 

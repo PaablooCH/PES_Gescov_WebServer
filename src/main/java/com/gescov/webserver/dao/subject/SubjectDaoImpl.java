@@ -3,7 +3,6 @@ package com.gescov.webserver.dao.subject;
 import com.gescov.webserver.dao.school.SchoolDao;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
-import com.gescov.webserver.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -14,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("subjectMongo")
-public class SubjectCustomizedMongoRepositoryImpl<T,ID> implements SubjectCustomizedMongoRepository<T,ID> {
+public class SubjectDaoImpl<T,ID> implements SubjectDaoCustom<T,ID> {
 
     private final MongoTemplate mongoTemplate;
     private final SchoolDao schoolDao;
 
     @Autowired
-    public SubjectCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate, SchoolDao schoolDao) {
+    public SubjectDaoImpl(MongoTemplate mongoTemplate, SchoolDao schoolDao) {
         this.mongoTemplate = mongoTemplate;
         this.schoolDao = schoolDao;
     }

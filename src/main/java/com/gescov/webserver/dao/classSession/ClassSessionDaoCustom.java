@@ -4,7 +4,7 @@ import com.gescov.webserver.model.ClassSession;
 
 import java.util.List;
 
-public interface ClassSessionCustomizedMongoRepository<T, ID> {
+public interface ClassSessionDaoCustom<T, ID> {
 
     List<ClassSession> selectAllByClassroomId(String variable);
 

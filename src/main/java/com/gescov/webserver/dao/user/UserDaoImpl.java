@@ -1,6 +1,5 @@
 package com.gescov.webserver.dao.user;
 
-import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,12 +8,12 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
 
-public class UserCustomizedMongoRepositoryImpl<T, ID> implements UserCustomizedMongoRepository<T, ID> {
+public class UserDaoImpl<T, ID> implements UserDaoCustom<T, ID> {
 
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    public UserCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate) {
+    public UserDaoImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

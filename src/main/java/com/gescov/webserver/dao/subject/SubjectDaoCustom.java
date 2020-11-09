@@ -4,7 +4,7 @@ import com.gescov.webserver.model.Subject;
 
 import java.util.List;
 
-public interface SubjectCustomizedMongoRepository <T,ID> {
+public interface SubjectDaoCustom<T,ID> {
 
     List<Subject> selectAllBySchoolId(String Id);
 
