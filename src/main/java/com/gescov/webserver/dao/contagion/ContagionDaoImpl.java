@@ -29,7 +29,7 @@ public class ContagionDaoImpl<T, ID> implements ContagionDaoCustom<Contagion, St
     public List<Contagion> findInfectedBySchool(String schoolID) {
         FindIterable<User> infected = userService.getUserBySchool(schoolID);
         Query q = new Query();
-        for(User in : infected) {
+        for (User in : infected) {
             q.addCriteria(Criteria.where("infectedID").is(in.getId()));
         }
         return mongoTemplate.find(q, Contagion.class);

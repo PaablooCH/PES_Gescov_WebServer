@@ -33,8 +33,8 @@ public class ContagionController {
     }*/
 
     @GetMapping(path = "/now")
-    public List<Contagion> getContagionNow(@RequestParam("idCen") String idCen) {
-        return contagionService.getNowContagion(idCen);
+    public List<Contagion> getContagionNow(@RequestParam("schoolID") String schoolID) {
+        return contagionService.getNowContagion(schoolID);
     }
 
     @PutMapping

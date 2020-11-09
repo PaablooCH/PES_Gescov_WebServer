@@ -1,7 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.user.UserDao;
-import com.gescov.webserver.model.School;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.User;
 import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,12 @@ public class UserService {
         return userDao.findById(id);
     }
 
-    public List<School> getUserSchools(String id) { return userDao.getUserSchools(id); }
+    public List<String> getSchoolsByUser(String id) {
+        Optional<User> us = getUserById(id);
+        if (us.isEmpty()) throw new NotFoundException("User with 'id' " + id + " not found!");
+        return us.get().getSchoolsID();
+    }
 
-    public FindIterable<User> getUserBySchool(String schoolID){ return userDao.findBySchoolsContaining(schoolID); }
+    public FindIterable<User> getUserBySchool(String schoolID) { return userDao.findBySchoolsIDContaining(schoolID); }
 
 }
