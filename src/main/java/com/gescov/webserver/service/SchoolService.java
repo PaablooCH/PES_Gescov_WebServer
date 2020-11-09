@@ -13,15 +13,28 @@ import java.util.Optional;
 public class SchoolService {
 
     private final SchoolDao schoolDao;
+    private final UserService userService;
 
     @Autowired
-    public SchoolService(SchoolDao schoolDao) {
+    public SchoolService(SchoolDao schoolDao, UserService userService) {
         this.schoolDao = schoolDao;
+        this.userService = userService;
     }
 
 
     public School addSchool(School school) {
-        return schoolDao.insert(school);
+        String creatorID = school.getCreatorID();
+        if (!userService.existsUser(creatorID)) throw new NotFoundException("User with 'id' " + creatorID + " not found!");
+        schoolDao.insert(school);
+        userService.addSchool(creatorID, school.getId());
+        return school;
+    }
+
+    public void addAdministrator(String schoolID, String adminID) {
+        Optional<School> s = schoolDao.findById(schoolID);
+        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + schoolID + " not found!");
+        s.get().addAdministrator(adminID);
+        schoolDao.save(s.get());
     }
 
     public List<School> getAllSchools() {
@@ -42,14 +55,14 @@ public class SchoolService {
 
     public void updateSchoolName(String id, String update) {
         Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + id + " not found!");
         s.get().setName(update);
         schoolDao.save(s.get());
     }
 
     public void updateSchoolState(String id, String update) {
         Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("School with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + id + " not found!");
         s.get().setState(update);
         schoolDao.save(s.get());
     }

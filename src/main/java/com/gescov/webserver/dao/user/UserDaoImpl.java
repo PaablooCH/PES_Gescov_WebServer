@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("userMongo")
 public class UserDaoImpl<T, ID> implements UserDaoCustom<T, ID> {
 
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
     @Autowired
     public UserDaoImpl(MongoTemplate mongoTemplate) {
@@ -23,4 +25,5 @@ public class UserDaoImpl<T, ID> implements UserDaoCustom<T, ID> {
         q.addCriteria(Criteria.where("schoolsID").is(schoolID));
         return mongoTemplate.find(q, User.class);
     }
+
 }

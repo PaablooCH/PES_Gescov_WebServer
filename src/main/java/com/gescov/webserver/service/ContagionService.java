@@ -24,7 +24,7 @@ public class ContagionService {
     }
 
     public Contagion addContagion(Contagion contagion) {
-        if(!userService.existUser(contagion.getInfectedID())) throw new NotFoundException("User with 'id' " +
+        if (!userService.existsUser(contagion.getInfectedID())) throw new NotFoundException("User with 'id' " +
                 contagion.getInfectedID() + " not exists!");
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
         if (con.isPresent()) throw new AlreadyExistsException("Contagion with 'id' " + contagion.getInfectedID() +

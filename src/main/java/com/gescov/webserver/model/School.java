@@ -40,9 +40,9 @@ public class School {
     private String website;
 
     @NotNull(message = "School's creator must not be null")
-    private String creator;
+    private String creatorID;
 
-    private List<String> administrators;
+    private List<String> administratorsID;
 
 
     public School(@JsonProperty("id") String id,
@@ -52,7 +52,7 @@ public class School {
                   @JsonProperty("latitude") float latitude,
                   @JsonProperty("phone") String phone,
                   @JsonProperty("website") String website,
-                  @JsonProperty("creator") String creator) {
+                  @JsonProperty("creatorID") String creatorID) {
         this.id = id;
         this.name = name;
         this.state = "open";
@@ -61,9 +61,13 @@ public class School {
         this.latitude = latitude;
         this.phone = phone;
         this.website = website;
-        this.creator = creator;
-        this.administrators = new ArrayList<>();
-        this.administrators.add(creator);
+        this.creatorID = creatorID;
+        this.administratorsID = new ArrayList<>();
+        addAdministrator(creatorID);
+    }
+
+    public void addAdministrator(String adminID) {
+        administratorsID.add(adminID);
     }
 
 }

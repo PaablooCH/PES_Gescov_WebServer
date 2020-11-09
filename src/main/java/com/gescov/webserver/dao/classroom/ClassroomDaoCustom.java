@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ClassroomDaoCustom<T, ID> {
 
-    List<Classroom> selectSchoolClassrooms(String schoolName);
+    List<Classroom> selectClassroomsBySchool(String schoolName);
 
 }

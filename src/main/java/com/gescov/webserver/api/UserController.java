@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RequestMapping("api/user")
@@ -18,6 +19,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @PostMapping
     public User addUser(@RequestBody User user) {
@@ -37,6 +39,11 @@ public class UserController {
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") String id)  {
         return userService.getUserById(id).orElse(null);
+    }
+
+    @PutMapping
+    public void updateUser(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
+        userService.addSchool(id, update);
     }
 
 }

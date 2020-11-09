@@ -24,4 +24,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(WrongCapacityException.class)
+    public ResponseEntity<ApiError> handleWrongCapacityException(WrongCapacityException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
 }

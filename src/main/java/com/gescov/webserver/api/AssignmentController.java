@@ -25,8 +25,8 @@ public class AssignmentController {
         return assignmentService.addAssignment(assignment);
     }
 
-    @GetMapping
-    public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
+    //@GetMapping
+    //public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
 
     @GetMapping
     public List<Assignment> getAssignmentByClassId(@RequestParam("cSeID") String classSessionID) {
