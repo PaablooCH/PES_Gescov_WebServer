@@ -41,7 +41,7 @@ public class ClassSession {
     private String date;
 
 
-    public ClassSession(@JsonProperty ("_id") String id, @JsonProperty("classroom") String classroom,
+    public ClassSession(@JsonProperty ("id") String id, @JsonProperty("classroom") String classroom,
                         @JsonProperty("subject") String subject, @JsonProperty ("teacher") String teacher,
                         @JsonProperty ("hour") String hour, @JsonProperty("date") String date) {
         this.id = id;

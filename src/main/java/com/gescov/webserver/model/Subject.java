@@ -28,6 +28,7 @@ public class Subject {
     @NotNull
     private String schoolID;
 
+
     public Subject(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("school") String school) {
         this.id = id;
         this.name = name;
