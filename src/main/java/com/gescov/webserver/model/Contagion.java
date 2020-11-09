@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -23,13 +23,13 @@ public class Contagion {
 
     private LocalDate endContagion;
 
-    @DBRef(db = "users")
-    private User infected;
+    @NotNull(message = "Contagion' infectedID must not be null")
+    private String infectedID;
 
     public Contagion(@JsonProperty("id") String id,
-                     @JsonProperty("infected") final User infected) {
+                     @JsonProperty("infectedID") String infectedID) {
         this.id = id;
-        this.infected = infected;
+        this.infectedID = infectedID;
         this.startContagion = LocalDate.now();
         this.endContagion = null;
     }

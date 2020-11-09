@@ -21,22 +21,22 @@ public class ContagionService {
     }
 
     public Contagion addContagion(Contagion contagion) {
-        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(contagion.getInfected().getId());
-        if (con.isPresent()) throw new NotFoundException("Contagion with 'id' " + contagion.getInfected().getId() + " is already infected!");
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
+        if (con.isPresent()) throw new NotFoundException("Contagion with 'id' " + contagion.getInfectedID() + " is already infected!");
         return contagionDao.insert(contagion);
     }
 
     public List<Contagion> getAllContagion() { return contagionDao.findAll(); }
 
     public void updateContagion(String infectedId) {
-        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfected_Id(infectedId);
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedId);
         if (con.isEmpty()) throw new NotFoundException("Contagion with 'id' " + infectedId + " is not infected!");
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
     }
 
     public List<Contagion> getNowContagion(String idSchool) {
-        return contagionDao.findByInfectedSchools(idSchool); //revisar esta funcion que pide una lista de Schools
+        return contagionDao.findInfectedBySchool(idSchool); //revisar esta funcion que pide una lista de Schools
     }
 
 }
