@@ -37,8 +37,11 @@ public class ClassroomService {
         return classroomDao.findById(id);
     }
 
+
     public Pair<Integer, Integer> getClassroomDistributionById(String id) {
-        return classroomDao.selectClassroomDistributionById(id);
+        Classroom c = classroomDao.findClassroomById(id);
+        if (c == null) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
+        return Pair.of(c.getNumRows(), c.getNumCols());
     }
 
     public void deleteClassroom(String id) {
@@ -47,28 +50,28 @@ public class ClassroomService {
 
     public void updateClassroomCapacity(String id, int capacity) {
         Optional<Classroom> s = classroomDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
         s.get().setCapacity(capacity);
         classroomDao.save(s.get());
     }
 
     public void updateClassroomName(String id, String name) {
         Optional<Classroom> s = classroomDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
         s.get().setName(name);
         classroomDao.save(s.get());
     }
 
     public void updateClassroomNumRows(String id, int numRows) {
         Optional<Classroom> s = classroomDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
         s.get().setNumRows(numRows);
         classroomDao.save(s.get());
     }
 
     public void updateClassroomNumCols(String id, int numCols) {
         Optional<Classroom> s = classroomDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException("Classroom with 'id' " + id + " not found!");
         s.get().setNumCols(numCols);
         classroomDao.save(s.get());
     }
