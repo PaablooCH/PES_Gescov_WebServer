@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
+import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,7 @@ public class UserService {
     }
 
     public List<School> getUserSchools(String id) { return userDao.getUserSchools(id); }
+
+    public FindIterable<User> getUserBySchool(String schoolID){ return userDao.findBySchoolsContaining(schoolID); }
 
 }

@@ -1,5 +1,6 @@
 package com.gescov.webserver.dao.contagion;
 
+import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.Contagion;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -8,10 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom{
+public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom<Contagion, String>{
 
-    Optional<Contagion> findByEndContagionNullAndInfected_Id(String infectedId);
-
-    List<Contagion> findByInfectedSchools(String idSchool); //revisar esta funcion que pide una lista de Schools
+    Optional<Contagion> findByEndContagionNullAndInfectedID(String infectedId);
 
 }

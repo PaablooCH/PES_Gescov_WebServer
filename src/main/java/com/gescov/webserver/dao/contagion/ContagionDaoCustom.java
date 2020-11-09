@@ -1,4 +1,11 @@
 package com.gescov.webserver.dao.contagion;
 
-public interface ContagionDaoCustom {
+import com.gescov.webserver.model.Contagion;
+
+import java.util.List;
+
+public interface ContagionDaoCustom<T, ID> {
+
+    List<Contagion> findInfectedBySchool(String schoolID);
+
 }
