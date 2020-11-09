@@ -23,6 +23,8 @@ public class SubjectService {
 
     public List<Subject> getAllSubject() { return subjectDao.findAll(); }
 
+    public List<Subject> selectSubjectBySchoolId(String id){ return subjectDao.selectAllBySchoolId(id);}
+
     public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
 
     public List<Subject> getSubjectBySchool(String schoolName) { return subjectDao.selectAllBySchoolName(schoolName); }

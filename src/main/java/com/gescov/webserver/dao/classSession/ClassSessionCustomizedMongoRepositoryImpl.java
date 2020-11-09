@@ -1,37 +1,62 @@
 package com.gescov.webserver.dao.classSession;
-/*
-import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.ClassSession;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import org.bson.types.ObjectId;
+
+import com.gescov.webserver.dao.classroom.ClassroomDao;
+import com.gescov.webserver.dao.subject.SubjectDao;
+import com.gescov.webserver.dao.user.UserDao;
+import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
 
 @Repository("classSessionMongo")
-public class ClassSessionCustomizedMongoRepositoryImpl<T,ID> implements ClassSessionCustomizedMongoRepository<T,ID>{
+public class ClassSessionCustomizedMongoRepositoryImpl<T,ID> implements ClassSessionCustomizedMongoRepository<T,ID> {
 
-    @Qualifier("mongoClient")
+    private final MongoTemplate mongoTemplate;
+    private final SubjectDao subjectDao;
+    private final UserDao userDao;
+    private final ClassroomDao classroomDao;
+
     @Autowired
-    private MongoClient client;
-    private MongoCollection<ClassSession> sessionCollection;
-    private static final String NOT_EXIST_ERROR = " does not exist";
-
-    @PostConstruct
-    void init() {
-        sessionCollection = client.getDatabase("Gescov").getCollection("classSession",
-                ClassSession.class);
+    public ClassSessionCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate, SubjectDao subjectDao, UserDao userDao, ClassroomDao classroomDao) {
+        this.mongoTemplate = mongoTemplate;
+        this.subjectDao = subjectDao;
+        this.userDao = userDao;
+        this.classroomDao = classroomDao;
     }
 
+
+    public List<ClassSession> selectAllByClassroomId(String id){
+        Optional<Classroom> classroom = classroomDao.findById(id);
+        Query q = new Query();
+        q.addCriteria(Criteria.where("schoolID").is(classroom.get().getId()));
+        return mongoTemplate.find(q, ClassSession.class);
+    }
+
+    public List<ClassSession> selectAllBySubjectId(String id){
+        Optional<Subject> subject = subjectDao.findById(id);
+        Query q = new Query();
+        q.addCriteria(Criteria.where("schoolID").is(subject.get().getId()));
+        return mongoTemplate.find(q, ClassSession.class);
+    }
+
+    public List<ClassSession> selectAllByTeacherId(String id){
+        Optional<Classroom> user = classroomDao.findById(id);
+        Query q = new Query();
+        q.addCriteria(Criteria.where("schoolID").is(user.get().getId()));
+        return mongoTemplate.find(q, ClassSession.class);
+    }
+}
+
+
+
+
+    /*
     @Override
     public int addSession(ClassSession session) {
         sessionCollection.insertOne(session);

@@ -33,6 +33,9 @@ public class SubjectController {
     @GetMapping(path = "/id")
     public Optional<Subject> getSubjectById(@NonNull @RequestParam("id") String id) { return subjectService.findById(id); }
 
+    @GetMapping(path = "/schools/{specific}")
+    public List<Subject> getSubjectBySchoolId(@PathVariable("specific") String id) { return subjectService.selectSubjectBySchoolId(id); }
+
     @GetMapping(path = "{specific}")
     public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String name){
         List<Subject> returned = new ArrayList<>();
