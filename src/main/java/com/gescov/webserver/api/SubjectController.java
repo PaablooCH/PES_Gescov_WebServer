@@ -34,10 +34,10 @@ public class SubjectController {
     public Optional<Subject> getSubjectById(@NonNull @RequestParam("id") String id) { return subjectService.findById(id); }
 
     @GetMapping(path = "{specific}")
-    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String nombre){
+    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NonNull @RequestParam("name") String name){
         List<Subject> returned = new ArrayList<>();
-        if(specific.equals("schools")) returned =  subjectService.getSubjectBySchool(nombre);
-        if(specific.equals("names")) returned = subjectService.getSubjectByName(nombre);
+        if(specific.equals("schools")) returned =  subjectService.getSubjectBySchool(name);
+        if(specific.equals("names")) returned = subjectService.getSubjectByName(name);
         return returned;
     }
 

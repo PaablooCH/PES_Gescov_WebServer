@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -17,9 +16,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Document(collection = "subjects")
 @CompoundIndexes({
-        @CompoundIndex(name="subject_school_indx", def = "{'name' : 1, 'school.id' : 1}" ,unique = true)
+        @CompoundIndex(name="subject_school_indx", def = "{'name' : 1, 'schoolID' : 1}" ,unique = true)
 })
-
 public class Subject {
     @Id
     private String id;
@@ -27,13 +25,13 @@ public class Subject {
     @NotNull
     private String name;
 
-    @DBRef(db = "schools")
-    private School school;
+    @NotNull
+    private String schoolID;
 
-    public Subject(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("school") School school) {
+    public Subject(@JsonProperty("id") String id, @JsonProperty("name") String name, @JsonProperty("school") String school) {
         this.id = id;
         this.name = name;
-        this.school = school;
+        this.schoolID = school;
     }
 
 }

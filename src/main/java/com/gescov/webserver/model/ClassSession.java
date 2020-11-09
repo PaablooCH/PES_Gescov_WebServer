@@ -15,9 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Getter
 @Document(collection = "classSession")
-@CompoundIndexes({
+/*@CompoundIndexes({
         @CompoundIndex(name="classroom_hour_date_indx", def = "{'classroom.id' : 1, 'hour' : 1, 'date' : 1}" ,unique = true)
-})
+})*/
 public class ClassSession {
 
     @Id

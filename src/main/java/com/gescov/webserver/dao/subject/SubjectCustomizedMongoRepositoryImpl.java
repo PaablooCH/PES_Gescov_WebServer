@@ -1,47 +1,40 @@
 package com.gescov.webserver.dao.subject;
-/*
-import com.gescov.webserver.exception.AlreadyExistsException;
+
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
+import com.gescov.webserver.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
-
 
 @Repository("subjectMongo")
 public class SubjectCustomizedMongoRepositoryImpl<T,ID> implements SubjectCustomizedMongoRepository<T,ID> {
 
-    @Qualifier("mongoClient")
+    private final MongoTemplate mongoTemplate;
+    private final SchoolService schoolService;
+
     @Autowired
-    private MongoClient client;
-    private MongoCollection<Subject> subjectCollection;
-
-    @PostConstruct
-    void init() {
-        subjectCollection = client.getDatabase("Gescov").getCollection("subjects", Subject.class);
+    public SubjectCustomizedMongoRepositoryImpl(MongoTemplate mongoTemplate, SchoolService schoolService) {
+        this.mongoTemplate = mongoTemplate;
+        this.schoolService = schoolService;
     }
 
-    @Override
-    public int insertSubject(Subject subject) {
-        if(subjectCollection.countDocuments(eq("name", subject.getName()))!=0) {
-            if(subjectCollection.countDocuments(eq("school", subject.getSchool()))==0){
-                subjectCollection.insertOne(subject);
-                return 1;
-            }
-            else throw new AlreadyExistsException(subject.getName() + " already exists in " + subject.getSchool().getName());
-        }
-        else subjectCollection.insertOne(subject);
-        return 1;
+    public List<Subject> selectAllBySchoolName (String schoolName){
+        School school = schoolService.getSchoolByName(schoolName);
+        Query q = new Query();
+        q.addCriteria(Criteria.where("schoolID").is(school.getId()));
+        return mongoTemplate.find(q, Subject.class);
     }
+}
+
+
+
+
+
 
     /*
     @Override

@@ -25,7 +25,7 @@ public class SubjectService {
 
     public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
 
-    public List<Subject> getSubjectBySchool(String school) { return subjectDao.findAllBySchool_Id(school); }
+    public List<Subject> getSubjectBySchool(String schoolName) { return subjectDao.selectAllBySchoolName(schoolName); }
 
     public List<Subject> getSubjectByName(String name) { return subjectDao.findAllByName(name); }
 
@@ -39,6 +39,5 @@ public class SubjectService {
         s.get().setName(name);
         subjectDao.insert(s.get());
     }
-
 }
 

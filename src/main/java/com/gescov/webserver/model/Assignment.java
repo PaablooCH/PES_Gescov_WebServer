@@ -16,10 +16,10 @@ import javax.validation.constraints.Min;
 @Setter
 @Getter
 @Document(collection = "assignments")
-@CompoundIndexes({
+/*@CompoundIndexes({
         @CompoundIndex(name="assignment_pos_occupied", def = "{'posRow' : 1, 'posCol' : 1, 'classSession.id' : 1}", unique = true),
         @CompoundIndex(name="assignment_student_already_assign", def = "{'users.id' : 1, 'classSession.id' : 1}", unique = true)
-})
+})*/
 public class Assignment {
 
     @Id

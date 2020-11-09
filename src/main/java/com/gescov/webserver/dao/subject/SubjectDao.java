@@ -9,8 +9,6 @@ import java.util.List;
 @Repository
 public interface SubjectDao extends MongoRepository<Subject, String>, SubjectCustomizedMongoRepository <Subject, String> {
 
-    List<Subject> findAllBySchool_Id(String school);
-
     List<Subject> findAllByName(String name);
 
 }
