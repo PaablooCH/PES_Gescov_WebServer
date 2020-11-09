@@ -36,7 +36,9 @@ public class ContagionService {
     }
 
     public List<Contagion> getNowContagion(String idSchool) {
-        return contagionDao.findInfectedBySchool(idSchool); //revisar esta funcion que pide una lista de Schools
+        List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
+        if (con.isEmpty()) throw new NotFoundException("In 'School' " + idSchool + " doesn't exists Contagions");
+        return con;
     }
 
 }
