@@ -7,6 +7,7 @@ import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,5 @@ public class UserService {
         if (us.isEmpty()) throw new NotFoundException("User with 'id' " + id + " not found!");
         return us.get().getSchoolsID();
     }
-
-    public FindIterable<User> getUserBySchool(String schoolID) { return userDao.findBySchoolsIDContaining(schoolID); }
 
 }
