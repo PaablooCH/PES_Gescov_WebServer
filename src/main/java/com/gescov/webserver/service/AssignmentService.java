@@ -21,7 +21,7 @@ public class AssignmentService {
 
     public void updateAssignment(String id, int posRow, int posCol) {
         Optional<Assignment> ass = assignmentDao.findById(id);
-        if (ass.isEmpty()) throw new NotFoundException("Assignment with 'id'" + id + "not found!");
+        if (ass.isEmpty()) throw new NotFoundException(Assignment.class, id);
         ass.get().setPosCol(posCol);
         ass.get().setPosRow(posRow);
         assignmentDao.save(ass.get());

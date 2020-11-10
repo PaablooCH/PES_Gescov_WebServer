@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class AlreadyExistsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public AlreadyExistsException(String exception) {
-        super(exception);
+    public AlreadyExistsException(Class c, String id) {
+        super(c.getSimpleName() + " with 'id' " + id + " already exists!");
     }
 }

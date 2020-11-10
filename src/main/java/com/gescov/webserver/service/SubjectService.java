@@ -28,9 +28,9 @@ public class SubjectService {
     public Subject addSubject(Subject subject, String creatorID){
         String schoolID = subject.getSchoolID();
         Optional<School> s =  schoolService.getSchoolById(schoolID);
-        if(s.isEmpty())throw new NotFoundException("School with 'id' " + schoolID + " not found!");
+        if(s.isEmpty())throw new NotFoundException(School.class, schoolID);
         Optional<User> u = userService.getUserById(creatorID);
-        if(u.isEmpty())throw new NotFoundException("User with 'id' " + creatorID + " not found!");
+        if(u.isEmpty())throw new NotFoundException(User.class, creatorID);
         subject.addTeacher(creatorID);
         return subjectDao.insert(subject);
     }
@@ -51,21 +51,21 @@ public class SubjectService {
 
     public void updateSubject(String id, String name){
         Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
         s.get().setName(name);
         subjectDao.save(s.get());
     }
 
     public void addStudent(String id, String userId){
         Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
         s.get().addStudent(userId);
         subjectDao.save(s.get());
     }
 
     public void addTeacher(String id, String userId){
         Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("Subject with 'id'" + id + "not found!");
+        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
         s.get().addTeacher(userId);
         subjectDao.save(s.get());
     }

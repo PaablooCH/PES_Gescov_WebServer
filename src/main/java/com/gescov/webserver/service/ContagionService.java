@@ -4,6 +4,7 @@ import com.gescov.webserver.dao.contagion.ContagionDao;
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Contagion;
+import com.gescov.webserver.model.School;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,9 @@ public class ContagionService {
     }
 
     public Contagion addContagion(Contagion contagion) {
-        if (!userService.existsUser(contagion.getInfectedID())) throw new NotFoundException("User with 'id' " +
-                contagion.getInfectedID() + " not exists!");
+        if (!userService.existsUser(contagion.getInfectedID())) throw new NotFoundException(Contagion.class, contagion.getInfectedID());
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
-        if (con.isPresent()) throw new AlreadyExistsException("Contagion with 'id' " + contagion.getInfectedID() +
-                " is already infected!");
+        if (con.isPresent()) throw new AlreadyExistsException(Contagion.class, contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
 
@@ -36,14 +35,14 @@ public class ContagionService {
 
     public void updateContagion(String infectedId) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedId);
-        if (con.isEmpty()) throw new NotFoundException("Contagion with 'id' " + infectedId + " is not infected!");
+        if (con.isEmpty()) throw new NotFoundException(Contagion.class, infectedId);
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
     }
 
     public List<Contagion> getNowContagion(String idSchool) {
         List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
-        if (con.isEmpty()) throw new NotFoundException("In School " + idSchool + " doesn't exists Contagions");
+        if (con.isEmpty()) throw new NotFoundException(School.class, idSchool);
         return con;
     }
 

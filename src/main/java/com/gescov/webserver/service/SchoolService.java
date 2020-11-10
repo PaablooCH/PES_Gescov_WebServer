@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.school.SchoolDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class SchoolService {
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
-        if (!userService.existsUser(creatorID)) throw new NotFoundException("User with 'id' " + creatorID + " not found!");
+        if (!userService.existsUser(creatorID)) throw new NotFoundException(User.class, creatorID);
         schoolDao.insert(school);
         userService.addSchool(creatorID, school.getId());
         return school;
@@ -32,7 +33,7 @@ public class SchoolService {
 
     public void addAdministrator(String schoolID, String adminID) {
         Optional<School> s = schoolDao.findById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + schoolID + " not found!");
+        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
         s.get().addAdministrator(adminID);
         schoolDao.save(s.get());
     }
@@ -55,14 +56,14 @@ public class SchoolService {
 
     public void updateSchoolName(String id, String update) {
         Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + id + " not found!");
+        if (s.isEmpty()) throw new NotFoundException(School.class, id);
         s.get().setName(update);
         schoolDao.save(s.get());
     }
 
     public void updateSchoolState(String id, String update) {
         Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("School with 'id' " + id + " not found!");
+        if (s.isEmpty()) throw new NotFoundException(School.class, id);
         s.get().setState(update);
         schoolDao.save(s.get());
     }

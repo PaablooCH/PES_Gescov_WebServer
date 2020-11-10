@@ -1,5 +1,6 @@
 package com.gescov.webserver.exception;
 
+import com.gescov.webserver.model.Classroom;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class WrongCapacityException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public WrongCapacityException() {
-        super("Capacity must be numRows * numCols");
+    public WrongCapacityException(Class c) {
+        super(c.getSimpleName() + " capacity must be numRows * numCols");
     }
 }
