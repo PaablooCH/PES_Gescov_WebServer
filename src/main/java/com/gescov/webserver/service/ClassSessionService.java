@@ -34,23 +34,23 @@ public class ClassSessionService {
         Optional<Classroom> c = classroomService.getClassroomById(classroomID);
         Optional<Subject> s = subjectService.findById(subjectID);
         Optional<User> u = userService.getUserById(teacherID);
-        if(c.isEmpty()) throw new NotFoundException("Classroom with 'id' " + classroomID + " not found!");
-        if(s.isEmpty()) throw new NotFoundException("Subject with 'id' " + subjectID + " not found!");
-        if(u.isEmpty()) throw new NotFoundException("Teacher with 'id' " + teacherID + " not found!");
+        if (c.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
+        if (s.isEmpty()) throw new NotFoundException(Subject.class, subjectID);
+        if (u.isEmpty()) throw new NotFoundException(Subject.class, teacherID);
         return classSessionDao.insert(session);
     }
 
-    public List<ClassSession> getAllSessions(){ return classSessionDao.findAll(); }
+    public List<ClassSession> getAllSessions() { return classSessionDao.findAll(); }
 
-    public List<ClassSession> getSessionByClassroom(String name){ return classSessionDao.selectAllByClassroomId(name); }
+    public List<ClassSession> getSessionByClassroom(String name) { return classSessionDao.selectAllByClassroomId(name); }
 
-    public List<ClassSession> getSessionBySubject(String name){ return classSessionDao.selectAllBySubjectId(name); }
+    public List<ClassSession> getSessionBySubject(String name) { return classSessionDao.selectAllBySubjectId(name); }
 
-    public List<ClassSession> getSessionByTeacher(String name){ return classSessionDao.selectAllByTeacherId(name); }
+    public List<ClassSession> getSessionByTeacher(String name) { return classSessionDao.selectAllByTeacherId(name); }
 
-    public List<ClassSession> getSessionByHour(String hour){ return classSessionDao.findAllByHour(hour); }
+    public List<ClassSession> getSessionByHour(String hour) { return classSessionDao.findAllByHour(hour); }
 
-    public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(date); }
+    public List<ClassSession> getSessionByDate(String date) { return classSessionDao.findAllByDate(date); }
 
     public void deleteSession(String id){
         classSessionDao.deleteById(id);
