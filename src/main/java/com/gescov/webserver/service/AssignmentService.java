@@ -13,11 +13,20 @@ import java.util.Optional;
 public class AssignmentService {
 
     private final AssignmentDao assignmentDao;
+    private final ClassSessionService classSessionService;
 
     @Autowired
-    public AssignmentService(AssignmentDao assignmentDao) { this.assignmentDao = assignmentDao; }
+    public AssignmentService(AssignmentDao assignmentDao, ClassSessionService classSessionService) {
+        this.assignmentDao = assignmentDao;
+        this.classSessionService = classSessionService;
+    }
 
-    public Assignment addAssignment(Assignment assignment) { return assignmentDao.insert(assignment); }
+    public Assignment addAssignment(Assignment assignment) {
+        int numRow = classSessionService.getNumRow(assignment.getClassSessionID());
+        int numCol = classSessionService.getNumCol(assignment.getClassSessionID());
+        if(assignment.getPosRow()>numRow || assignment.getPosCol() > numCol) throw new NotFoundException(Assignment.class, assignment.getId());
+        return assignmentDao.insert(assignment);
+    }
 
     public void updateAssignment(String id, int posRow, int posCol) {
         Optional<Assignment> ass = assignmentDao.findById(id);

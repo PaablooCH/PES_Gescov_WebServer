@@ -27,33 +27,41 @@ public class ClassSessionService {
         this.userService = userService;
     }
 
-    public ClassSession addSession(ClassSession session){
-        String classroomID = session.getClassroomID();
-        String subjectID = session.getSubjectID();
-        String teacherID = session.getTeacherID();
-        Optional<Classroom> c = classroomService.getClassroomById(classroomID);
-        Optional<Subject> s = subjectService.findById(subjectID);
-        Optional<User> u = userService.getUserById(teacherID);
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, subjectID);
-        if (u.isEmpty()) throw new NotFoundException(Subject.class, teacherID);
-        return classSessionDao.insert(session);
-    }
+    public ClassSession addSession(ClassSession session){ return classSessionDao.insert(session); }
 
-    public List<ClassSession> getAllSessions() { return classSessionDao.findAll(); }
+    public List<ClassSession> getAllSessions(){ return classSessionDao.findAll(); }
 
-    public List<ClassSession> getSessionByClassroom(String name) { return classSessionDao.selectAllByClassroomId(name); }
+    public List<ClassSession> getSessionByClassroom(String name){ return classSessionDao.selectAllByClassroomId(name); }
 
-    public List<ClassSession> getSessionBySubject(String name) { return classSessionDao.selectAllBySubjectId(name); }
+    public List<ClassSession> getSessionBySubject(String name){ return classSessionDao.selectAllBySubjectId(name); }
 
-    public List<ClassSession> getSessionByTeacher(String name) { return classSessionDao.selectAllByTeacherId(name); }
+    public List<ClassSession> getSessionByTeacher(String name){ return classSessionDao.selectAllByTeacherId(name); }
 
-    public List<ClassSession> getSessionByHour(String hour) { return classSessionDao.findAllByHour(hour); }
+    public List<ClassSession> getSessionByHour(String hour){ return classSessionDao.findAllByHour(hour); }
 
-    public List<ClassSession> getSessionByDate(String date) { return classSessionDao.findAllByDate(date); }
+    public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(date); }
 
     public void deleteSession(String id){
         classSessionDao.deleteById(id);
     }
 
+    public int getNumCol(String classSessionID) {
+        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
+        if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
+        return classroomService.getClassroomById(classSession.get().getClassroomID()).get().getNumCols();
+    }
+
+    public int getNumRow(String classSessionID) {
+        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
+        if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
+        return classroomService.getClassroomById(classSession.get().getClassroomID()).get().getNumRows();
+    }
+/*
+    public void updateSubject(String id, String subject){
+        Optional<ClassSession> s = classSessionDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException("ClassSession with 'id'" + id + "not found!");
+        s.get().setName(na);
+        subjectDao.insert(s.get());
+    }
+ */
 }
