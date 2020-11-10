@@ -1,22 +1,44 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.classSession.ClassSessionDao;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.ClassSession;
+import com.gescov.webserver.model.Classroom;
+import com.gescov.webserver.model.Subject;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassSessionService {
     private final ClassSessionDao classSessionDao;
+    private final ClassroomService classroomService;
+    private final SubjectService subjectService;
+    private final UserService userService;
 
     @Autowired
-    public ClassSessionService(ClassSessionDao classSessionDao) {
+    public ClassSessionService(ClassSessionDao classSessionDao, ClassroomService classroomService, SubjectService subjectService, UserService userService) {
         this.classSessionDao = classSessionDao;
+        this.classroomService = classroomService;
+        this.subjectService = subjectService;
+        this.userService = userService;
     }
 
-    public ClassSession addSession(ClassSession session){ return classSessionDao.insert(session); }
+    public ClassSession addSession(ClassSession session){
+        String classroomID = session.getClassroomID();
+        String subjectID = session.getSubjectID();
+        String teacherID = session.getTeacherID();
+        Optional<Classroom> c = classroomService.getClassroomById(classroomID);
+        Optional<Subject> s = subjectService.findById(subjectID);
+        Optional<User> u = userService.getUserById(teacherID);
+        if(c.isEmpty()) throw new NotFoundException("Classroom with 'id' " + classroomID + " not found!");
+        if(s.isEmpty()) throw new NotFoundException("Subject with 'id' " + subjectID + " not found!");
+        if(u.isEmpty()) throw new NotFoundException("Teacher with 'id' " + teacherID + " not found!");
+        return classSessionDao.insert(session);
+    }
 
     public List<ClassSession> getAllSessions(){ return classSessionDao.findAll(); }
 
@@ -33,12 +55,5 @@ public class ClassSessionService {
     public void deleteSession(String id){
         classSessionDao.deleteById(id);
     }
-/*
-    public void updateSubject(String id, String subject){
-        Optional<ClassSession> s = classSessionDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("ClassSession with 'id'" + id + "not found!");
-        s.get().setName(na);
-        subjectDao.insert(s.get());
-    }
- */
+
 }

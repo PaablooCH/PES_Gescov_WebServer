@@ -45,10 +45,4 @@ public class ClassSessionController {
     public void deleteSubject(@NotNull @RequestParam("id")String id){
         sessionService.deleteSession(id);
     }
-/*
-    @PutMapping
-    public void updateSubject(@NonNull @RequestParam ("id") ObjectId id, @NonNull @RequestBody ClassSession session){
-        sessionService.updateSubject(id, session);
-    }
- */
 }
