@@ -10,14 +10,11 @@ import java.util.List;
 @Service
 public class TracingTestService {
 
-    private final TracingTestDao tracingTestDao;
-    private final ContagionService contagionService;
+    @Autowired
+    TracingTestDao tracingTestDao;
 
     @Autowired
-    public TracingTestService(TracingTestDao tracingTestDao, ContagionService userService) {
-        this.tracingTestDao = tracingTestDao;
-        this.contagionService = userService;
-    }
+    ContagionService contagionService;
 
     public TracingTest addTracingTest(TracingTest tracingTest) {
         contagionService.existsContagion(tracingTest.getUserID());

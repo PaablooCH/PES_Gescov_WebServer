@@ -15,14 +15,11 @@ import java.util.Optional;
 @Service
 public class ClassroomService {
 
-    private final ClassroomDao classroomDao;
-    private final SchoolService schoolService;
+    @Autowired
+    ClassroomDao classroomDao;
 
     @Autowired
-    public ClassroomService(ClassroomDao classroomDao, SchoolService schoolService) {
-        this.classroomDao = classroomDao;
-        this.schoolService = schoolService;
-    }
+    SchoolService schoolService;
 
 
     public Classroom addClassroom(Classroom classroom) {
@@ -39,6 +36,9 @@ public class ClassroomService {
 
     public List<Classroom> getClassroomsBySchool(String schoolName) {
         return classroomDao.selectClassroomsBySchool(schoolName);
+    }
+    public List<Classroom> getClassroomsBySchoolID(String id) {
+        return classroomDao.findAllBySchoolID(id);
     }
 
     public Optional<Classroom> getClassroomById(String id) {
