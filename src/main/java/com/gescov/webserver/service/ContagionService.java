@@ -5,7 +5,6 @@ import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.ZeroInfectedAtSchoolException;
 import com.gescov.webserver.model.Contagion;
-import com.gescov.webserver.model.School;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class ContagionService {
     }
 
     public Contagion addContagion(Contagion contagion) {
-        if (!userService.existsUser(contagion.getInfectedID())) throw new NotFoundException(Contagion.class, contagion.getInfectedID());
+        userService.existsUser(contagion.getInfectedID());
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
         if (con.isPresent()) throw new AlreadyExistsException(Contagion.class, contagion.getInfectedID());
         return contagionDao.insert(contagion);
@@ -47,4 +46,7 @@ public class ContagionService {
         return con;
     }
 
+    public void existsContagion(String userID) {
+        if(!contagionDao.existsByEndContagionNullAndInfectedID(userID)) throw new NotFoundException(Contagion.class, userID);
+    }
 }

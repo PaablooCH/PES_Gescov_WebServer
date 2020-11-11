@@ -3,7 +3,6 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.school.SchoolDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
-import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ public class SchoolService {
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
-        if (!userService.existsUser(creatorID)) throw new NotFoundException(User.class, creatorID);
+        userService.existsUser(creatorID);
         schoolDao.insert(school);
         userService.addSchool(creatorID, school.getId());
         return school;

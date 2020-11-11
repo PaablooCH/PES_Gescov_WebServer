@@ -13,9 +13,13 @@ import java.util.List;
 public class ContagionController {
 
     private final ContagionService contagionService;
+    private final TracingTestController tracingTestController;
 
     @Autowired
-    public ContagionController(ContagionService contagionService) { this.contagionService = contagionService; }
+    public ContagionController(ContagionService contagionService, TracingTestController tracingTestController) {
+        this.contagionService = contagionService;
+        this.tracingTestController = tracingTestController;
+    }
 
     @PostMapping
     public Contagion addContagion(@NonNull @RequestBody Contagion contagion) { return contagionService.addContagion(contagion); }
@@ -40,6 +44,7 @@ public class ContagionController {
     @PutMapping
     public void updateContagion(@RequestParam("infectedID") String infectedID) {
         contagionService.updateContagion(infectedID);
+        tracingTestController.deleteAllTracingTest(infectedID);
     }
 
 }
