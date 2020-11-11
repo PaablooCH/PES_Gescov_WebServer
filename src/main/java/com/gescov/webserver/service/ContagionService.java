@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.contagion.ContagionDao;
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.ZeroInfectedAtSchoolException;
 import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.School;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class ContagionService {
 
     public List<Contagion> getNowContagion(String idSchool) {
         List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
-        if (con.isEmpty()) throw new NotFoundException(School.class, idSchool);
+        if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(idSchool);
         return con;
     }
 

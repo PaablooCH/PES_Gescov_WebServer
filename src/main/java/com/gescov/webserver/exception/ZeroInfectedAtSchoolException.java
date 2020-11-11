@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class WrongCapacityException extends RuntimeException {
+public class ZeroInfectedAtSchoolException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public WrongCapacityException(Class c) {
-        super(c.getSimpleName() + " capacity must be numRows * numCols");
+    public ZeroInfectedAtSchoolException(String schoolID) {
+        super("No infected at school with 'id' " + schoolID + ".");
     }
 }
