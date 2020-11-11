@@ -14,18 +14,18 @@ import java.util.Optional;
 
 @Service
 public class ClassSessionService {
-    private final ClassSessionDao classSessionDao;
-    private final ClassroomService classroomService;
-    private final SubjectService subjectService;
-    private final UserService userService;
 
     @Autowired
-    public ClassSessionService(ClassSessionDao classSessionDao, ClassroomService classroomService, SubjectService subjectService, UserService userService) {
-        this.classSessionDao = classSessionDao;
-        this.classroomService = classroomService;
-        this.subjectService = subjectService;
-        this.userService = userService;
-    }
+    ClassSessionDao classSessionDao;
+
+    @Autowired
+    ClassroomService classroomService;
+
+    @Autowired
+    SubjectService subjectService;
+
+    @Autowired
+    UserService userService;
 
     public ClassSession addSession(ClassSession session){ return classSessionDao.insert(session); }
 

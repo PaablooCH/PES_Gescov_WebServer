@@ -1,8 +1,12 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.school.SchoolDao;
+import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
+import com.gescov.webserver.model.User;
+import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +16,14 @@ import java.util.Optional;
 @Service
 public class SchoolService {
 
-    private final SchoolDao schoolDao;
-    private final UserService userService;
+    @Autowired
+    SchoolDao schoolDao;
 
     @Autowired
-    public SchoolService(SchoolDao schoolDao, UserService userService) {
-        this.schoolDao = schoolDao;
-        this.userService = userService;
-    }
+    UserService userService;
 
+    @Autowired
+    ClassroomService classroomService;
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
@@ -49,7 +52,15 @@ public class SchoolService {
         return schoolDao.findByName(schoolName);
     }
 
-    public void deleteSchool(String id) {
+    public void deleteSchool(String id, String adminID) {
+        Optional<School> s = schoolDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException(School.class, id);
+        List<String> admins = s.get().getAdministratorsID();
+        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, id);
+        List<Classroom> c = classroomService.getClassroomsBySchoolID(id);
+        for(Classroom cl : c) {
+            classroomService.deleteClassroom(cl.getId());
+        }
         schoolDao.deleteById(id);
     }
 

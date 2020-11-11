@@ -13,16 +13,15 @@ import java.util.Optional;
 @Service
 public class AssignmentService {
 
-    private final AssignmentDao assignmentDao;
-    private final ClassSessionService classSessionService;
-    private final UserService userService;
+    @Autowired
+    AssignmentDao assignmentDao;
 
     @Autowired
-    public AssignmentService(AssignmentDao assignmentDao, ClassSessionService classSessionService, UserService userService) {
-        this.assignmentDao = assignmentDao;
-        this.classSessionService = classSessionService;
-        this.userService = userService;
-    }
+    ClassSessionService classSessionService;
+
+    @Autowired
+    UserService userService;
+
 
     public Assignment addAssignment(Assignment assignment) {
         int numRow = classSessionService.getNumRow(assignment.getClassSessionID());

@@ -36,6 +36,11 @@ public class ClassroomController {
         return classroomService.getClassroomsBySchool(schoolName);
     }
 
+    @GetMapping(path = "/school/{id}")
+    public List<Classroom> getClassroomsBySchoolID(@PathVariable("id") String schoolID)  {
+        return classroomService.getClassroomsBySchoolID(schoolID);
+    }
+
     @GetMapping(path = "{id}")
     public Classroom getClassroomById(@PathVariable("id") String id)  {
         return classroomService.getClassroomById(id).orElse(null);

@@ -16,14 +16,12 @@ import java.util.Optional;
 @Service
 public class ContagionService {
 
-    private final ContagionDao contagionDao;
-    private final UserService userService;
+    @Autowired
+    ContagionDao contagionDao;
 
     @Autowired
-    public ContagionService(ContagionDao contagionDao, UserService userService) {
-        this.contagionDao = contagionDao;
-        this.userService = userService;
-    }
+    UserService userService;
+
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());

@@ -13,13 +13,8 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserDao userDao;
-
     @Autowired
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
+    UserDao userDao;
 
     public User addUser(User user) {
         return userDao.insert(user);

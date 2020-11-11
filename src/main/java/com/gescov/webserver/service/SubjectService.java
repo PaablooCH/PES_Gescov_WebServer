@@ -14,16 +14,16 @@ import java.util.Optional;
 @Service
 public class SubjectService {
 
-    private final SubjectDao subjectDao;
-    private final SchoolService schoolService;
-    private final UserService userService;
+    @Autowired
+    SubjectDao subjectDao;
 
     @Autowired
-    public SubjectService(SubjectDao subjectDao, SchoolService schoolService, UserService userService) {
-        this.subjectDao = subjectDao;
-        this.schoolService = schoolService;
-        this.userService = userService;
-    }
+    SchoolService schoolService;
+
+    @Autowired
+    UserService userService;
+
+
 
     public Subject addSubject(Subject subject, String creatorID){
         String schoolID = subject.getSchoolID();

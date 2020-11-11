@@ -41,8 +41,8 @@ public class SchoolController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deletePersonById(@PathVariable("id") String id) {
-        schoolService.deleteSchool(id);
+    public void deletePersonById(@PathVariable("id") String id, @NotNull @RequestParam("adminID") String adminID) {
+        schoolService.deleteSchool(id,adminID);
     }
 
     @PutMapping(path = "{specific}")
