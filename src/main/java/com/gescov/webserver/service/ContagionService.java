@@ -5,6 +5,7 @@ import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.ZeroInfectedAtSchoolException;
 import com.gescov.webserver.model.Contagion;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +27,22 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
-        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(contagion.getInfectedID());
-        if (con.isPresent()) throw new AlreadyExistsException(Contagion.class, contagion.getInfectedID());
+        if(contagion.getInfectedConfirmed() &&
+                contagionDao.existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(contagion.getInfectedID()))
+            updateContagion(contagion.getInfectedID());
+        if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
+            throw new AlreadyExistsException(User.class, contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
 
     public List<Contagion> getAllContagion() { return contagionDao.findAll(); }
 
-    public void updateContagion(String infectedId) {
+    public String updateContagion(String infectedId) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedId);
-        if (con.isEmpty()) throw new NotFoundException(Contagion.class, infectedId);
+        if (con.isEmpty()) throw new NotFoundException(User.class, infectedId);
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
+        return con.get().getId();
     }
 
     public List<Contagion> getNowContagion(String idSchool) {
@@ -46,7 +51,7 @@ public class ContagionService {
         return con;
     }
 
-    public void existsContagion(String userID) {
-        if(!contagionDao.existsByEndContagionNullAndInfectedID(userID)) throw new NotFoundException(Contagion.class, userID);
+    public void existsContagion(String contagionID) {
+        if(!contagionDao.existsByEndContagionNullAndId(contagionID)) throw new NotFoundException(Contagion.class, contagionID);
     }
 }

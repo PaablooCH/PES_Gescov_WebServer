@@ -13,4 +13,8 @@ public interface ContagionDao extends MongoRepository<Contagion, String>, Contag
 
     Boolean existsByEndContagionNullAndInfectedID(String infectedID);
 
+    Boolean existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(String infectedID);
+
+    Boolean existsByEndContagionNullAndId(String contagionID);
+
 }

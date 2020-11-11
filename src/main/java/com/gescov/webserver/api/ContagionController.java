@@ -43,8 +43,8 @@ public class ContagionController {
 
     @PutMapping
     public void updateContagion(@RequestParam("infectedID") String infectedID) {
-        contagionService.updateContagion(infectedID);
-        tracingTestController.deleteAllTracingTest(infectedID);
+        String contagionID = contagionService.updateContagion(infectedID);
+        tracingTestController.deleteAllTracingTest(contagionID);
     }
 
 }
