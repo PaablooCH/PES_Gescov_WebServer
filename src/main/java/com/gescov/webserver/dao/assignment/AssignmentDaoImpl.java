@@ -1,8 +1,10 @@
 package com.gescov.webserver.dao.assignment;
 
 import com.gescov.webserver.dao.classSession.ClassSessionDao;
+import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Assignment;
 import com.gescov.webserver.model.ClassSession;
+import com.gescov.webserver.model.Classroom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -27,6 +29,7 @@ public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
     @Override
     public List<Assignment> findByClassroom(String classroomID) {
         List<ClassSession> classSessions = classSessionDao.selectAllByClassroomId(classroomID);
+        if(classSessions.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
         List<String> classSessionID = new ArrayList<>();
         Query q = new Query();
         for (ClassSession cs : classSessions) classSessionID.add(cs.getId());

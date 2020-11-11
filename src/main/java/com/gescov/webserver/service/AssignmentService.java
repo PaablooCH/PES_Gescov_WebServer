@@ -4,6 +4,7 @@ import com.gescov.webserver.dao.assignment.AssignmentDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.PlaceOutOfIndexException;
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,20 @@ public class AssignmentService {
 
     private final AssignmentDao assignmentDao;
     private final ClassSessionService classSessionService;
+    private final UserService userService;
 
     @Autowired
-    public AssignmentService(AssignmentDao assignmentDao, ClassSessionService classSessionService) {
+    public AssignmentService(AssignmentDao assignmentDao, ClassSessionService classSessionService, UserService userService) {
         this.assignmentDao = assignmentDao;
         this.classSessionService = classSessionService;
+        this.userService = userService;
     }
 
     public Assignment addAssignment(Assignment assignment) {
         int numRow = classSessionService.getNumRow(assignment.getClassSessionID());
         int numCol = classSessionService.getNumCol(assignment.getClassSessionID());
         if (assignment.getPosRow() > numRow || assignment.getPosCol() > numCol) throw new PlaceOutOfIndexException(numRow, numCol);
+        if(!userService.existsUser(assignment.getStudentID())) throw new NotFoundException(User.class, assignment.getStudentID());
         return assignmentDao.insert(assignment);
     }
 
@@ -39,7 +43,7 @@ public class AssignmentService {
 
     public List<Assignment> getAllAssignment() { return assignmentDao.findAll(); }
 
-    public List<Assignment> getAssignmentByClassroom(String classroomID) {
+    public List<Assignment> getAssignmentsByClassroom(String classroomID) {
         return assignmentDao.findByClassroom(classroomID);
     }
 

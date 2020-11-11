@@ -41,7 +41,7 @@ public class AssignmentController {
 
     @GetMapping(path = "/classroom")
     public List<Assignment> getAssignmentByClassroom(@RequestParam("classroomID") String classroomID) {
-        return assignmentService.getAssignmentByClassroom(classroomID);
+        return assignmentService.getAssignmentsByClassroom(classroomID);
     }
 
     @PutMapping
