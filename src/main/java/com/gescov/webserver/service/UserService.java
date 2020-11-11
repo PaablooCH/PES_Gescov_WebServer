@@ -2,6 +2,7 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,14 @@ public class UserService {
         Optional<User> u = userDao.findById(id);
         if (u.isEmpty()) throw new NotFoundException(User.class, id);
         u.get().addSchool(update);
+        userDao.save(u.get());
+    }
+
+    public void updateUserRisk(String id){
+        Optional<User> u = userDao.findById(id);
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if(u.equals(false))u.get().setRisk(true);
+        else u.get().setRisk(false);
         userDao.save(u.get());
     }
 

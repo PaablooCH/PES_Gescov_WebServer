@@ -41,9 +41,9 @@ public class UserController {
         return userService.getUserById(id).orElse(null);
     }
 
-    @PutMapping
-    public void updateUser(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
-        userService.addSchool(id, update);
+    @PutMapping(path = "{id}")
+    public void updateUseRisk(@PathVariable("id") String id) {
+        userService.updateUserRisk(id);
     }
 
 }
