@@ -32,26 +32,5 @@ public class ClassSessionDaoImpl<T,ID> implements ClassSessionDaoCustom<T,ID> {
         this.classroomDao = classroomDao;
     }
 
-
-    public List<ClassSession> selectAllByClassroomId(String id){
-        Optional<Classroom> classroom = classroomDao.findById(id);
-        Query q = new Query();
-        q.addCriteria(Criteria.where("classroomID").is(classroom.get().getId()));
-        return mongoTemplate.find(q, ClassSession.class);
-    }
-
-    public List<ClassSession> selectAllBySubjectId(String id){
-        Optional<Subject> subject = subjectDao.findById(id);
-        Query q = new Query();
-        q.addCriteria(Criteria.where("subjectID").is(subject.get().getId()));
-        return mongoTemplate.find(q, ClassSession.class);
-    }
-
-    public List<ClassSession> selectAllByTeacherId(String id){
-        Optional<User> user = userDao.findById(id);
-        Query q = new Query();
-        q.addCriteria(Criteria.where("teacherID").is(user.get().getId()));
-        return mongoTemplate.find(q, ClassSession.class);
-    }
 }
 

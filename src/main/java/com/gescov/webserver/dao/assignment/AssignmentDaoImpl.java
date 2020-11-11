@@ -28,8 +28,19 @@ public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
 
     @Override
     public List<Assignment> findByClassroom(String classroomID) {
-        List<ClassSession> classSessions = classSessionDao.selectAllByClassroomId(classroomID);
-        if(classSessions.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomID(classroomID);
+        if (classSessions.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
+        List<String> classSessionID = new ArrayList<>();
+        Query q = new Query();
+        for (ClassSession cs : classSessions) classSessionID.add(cs.getId());
+        q.addCriteria(Criteria.where("classSessionID").in(classSessionID));
+        return mongoTemplate.find(q, Assignment.class);
+    }
+
+    @Override
+    public List<Assignment> findByClassroomDate(String classroomID, String date) {
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDate(classroomID, date);
+        if (classSessions.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
         List<String> classSessionID = new ArrayList<>();
         Query q = new Query();
         for (ClassSession cs : classSessions) classSessionID.add(cs.getId());

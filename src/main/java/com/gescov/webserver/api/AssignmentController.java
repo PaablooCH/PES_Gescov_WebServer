@@ -33,11 +33,10 @@ public class AssignmentController {
         return assignmentService.getAssignmentByClassSessionId(classSessionID);
     }
 
-    /*@GetMapping(path = "/classDate")
-    public List<Assignment> getAssignmentByClassroomDate(@RequestParam("class") String idClassroom, @RequestParam("date") String date,
-                                                         @RequestParam("date") String hour) {
-        return assignmentService.getAssignmentByClassroomDate(idClassroom, date, hour);
-    }*/
+    @GetMapping(path = "/classDate")
+    public List<Assignment> getAssignmentByClassroomDate(@RequestParam("classroomID") String idClassroom, @RequestParam("date") String date) {
+        return assignmentService.getAssignmentByClassroomDate(idClassroom, date);
+    }
 
     @GetMapping(path = "/classroom")
     public List<Assignment> getAssignmentByClassroom(@RequestParam("classroomID") String classroomID) {

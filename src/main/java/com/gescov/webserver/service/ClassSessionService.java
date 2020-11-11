@@ -31,11 +31,11 @@ public class ClassSessionService {
 
     public List<ClassSession> getAllSessions(){ return classSessionDao.findAll(); }
 
-    public List<ClassSession> getSessionByClassroom(String name){ return classSessionDao.selectAllByClassroomId(name); }
+    public List<ClassSession> getSessionByClassroom(String name){ return classSessionDao.findAllByClassroomID(name); }
 
-    public List<ClassSession> getSessionBySubject(String name){ return classSessionDao.selectAllBySubjectId(name); }
+    public List<ClassSession> getSessionBySubject(String name){ return classSessionDao.findAllBySubjectID(name); }
 
-    public List<ClassSession> getSessionByTeacher(String name){ return classSessionDao.selectAllByTeacherId(name); }
+    public List<ClassSession> getSessionByTeacher(String name){ return classSessionDao.findAllByTeacherID(name); }
 
     public List<ClassSession> getSessionByHour(String hour){ return classSessionDao.findAllByHour(hour); }
 

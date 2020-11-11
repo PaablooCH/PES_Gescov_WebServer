@@ -49,7 +49,7 @@ public class AssignmentService {
         return assignmentDao.findAllByClassSessionID(classSessionID);
     }
 
-    /*public List<Assignment> getAssignmentByClassroomDate(String idClassroom, String date, String hour) {
-        return assignmentDao.findByClassroomDate(idClassroom, date, hour);
-    }*/
+    public List<Assignment> getAssignmentByClassroomDate(String classroomID, String date) {
+        return assignmentDao.findByClassroomDate(classroomID, date);
+    }
 }
