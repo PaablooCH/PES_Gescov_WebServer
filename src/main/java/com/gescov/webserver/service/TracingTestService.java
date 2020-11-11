@@ -20,16 +20,16 @@ public class TracingTestService {
     }
 
     public TracingTest addTracingTest(TracingTest tracingTest) {
-        contagionService.existsContagion(tracingTest.getUserID());
+        contagionService.existsContagion(tracingTest.getContagionID());
         return tracingTestDao.insert(tracingTest);
     }
 
-    public List<TracingTest> getTracingTestByUser(String userID) {
-        contagionService.existsContagion(userID);
-        return tracingTestDao.findAllByUserID(userID);
+    public List<TracingTest> getTracingTestByUser(String contagionID) {
+        contagionService.existsContagion(contagionID);
+        return tracingTestDao.findAllByContagionID(contagionID);
     }
 
-    public void deleteAllTracingTest(String userID) {
-        tracingTestDao.deleteAllByUserID(userID);
+    public void deleteAllTracingTest(String contagionID) {
+        tracingTestDao.deleteAllByContagionID(contagionID);
     }
 }

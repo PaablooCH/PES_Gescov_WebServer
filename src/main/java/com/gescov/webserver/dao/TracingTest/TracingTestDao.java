@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface TracingTestDao extends MongoRepository<TracingTest, String>, TracingTestDaoCustom<TracingTest, String> {
 
-    List<TracingTest> findAllByUserID(String userID);
+    List<TracingTest> findAllByContagionID(String userID);
 
-    void deleteAllByUserID(String userID);
+    void deleteAllByContagionID(String userID);
 
 }

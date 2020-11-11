@@ -20,15 +20,15 @@ public class TracingTest {
 
     private List<Boolean> answers;
 
-    private String userID;
+    private String contagionID;
 
     private LocalDate dateTest;
 
     public TracingTest(@JsonProperty("id") String id,
-                       @JsonProperty("userID") String userID,
+                       @JsonProperty("contID") String contagionID,
                        @JsonProperty("answers") List<Boolean> answers) {
         this.id = id;
-        this.userID = userID;
+        this.contagionID = contagionID;
         this.answers = answers;
         this.dateTest = LocalDate.now();
     }

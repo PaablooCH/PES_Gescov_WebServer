@@ -29,7 +29,7 @@ public class TracingTestController {
         return tracingTestService.getTracingTestByUser(userID);
     }
 
-    public void deleteAllTracingTest(String userID) {
-        tracingTestService.deleteAllTracingTest(userID);
+    public void deleteAllTracingTest(String contagionID) {
+        tracingTestService.deleteAllTracingTest(contagionID);
     }
 }
