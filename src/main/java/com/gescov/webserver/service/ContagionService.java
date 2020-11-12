@@ -7,6 +7,7 @@ import com.gescov.webserver.exception.ZeroInfectedAtSchoolException;
 import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,10 +45,15 @@ public class ContagionService {
         return con.get().getId();
     }
 
-    public List<User> getNowContagion(String schoolID) {
+    public List<Pair<String, LocalDate>> getNowContagion(String schoolID) {
         List<Contagion> con = getContagions(schoolID);
         if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(schoolID);
-        return getUsers(con);
+        List<User> us = getUsers(con);
+        List<Pair<String, LocalDate>> aux = new ArrayList<>();
+        for(int i = 0; i < con.size(); i++){
+            aux.add(Pair.of(us.get(i).getName(), con.get(i).getStartContagion()));
+        }
+        return aux;
     }
 
     private List<Contagion> getContagions(String schoolID) {
