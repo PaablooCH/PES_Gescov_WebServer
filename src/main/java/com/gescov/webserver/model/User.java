@@ -21,6 +21,9 @@ public class User {
     @Id
     private String id;
 
+    @NotNull
+    private String tokenID;
+
     @NotNull(message = "User's name must not be null")
     private String name;
 

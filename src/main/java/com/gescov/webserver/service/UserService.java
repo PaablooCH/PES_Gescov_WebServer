@@ -68,9 +68,9 @@ public class UserService {
     }
 
     @SneakyThrows
-    public Boolean verifyToken(String token) {
+    public String verifyToken(String token) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList("673967911868-hubhos2mmf4fqmegetr2kh3pc4o65vhi.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("673967911868-q9jgm7i3ijsjn0ft3bs6avvpot02a0nl.apps.googleusercontent.com"))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
@@ -80,6 +80,8 @@ public class UserService {
             // Print user identifier
             String userId = payload.getSubject();
             System.out.println("User ID: " + userId);
+            Optional<User> u = userDao.findByTokenID(userId);
+            if(!u.isEmpty()) return u.get().getId();
 
             // Get profile information from payload
             String email = payload.getEmail();
@@ -90,10 +92,12 @@ public class UserService {
             String familyName = (String) payload.get("family_name");
             String givenName = (String) payload.get("given_name");
             System.out.println(email + " " + name + " " + familyName + " " + givenName);
-            return true;
+            User user = new User(null, name, email);
+            user.setTokenID(userId);
+            User user_created = addUser(user);
+            return user_created.getId();
         } else {
-            System.out.println("Invalid ID token.");
-            return false;
+            return null;
         }
     }
 }

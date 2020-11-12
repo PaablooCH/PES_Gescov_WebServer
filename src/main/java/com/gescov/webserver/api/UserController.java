@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping(path = "{token}")
-    public Boolean verifyToken(@PathVariable("token") String token) {
+    public String verifyToken(@PathVariable("token") String token) {
         return userService.verifyToken(token);
     }
 
