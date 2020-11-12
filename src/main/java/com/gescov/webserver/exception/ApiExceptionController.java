@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 
 @ControllerAdvice
@@ -38,6 +40,18 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ZeroInfectedAtSchoolException.class)
     public ResponseEntity<ApiError> handleZeroInfectedAtSchoolException(ZeroInfectedAtSchoolException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(GeneralSecurityException.class)
+    public ResponseEntity<ApiError> handleGeneralSecurityException(GeneralSecurityException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ApiError> handleIOException(IOException ex, WebRequest request) {
         ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }

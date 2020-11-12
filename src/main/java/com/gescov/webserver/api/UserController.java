@@ -3,7 +3,6 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -20,6 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping(path = "{token}")
+    public Boolean verifyToken(@PathVariable("token") String token) {
+        return userService.verifyToken(token);
+    }
 
     @PostMapping
     public User addUser(@RequestBody User user) {
@@ -32,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/school")
-    public List<String> getSchoolsByUser(@NonNull @RequestParam("id") String id) {
+    public List<String> getSchoolsByUser(@NotNull @RequestParam("id") String id) {
         return userService.getSchoolsByUser(id);
     }
 
