@@ -26,7 +26,7 @@ public class ContagionDaoImpl<T, ID> implements ContagionDaoCustom<T, ID> {
 
     @Override
     public List<Contagion> findInfectedBySchool(String schoolID) {
-        List<User> infected = userDao.findAllBySchoolsID(schoolID);
+        List<User> infected = userDao.findAllBySchoolID(schoolID);
         List<String> infectedID = new ArrayList<>();
         Query q = new Query();
         for (User in : infected) {

@@ -20,7 +20,7 @@ public class UserDaoImpl<T, ID> implements UserDaoCustom<T, ID> {
     }
 
     @Override
-    public List<User> findAllBySchoolsID(String schoolID) {
+    public List<User> findAllBySchoolID(String schoolID) {
         Query q = new Query();
         q.addCriteria(Criteria.where("schoolsID").is(schoolID));
         return mongoTemplate.find(q, User.class);

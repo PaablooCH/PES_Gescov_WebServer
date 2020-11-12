@@ -1,6 +1,7 @@
 package com.gescov.webserver.api;
 
 import com.gescov.webserver.model.Contagion;
+import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.ContagionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -37,7 +38,7 @@ public class ContagionController {
     }*/
 
     @GetMapping(path = "/now")
-    public List<Contagion> getContagionNow(@RequestParam("schoolID") String schoolID) {
+    public List<User> getContagionNow(@RequestParam("schoolID") String schoolID) {
         return contagionService.getNowContagion(schoolID);
     }
 

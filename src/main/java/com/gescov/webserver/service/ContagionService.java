@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,10 +44,27 @@ public class ContagionService {
         return con.get().getId();
     }
 
-    public List<Contagion> getNowContagion(String idSchool) {
-        List<Contagion> con = contagionDao.findInfectedBySchool(idSchool);
-        if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(idSchool);
-        return con;
+    public List<User> getNowContagion(String schoolID) {
+        List<Contagion> con = getContagions(schoolID);
+        if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(schoolID);
+        return getUsers(con);
+    }
+
+    private List<Contagion> getContagions(String schoolID) {
+        List<User> infected = userService.findAllBySchoolID(schoolID);
+        List<String> infectedIDs = new ArrayList<>();
+        for (User in : infected) {
+            infectedIDs.add(in.getId());
+        }
+        return contagionDao.findAllByEndContagionNullAndInfectedIDIn(infectedIDs);
+    }
+
+    private List<User> getUsers(List<Contagion> con) {
+        List<String> infectedIDs = new ArrayList<>();
+        for (Contagion in : con) {
+            infectedIDs.add(in.getInfectedID());
+        }
+        return userService.findAllByIDIn(infectedIDs);
     }
 
     public void existsContagion(String contagionID) {

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UserDaoCustom<T, ID> {
 
-    List<User> findAllBySchoolsID(String schoolID);
+    List<User> findAllBySchoolID(String schoolID);
 
 }

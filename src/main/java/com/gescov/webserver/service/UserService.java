@@ -2,7 +2,6 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,4 +52,11 @@ public class UserService {
         userDao.save(u.get());
     }
 
+    public List<User> findAllBySchoolID(String schoolID) {
+        return userDao.findAllBySchoolID(schoolID);
+    }
+
+    public List<User> findAllByIDIn(List<String> infectedIDs) {
+        return userDao.findAllByIdIn(infectedIDs);
+    }
 }
