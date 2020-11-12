@@ -1,10 +1,9 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.subject.SubjectDao;
+import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.School;
-import com.gescov.webserver.model.Subject;
-import com.gescov.webserver.model.User;
+import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,9 @@ public class SubjectService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ClassSessionService classSessionService;
+
 
 
     public Subject addSubject(Subject subject, String creatorID){
@@ -37,7 +39,7 @@ public class SubjectService {
 
     public List<Subject> getAllSubject() { return subjectDao.findAll(); }
 
-    public List<Subject> selectSubjectBySchoolId(String id){ return subjectDao.selectAllBySchoolId(id);}
+    public List<Subject> selectSubjectBySchoolId(String id){ return subjectDao.findAllBySchoolID(id);}
 
     public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
 
@@ -46,7 +48,26 @@ public class SubjectService {
     public List<Subject> getSubjectByName(String name) { return subjectDao.findAllByName(name); }
 
     public void deleteSubject(String id){
+        DeleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
+    }
+
+    public void deleteSubjectById(String id, String adminID) {
+        Optional<Subject> s = subjectDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
+        Optional<School> school = schoolService.getSchoolById(s.get().getSchoolID());
+        if (school.isEmpty()) throw new NotFoundException(School.class, s.get().getSchoolID());
+        List<String> admins = school.get().getAdministratorsID();
+        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        DeleteClassSessionsOfASubject(id);
+        subjectDao.deleteById(id);
+    }
+
+    private void DeleteClassSessionsOfASubject(String id) {
+        List<ClassSession> cs = classSessionService.getSessionBySubject(id);
+        for(ClassSession classSes : cs){
+            classSessionService.deleteSession(classSes.getId());
+        }
     }
 
     public void updateSubject(String id, String name){

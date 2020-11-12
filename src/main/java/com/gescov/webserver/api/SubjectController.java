@@ -45,8 +45,8 @@ public class SubjectController {
     }
 
     @DeleteMapping
-    public void deleteSubject(@NotNull @RequestParam("id") String id){
-        subjectService.deleteSubject(id);
+    public void deleteSubject(@NotNull @RequestParam("id") String id, @NotNull @RequestParam ("admindID") String adminID){
+        subjectService.deleteSubjectById(id, adminID);
     }
 
     @PutMapping

@@ -11,4 +11,6 @@ public interface SubjectDao extends MongoRepository<Subject, String>, SubjectDao
 
     List<Subject> findAllByName(String name);
 
+    List<Subject> findAllBySchoolID(String id);
+
 }

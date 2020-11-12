@@ -45,6 +45,14 @@ public class SchoolController {
         schoolService.deleteSchool(id,adminID);
     }
 
+    @PutMapping
+    public School updateSchool(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("name") String name,
+                             @NotNull @RequestParam("latitude") int latitude, @NotNull @RequestParam ("longitude") int longitude,
+                             @NotNull @RequestParam("phone") String phone, @NotNull @RequestParam String website,
+                             @NotNull @RequestParam ("address") String address) {
+        return schoolService.updateSchool(id, name, latitude, longitude, phone, website, address);
+    }
+
     @PutMapping(path = "{specific}")
     public void updateSchool(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);

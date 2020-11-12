@@ -21,8 +21,8 @@ public class ClassSessionController {
     }
 
     @PostMapping
-    public void addSession(@NotNull @RequestBody ClassSession sessions){
-        sessionService.addSession(sessions);
+    public ClassSession addSession(@NotNull @RequestBody ClassSession sessions){
+        return sessionService.addSession(sessions);
     }
 
     @GetMapping

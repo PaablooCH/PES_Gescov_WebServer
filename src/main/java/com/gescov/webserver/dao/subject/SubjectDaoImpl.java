@@ -24,13 +24,6 @@ public class SubjectDaoImpl<T,ID> implements SubjectDaoCustom<T,ID> {
         this.schoolDao = schoolDao;
     }
 
-    public List<Subject> selectAllBySchoolId (String id){
-        Optional<School> school = schoolDao.findById(id);
-        Query q = new Query();
-        q.addCriteria(Criteria.where("schoolID").is(school.get().getId()));
-        return mongoTemplate.find(q, Subject.class);
-    }
-
     public List<Subject> selectAllBySchoolName (String schoolName){
         School school = schoolDao.findByName(schoolName);
         Query q = new Query();

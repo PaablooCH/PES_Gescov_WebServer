@@ -5,6 +5,7 @@ import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
+import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class SchoolService {
 
     @Autowired
     ClassroomService classroomService;
+
+    @Autowired
+    SubjectService subjectService;
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
@@ -56,12 +60,36 @@ public class SchoolService {
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
         List<String> admins = s.get().getAdministratorsID();
-        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, id);
+        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        DeleteAllClassroomsOfSchool(id);
+        deleteAllSubjectsOfSchool(id);
+        schoolDao.deleteById(id);
+    }
+
+    private void deleteAllSubjectsOfSchool(String id) {
+        List<Subject> su = subjectService.selectSubjectBySchoolId(id);
+        for(Subject sub : su) {
+            subjectService.deleteSubject(sub.getId());
+        }
+    }
+
+    private void DeleteAllClassroomsOfSchool(String id) {
         List<Classroom> c = classroomService.getClassroomsBySchoolID(id);
         for(Classroom cl : c) {
             classroomService.deleteClassroom(cl.getId());
         }
-        schoolDao.deleteById(id);
+    }
+
+    public School updateSchool(String id, String name, int latitude, int longitude, String phone, String website, String address){
+        Optional<School> s = schoolDao.findById(id);
+        if (s.isEmpty()) throw new NotFoundException(School.class, id);
+        if(!name.equals("")) s.get().setName(name);
+        if(!(longitude == 0)) s.get().setLongitude(longitude);
+        if(!(latitude == 0)) s.get().setLongitude(latitude);
+        if(phone.equals("")) s.get().setPhone(phone);
+        if(!website.equals((""))) s.get().setWebsite(website);
+        if(!address.equals("")) s.get().setAddress(address);
+        return schoolDao.save(s.get());
     }
 
     public void updateSchoolName(String id, String update) {

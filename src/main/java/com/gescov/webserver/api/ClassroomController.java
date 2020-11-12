@@ -50,15 +50,17 @@ public class ClassroomController {
     public Pair<Integer, Integer> getClassroomDistributionById(@NotNull @RequestParam("id") String id) { return classroomService.getClassroomDistributionById(id); }
 
     @DeleteMapping(path = "{id}")
-    public void deleteClassroomById(@PathVariable("id") String id) {
-        classroomService.deleteClassroom(id);
+    public void deleteClassroomById(@PathVariable("id") String id, @NotNull @RequestParam("adminID") String adminID) {
+        classroomService.deleteClassroomByID(id, adminID);
     }
 
     @PutMapping
-    public void updateClassroom(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("name") String name) {
-        classroomService.updateClassroomName(id, name);
+    public Classroom updateClassroom(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("capacity") int capacity,
+                                     @RequestParam("name") String name, @NotNull @RequestParam("numRows") int numRows,
+                                     @NotNull @RequestParam("numCols") int numCols) {
+        return classroomService.updateClassroom(id, capacity, name, numRows, numCols);
     }
-
+/*
     @PutMapping(path = "{specific}")
     public void updateClassroom(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id,
                                 @NotNull @RequestParam("update") int update) {
@@ -66,5 +68,5 @@ public class ClassroomController {
         else if (specific.equals("numRows")) classroomService.updateClassroomNumRows(id, update);
         else if (specific.equals("numCols")) classroomService.updateClassroomNumCols(id, update);
     }
-
+*/
 }
