@@ -2,6 +2,7 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -22,6 +23,9 @@ public class UserService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    SchoolService schoolService;
 
     public User addUser(User user) {
         return userDao.insert(user);
@@ -45,10 +49,12 @@ public class UserService {
          if(!userDao.existsById(userID)) throw new NotFoundException(User.class, userID);
     }
 
-    public void addSchool(String id, String update) {
+    public void addSchool(String id, String schoolID) {
         Optional<User> u = userDao.findById(id);
         if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        u.get().addSchool(update);
+        Optional<School> s = schoolService.getSchoolById(schoolID);
+        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        u.get().addSchool(schoolID);
         userDao.save(u.get());
     }
 

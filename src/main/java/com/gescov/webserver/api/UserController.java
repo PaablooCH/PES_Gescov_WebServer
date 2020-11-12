@@ -34,6 +34,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @PutMapping (path = "/school/{id}")
+    public void addSchoolID(@NotNull @PathVariable("id") String id, @NotNull @RequestParam("schoolID") String schoolID) {
+        userService.addSchool(id, schoolID);
+    }
+
     @GetMapping(path = "/school")
     public List<String> getSchoolsByUser(@NotNull @RequestParam("id") String id) {
         return userService.getSchoolsByUser(id);
