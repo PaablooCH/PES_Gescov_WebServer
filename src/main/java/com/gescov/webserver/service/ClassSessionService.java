@@ -27,7 +27,18 @@ public class ClassSessionService {
     @Autowired
     UserService userService;
 
-    public ClassSession addSession(ClassSession session){ return classSessionDao.insert(session); }
+    public ClassSession addSession(ClassSession session){
+        String classroomID = session.getClassroomID();
+        String subjectID = session.getSubjectID();
+        String teacherID = session.getTeacherID();
+        Optional<Classroom> c = classroomService.getClassroomById(classroomID);
+        Optional<Subject> s = subjectService.findById(subjectID);
+        Optional<User> u = userService.getUserById(teacherID);
+        if(c.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
+        if(s.isEmpty()) throw new NotFoundException(Subject.class, subjectID);
+        if(u.isEmpty()) throw new NotFoundException(User.class, teacherID);
+        return classSessionDao.insert(session);
+    }
 
     public List<ClassSession> getAllSessions(){ return classSessionDao.findAll(); }
 
