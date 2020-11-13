@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao.TracingTest;
+package com.gescov.webserver.dao.tracingTest;
 
 public interface TracingTestDaoCustom<T,ID> {
 }

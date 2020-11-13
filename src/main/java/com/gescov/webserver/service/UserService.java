@@ -106,4 +106,11 @@ public class UserService {
             return null;
         }
     }
+
+    public void updateUserSchool(String id, String studentID, String schoolID) {
+        existsUser(id);
+        existsUser(studentID);
+        schoolService.isAdmin(id, schoolID);
+        addSchool(studentID, schoolID);
+    }
 }

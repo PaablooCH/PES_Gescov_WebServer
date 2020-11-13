@@ -1,4 +1,4 @@
-package com.gescov.webserver.dao.TracingTest;
+package com.gescov.webserver.dao.tracingTest;
 
 import com.gescov.webserver.model.TracingTest;
 import org.springframework.data.mongodb.repository.MongoRepository;

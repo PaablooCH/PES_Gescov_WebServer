@@ -7,7 +7,6 @@ import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
-import com.mongodb.client.FindIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,4 +105,11 @@ public class SchoolService {
         schoolDao.save(s.get());
     }
 
+    public void existsSchool(String id) {
+        if(!schoolDao.existsById(id)) throw new NotFoundException(School.class, id);
+    }
+
+    public void isAdmin(String schoolID, String adminID) {
+        if(!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+    }
 }

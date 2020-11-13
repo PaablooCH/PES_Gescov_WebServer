@@ -1,6 +1,6 @@
 package com.gescov.webserver.service;
 
-import com.gescov.webserver.dao.TracingTest.TracingTestDao;
+import com.gescov.webserver.dao.tracingTest.TracingTestDao;
 import com.gescov.webserver.model.TracingTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
