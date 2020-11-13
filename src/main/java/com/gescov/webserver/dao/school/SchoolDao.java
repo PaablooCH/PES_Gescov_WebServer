@@ -1,14 +1,14 @@
 package com.gescov.webserver.dao.school;
 
+import com.gescov.webserver.dao.subject.SubjectDaoCustom;
 import com.gescov.webserver.model.School;
+import com.gescov.webserver.model.Subject;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SchoolDao extends MongoRepository<School, String> {
+public interface SchoolDao extends MongoRepository<School, String>, SchoolDaoCustom<School, String> {
 
     School findByName(String schoolName);
-
-    boolean existsByIdAndAdministratorsIDIn(String id, String adminID);
 
 }
