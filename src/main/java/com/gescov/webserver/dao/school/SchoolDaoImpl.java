@@ -23,6 +23,6 @@ public class SchoolDaoImpl<T,ID> implements SchoolDaoCustom<T,ID> {
         Query q = new Query();
         q.addCriteria(Criteria.where("id").is(schoolID));
         q.addCriteria(Criteria.where("administratorsID").is(adminID));
-        return mongoTemplate.find(q, School.class);
+        return !mongoTemplate.find(q, School.class).isEmpty();
     }
 }
