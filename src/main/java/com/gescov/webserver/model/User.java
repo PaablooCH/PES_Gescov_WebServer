@@ -35,6 +35,8 @@ public class User {
 
     private List<String> schoolsID;
 
+    private String profile;
+
 
     public User(@JsonProperty("id") String id,
                 @JsonProperty("name") String name,
@@ -44,6 +46,7 @@ public class User {
         this.email = email;
         this.risk = false;
         this.schoolsID = new ArrayList<>();
+        this.profile = "Student";
     }
 
     public void addSchool(String schoolID) {

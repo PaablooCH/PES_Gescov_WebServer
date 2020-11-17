@@ -111,4 +111,22 @@ public class UserService {
         schoolService.isAdmin(id, schoolID);
         addSchool(studentID, schoolID);
     }
+
+    public void becomeStudent(String id){
+        Optional<User> u = userDao.findById(id);
+        if(!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
+        userDao.save(u.get());
+    }
+
+    public void becomeTeacher(String id){
+        Optional<User> u = userDao.findById(id);
+        if(!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
+        userDao.save(u.get());
+    }
+
+    public void becomeTutor(String id){
+        Optional<User> u = userDao.findById(id);
+        if(!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
+        userDao.save(u.get());
+    }
 }
