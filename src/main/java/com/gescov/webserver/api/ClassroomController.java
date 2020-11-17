@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@RequestMapping("api/classroom")
+@RequestMapping("api/classrooms")
 @RestController
 public class ClassroomController {
 

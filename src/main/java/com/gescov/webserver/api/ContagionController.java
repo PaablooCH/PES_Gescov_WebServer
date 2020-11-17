@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("api/contagion")
+@RequestMapping("api/contagions")
 @RestController
 public class ContagionController {
 
@@ -31,20 +31,13 @@ public class ContagionController {
         return contagionService.getAllContagion();
     }
 
-    /*@GetMapping(path = "{specific}")
-    public List<Contagion> getSpecificContagion(@PathVariable("specific") String specific, @RequestParam("nameCen") String nameCen) {
-        List<Contagion> returned = null;
-        if (specific.equals("now")) returned = contagionService.getNowContagion(nameCen);
-        return returned;
-    }*/
-
-    @GetMapping(path = "/now")
-    public List<Pair<String, LocalDate>> getContagionNow(@RequestParam("schoolID") String schoolID) {
+    @GetMapping(path = "/now/{schoolID}")
+    public List<Pair<String, LocalDate>> getContagionNow(@PathVariable("schoolID") String schoolID) {
         return contagionService.getNowContagion(schoolID);
     }
 
-    @PutMapping
-    public void updateContagion(@RequestParam("infectedID") String infectedID) {
+    @PutMapping(path = "/{id}")
+    public void updateContagion(@PathVariable("id") String infectedID) {
         String contagionID = contagionService.updateContagion(infectedID);
         tracingTestController.deleteAllTracingTest(contagionID);
     }

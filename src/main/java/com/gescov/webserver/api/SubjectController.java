@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("api/subject")
+@RequestMapping("api/subjects")
 @RestController
 public class SubjectController {
 

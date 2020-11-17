@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("api/classSession")
+@RequestMapping("api/classSessions")
 @RestController
 public class ClassSessionController {
 

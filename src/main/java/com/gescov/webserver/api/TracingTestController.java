@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("api/tracingTest")
+@RequestMapping("api/tracingTests")
 @RestController
 public class TracingTestController {
 

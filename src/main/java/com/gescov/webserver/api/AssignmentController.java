@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("api/assignment")
+@RequestMapping("api/assignments")
 @RestController
 public class AssignmentController {
 
@@ -28,8 +28,8 @@ public class AssignmentController {
     //@GetMapping
     //public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
 
-    @GetMapping
-    public List<Assignment> getAssignmentByClassId(@RequestParam("cSeID") String classSessionID) {
+    @GetMapping(path = "/classSession/{id}")
+    public List<Assignment> getAssignmentByClassId(@PathVariable("id") String classSessionID) {
         return assignmentService.getAssignmentByClassSessionId(classSessionID);
     }
 
@@ -38,13 +38,13 @@ public class AssignmentController {
         return assignmentService.getAssignmentByClassroomDate(idClassroom, date);
     }
 
-    @GetMapping(path = "/classroom")
-    public List<Assignment> getAssignmentByClassroom(@RequestParam("classroomID") String classroomID) {
+    @GetMapping(path = "/classroom/{id}")
+    public List<Assignment> getAssignmentByClassroom(@PathVariable("id") String classroomID) {
         return assignmentService.getAssignmentsByClassroom(classroomID);
     }
 
-    @PutMapping
-    public void updateAssignment(@RequestParam("id") String id, @RequestParam("row") int posRow,
+    @PutMapping(path = "/{id}")
+    public void updateAssignment(@PathVariable("id") String id, @RequestParam("row") int posRow,
                                  @RequestParam("col") int posCol) {
         assignmentService.updateAssignment(id, posRow, posCol);
     }

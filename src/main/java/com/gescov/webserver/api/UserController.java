@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@RequestMapping("api/user")
+@RequestMapping("api/users")
 @RestController
 public class UserController {
 
