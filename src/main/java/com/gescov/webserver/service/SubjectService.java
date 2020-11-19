@@ -66,7 +66,7 @@ public class SubjectService {
     private void DeleteClassSessionsOfASubject(String id) {
         List<ClassSession> cs = classSessionService.getSessionBySubject(id);
         for(ClassSession classSes : cs){
-            classSessionService.deleteSession(classSes.getId());
+            classSessionService.deleteClassSession(classSes.getId());
         }
     }
 

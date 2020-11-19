@@ -1,11 +1,9 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.classSession.ClassSessionDao;
+import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.ClassSession;
-import com.gescov.webserver.model.Classroom;
-import com.gescov.webserver.model.Subject;
-import com.gescov.webserver.model.User;
+import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,12 @@ public class ClassSessionService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    SchoolService schoolService;
+
+    @Autowired
+    AssignmentService assignmentService;
 
     public ClassSession addSession(ClassSession session){
         String classroomID = session.getClassroomID();
@@ -52,7 +56,28 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(date); }
 
-    public void deleteSession(String id){
+    public void deleteClassSessionById(String usuID, String classSeID){
+        Optional<ClassSession> cs = classSessionDao.findById(classSeID);
+        if (cs.isEmpty()) throw new NotFoundException(ClassSession.class, classSeID);
+        Optional<Classroom> c = classroomService.getClassroomById(cs.get().getClassroomID());
+        if (c.isEmpty()) throw new NotFoundException(Classroom.class, cs.get().getClassroomID());
+        Optional<School> s = schoolService.getSchoolById(c.get().getSchoolID());
+        if (s.isEmpty()) throw new NotFoundException(School.class, c.get().getSchoolID());
+        List<String> admins = s.get().getAdministratorsID();
+        if(!admins.contains(usuID)) throw new IsNotAnAdministratorException(User.class, usuID);
+        deleteAssignmentsOfASession(classSeID);
+        classSessionDao.deleteById(classSeID);
+    }
+
+    private void deleteAssignmentsOfASession(String classSeID) {
+        List<Assignment> as = assignmentService.getAssignmentByClassSessionId(classSeID);
+        for(Assignment ass : as){
+            assignmentService.deleteAssignmentById(ass.getId());
+        }
+    }
+
+    public void deleteClassSession(String id){
+        deleteAssignmentsOfASession(id);
         classSessionDao.deleteById(id);
     }
 

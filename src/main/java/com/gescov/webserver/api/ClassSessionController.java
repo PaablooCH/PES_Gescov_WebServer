@@ -42,7 +42,7 @@ public class ClassSessionController {
     }
 
     @DeleteMapping
-    public void deleteSubject(@NotNull @RequestParam("id")String id){
-        sessionService.deleteSession(id);
+    public void deleteClassSession(@NotNull @RequestParam ("usuID") String usuID, @NotNull @RequestParam("id") String id){
+        sessionService.deleteClassSessionById(usuID, id);
     }
 }

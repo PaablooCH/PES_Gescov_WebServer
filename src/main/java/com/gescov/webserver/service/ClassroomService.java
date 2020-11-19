@@ -76,7 +76,7 @@ public class ClassroomService {
     private void DeleteClassSessionsOfAClassroom(String id) {
         List<ClassSession> cs = classSessionService.getSessionByClassroom(id);
         for(ClassSession classSes : cs){
-            classSessionService.deleteSession(classSes.getId());
+            classSessionService.deleteClassSession(classSes.getId());
         }
     }
 

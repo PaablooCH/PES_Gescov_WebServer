@@ -52,4 +52,8 @@ public class AssignmentService {
     public List<Assignment> getAssignmentByClassroomDate(String classroomID, String date) {
         return assignmentDao.findByClassroomDate(classroomID, date);
     }
+
+    public void deleteAssignmentById(String assID){
+        assignmentDao.deleteById(assID);
+    }
 }
