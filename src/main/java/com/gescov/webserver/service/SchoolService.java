@@ -60,7 +60,7 @@ public class SchoolService {
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
         List<String> admins = s.get().getAdministratorsID();
         if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
-        DeleteAllClassroomsOfSchool(id);
+        deleteAllClassroomsOfSchool(id);
         deleteAllSubjectsOfSchool(id);
         schoolDao.deleteById(id);
     }
@@ -72,7 +72,7 @@ public class SchoolService {
         }
     }
 
-    private void DeleteAllClassroomsOfSchool(String id) {
+    private void deleteAllClassroomsOfSchool(String id) {
         List<Classroom> c = classroomService.getClassroomsBySchoolID(id);
         for(Classroom cl : c) {
             classroomService.deleteClassroom(cl.getId());
@@ -83,10 +83,10 @@ public class SchoolService {
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
         if(!name.equals("")) s.get().setName(name);
-        if(!(longitude == 0)) s.get().setLongitude(longitude);
-        if(!(latitude == 0)) s.get().setLongitude(latitude);
+        if(longitude != 0) s.get().setLongitude(longitude);
+        if(latitude != 0) s.get().setLongitude(latitude);
         if(phone.equals("")) s.get().setPhone(phone);
-        if(!website.equals((""))) s.get().setWebsite(website);
+        if(!website.equals("")) s.get().setWebsite(website);
         if(!address.equals("")) s.get().setAddress(address);
         return schoolDao.save(s.get());
     }
@@ -103,10 +103,6 @@ public class SchoolService {
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
         s.get().setState(update);
         schoolDao.save(s.get());
-    }
-
-    public void existsSchool(String id) {
-        if(!schoolDao.existsById(id)) throw new NotFoundException(School.class, id);
     }
 
     public void isAdmin(String schoolID, String adminID) {

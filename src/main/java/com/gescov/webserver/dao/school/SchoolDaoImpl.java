@@ -1,7 +1,6 @@
 package com.gescov.webserver.dao.school;
 
 import com.gescov.webserver.model.School;
-import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

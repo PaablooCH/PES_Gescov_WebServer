@@ -3,7 +3,10 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.subject.SubjectDao;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.*;
+import com.gescov.webserver.model.ClassSession;
+import com.gescov.webserver.model.School;
+import com.gescov.webserver.model.Subject;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +46,9 @@ public class SubjectService {
 
     public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
 
-    public List<Subject> getSubjectBySchool(String schoolName) { return subjectDao.selectAllBySchoolName(schoolName); }
+    public List<Subject> getSubjectBySchool(String schoolName) {
+        School school = schoolService.getSchoolByName(schoolName);
+        return subjectDao.selectAllBySchoolID(school.getId()); }
 
     public List<Subject> getSubjectByName(String name) { return subjectDao.findAllByName(name); }
 

@@ -84,20 +84,17 @@ public class ClassSessionService {
     public int getNumCol(String classSessionID) {
         Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
         if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
-        return classroomService.getClassroomById(classSession.get().getClassroomID()).get().getNumCols();
+        Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
+        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
+        return classroom.get().getNumCols();
     }
 
     public int getNumRow(String classSessionID) {
         Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
         if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
-        return classroomService.getClassroomById(classSession.get().getClassroomID()).get().getNumRows();
+        Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
+        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
+        return classroom.get().getNumRows();
     }
-/*
-    public void updateSubject(String id, String subject){
-        Optional<ClassSession> s = classSessionDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException("ClassSession with 'id'" + id + "not found!");
-        s.get().setName(na);
-        subjectDao.insert(s.get());
-    }
- */
+
 }

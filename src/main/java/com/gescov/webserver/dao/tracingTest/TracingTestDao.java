@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TracingTestDao extends MongoRepository<TracingTest, String>, TracingTestDaoCustom<TracingTest, String> {
+public interface TracingTestDao extends MongoRepository<TracingTest, String> {
 
     List<TracingTest> findAllByContagionID(String userID);
 

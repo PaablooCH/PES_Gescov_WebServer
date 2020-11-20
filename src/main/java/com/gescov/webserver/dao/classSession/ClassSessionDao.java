@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface ClassSessionDao extends MongoRepository <ClassSession, String> , ClassSessionDaoCustom<ClassSession, String> {
+public interface ClassSessionDao extends MongoRepository <ClassSession, String> {
 
     List<ClassSession> findAllByHour(String hour);
 

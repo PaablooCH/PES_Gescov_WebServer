@@ -25,9 +25,6 @@ public class AssignmentController {
         return assignmentService.addAssignment(assignment);
     }
 
-    //@GetMapping
-    //public List<Assignment> getAllAssignment() { return assignmentService.getAllAssignment(); }
-
     @GetMapping(path = "/classSession/{id}")
     public List<Assignment> getAssignmentByClassId(@PathVariable("id") String classSessionID) {
         return assignmentService.getAssignmentByClassSessionId(classSessionID);

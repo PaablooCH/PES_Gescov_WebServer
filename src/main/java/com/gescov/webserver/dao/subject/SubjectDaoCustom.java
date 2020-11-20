@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SubjectDaoCustom<T,ID> {
 
-    List<Subject> selectAllBySchoolName(String schoolName);
+    List<Subject> selectAllBySchoolID(String schoolID);
 }

@@ -60,13 +60,5 @@ public class ClassroomController {
                                      @NotNull @RequestParam("numCols") int numCols) {
         return classroomService.updateClassroom(id, capacity, name, numRows, numCols);
     }
-/*
-    @PutMapping(path = "{specific}")
-    public void updateClassroom(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id,
-                                @NotNull @RequestParam("update") int update) {
-        if (specific.equals("capacity")) classroomService.updateClassroomCapacity(id, update);
-        else if (specific.equals("numRows")) classroomService.updateClassroomNumRows(id, update);
-        else if (specific.equals("numCols")) classroomService.updateClassroomNumCols(id, update);
-    }
-*/
+
 }

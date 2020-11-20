@@ -83,23 +83,16 @@ public class UserService {
 
             // Print user identifier
             String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
             Optional<User> u = userDao.findByTokenID(userId);
-            if(!u.isEmpty()) return u.get().getId();
+            if(u.isPresent()) return u.get().getId();
 
             // Get profile information from payload
             String email = payload.getEmail();
-            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
             String name = (String) payload.get("name");
-            String pictureUrl = (String) payload.get("picture");
-            String locale = (String) payload.get("locale");
-            String familyName = (String) payload.get("family_name");
-            String givenName = (String) payload.get("given_name");
-            System.out.println(email + " " + name + " " + familyName + " " + givenName);
             User user = new User(null, name, email);
             user.setTokenID(userId);
-            User user_created = addUser(user);
-            return user_created.getId();
+            User userCreated = addUser(user);
+            return userCreated.getId();
         } else {
             return null;
         }
@@ -114,18 +107,21 @@ public class UserService {
 
     public void becomeStudent(String id){
         Optional<User> u = userDao.findById(id);
+        if(u.isEmpty()) throw new NotFoundException(User.class, id);
         if(!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
         userDao.save(u.get());
     }
 
     public void becomeTeacher(String id){
         Optional<User> u = userDao.findById(id);
+        if(u.isEmpty()) throw new NotFoundException(User.class, id);
         if(!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
         userDao.save(u.get());
     }
 
     public void becomeTutor(String id){
         Optional<User> u = userDao.findById(id);
+        if(u.isEmpty()) throw new NotFoundException(User.class, id);
         if(!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
         userDao.save(u.get());
     }
