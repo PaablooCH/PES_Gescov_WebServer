@@ -19,4 +19,6 @@ public interface ClassSessionDao extends MongoRepository <ClassSession, String> 
 
     List<ClassSession> findAllByClassroomIDAndDate(String classroomID, String date);
 
+    List<ClassSession> findAllByClassroomIDAndDateAndHour(String classroomID, String date, String hour);
+
 }

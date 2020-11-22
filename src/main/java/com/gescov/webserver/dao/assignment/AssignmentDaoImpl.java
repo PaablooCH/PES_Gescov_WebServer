@@ -50,4 +50,12 @@ public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
         q.addCriteria(Criteria.where("classSessionID").in(classSessionID));
         return q;
     }
+
+    @Override
+    public List<Assignment> findByClassroomDateHour(String classroomID, String date, String hour) {
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDateAndHour(classroomID, date, hour);
+        if (classSessions.isEmpty()) throw new ClassroomDateException(Classroom.class, classroomID, date);
+        Query q = getClassSessionIDs(classSessions);
+        return mongoTemplate.find(q, Assignment.class);
+    }
 }

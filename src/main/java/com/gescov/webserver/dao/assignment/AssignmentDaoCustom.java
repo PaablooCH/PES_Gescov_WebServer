@@ -10,4 +10,6 @@ public interface AssignmentDaoCustom<T, ID> {
 
     List<Assignment> findByClassroomDate(String classroomID, String date);
 
+    List<Assignment> findByClassroomDateHour(String classroomID, String date, String hour);
+
 }

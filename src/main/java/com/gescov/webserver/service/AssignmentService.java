@@ -56,6 +56,11 @@ public class AssignmentService {
         return getPairs(ass);
     }
 
+    public List<Pair<Assignment, String>> getAssignmentByClassroomDateHour(String classroomID, String date, String hour) {
+        List<Assignment> ass = assignmentDao.findByClassroomDateHour(classroomID, date, hour);
+        return getPairs(ass);
+    }
+
     private List<Pair<Assignment, String>> getPairs(List<Assignment> ass) {
         List<String> nameSts = new ArrayList<>();
         for (Assignment a : ass){
