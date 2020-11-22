@@ -1,6 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.user.UserDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
@@ -52,6 +53,8 @@ public class UserService {
         if (u.isEmpty()) throw new NotFoundException(User.class, id);
         Optional<School> s = schoolService.getSchoolById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        List<String> schools = u.get().getSchoolsID();
+        if(schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
         u.get().addSchool(schoolID);
         userDao.save(u.get());
     }
