@@ -4,6 +4,7 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.Assignment;
 import com.gescov.webserver.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,12 @@ public class AssignmentController {
     }
 
     @GetMapping(path = "/classDate")
-    public List<Assignment> getAssignmentByClassroomDate(@RequestParam("classroomID") String idClassroom, @RequestParam("date") String date) {
+    public List<Pair<Assignment, String>> getAssignmentByClassroomDate(@RequestParam("classroomID") String idClassroom, @RequestParam("date") String date) {
         return assignmentService.getAssignmentByClassroomDate(idClassroom, date);
     }
 
     @GetMapping(path = "/classroom/{id}")
-    public List<Assignment> getAssignmentByClassroom(@PathVariable("id") String classroomID) {
+    public List<Pair<Assignment, String>> getAssignmentByClassroom(@PathVariable("id") String classroomID) {
         return assignmentService.getAssignmentsByClassroom(classroomID);
     }
 

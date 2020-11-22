@@ -50,9 +50,7 @@ public class ContagionService {
         if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(schoolID);
         List<User> us = getUsers(con);
         List<Pair<String, LocalDate>> aux = new ArrayList<>();
-        for(int i = 0; i < con.size(); i++){
-            aux.add(Pair.of(us.get(i).getName(), con.get(i).getStartContagion()));
-        }
+        for(int i = 0; i < con.size(); i++) aux.add(Pair.of(us.get(i).getName(), con.get(i).getStartContagion()));
         return aux;
     }
 

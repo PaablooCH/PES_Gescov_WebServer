@@ -4,9 +4,12 @@ import com.gescov.webserver.dao.assignment.AssignmentDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.PlaceOutOfIndexException;
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,18 +42,29 @@ public class AssignmentService {
         assignmentDao.save(ass.get());
     }
 
-    public List<Assignment> getAllAssignment() { return assignmentDao.findAll(); }
-
-    public List<Assignment> getAssignmentsByClassroom(String classroomID) {
-        return assignmentDao.findByClassroom(classroomID);
+    public List<Pair<Assignment, String>> getAssignmentsByClassroom(String classroomID) {
+        List<Assignment> ass = assignmentDao.findByClassroom(classroomID);
+        return getPairs(ass);
     }
 
     public List<Assignment> getAssignmentByClassSessionId(String classSessionID) {
         return assignmentDao.findAllByClassSessionID(classSessionID);
     }
 
-    public List<Assignment> getAssignmentByClassroomDate(String classroomID, String date) {
-        return assignmentDao.findByClassroomDate(classroomID, date);
+    public List<Pair<Assignment, String>> getAssignmentByClassroomDate(String classroomID, String date) {
+        List<Assignment> ass = assignmentDao.findByClassroomDate(classroomID, date);
+        return getPairs(ass);
+    }
+
+    private List<Pair<Assignment, String>> getPairs(List<Assignment> ass) {
+        List<String> nameSts = new ArrayList<>();
+        for (Assignment a : ass){
+            Optional<User> u = userService.getUserById(a.getStudentID());
+            u.ifPresent(user -> nameSts.add(user.getName()));
+        }
+        List<Pair<Assignment, String>> aux = new ArrayList<>();
+        for(int i = 0; i < ass.size(); i++) aux.add(Pair.of(ass.get(i), nameSts.get(i)));
+        return aux;
     }
 
     public void deleteAssignmentById(String assID){
