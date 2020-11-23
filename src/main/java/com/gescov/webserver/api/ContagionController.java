@@ -42,4 +42,9 @@ public class ContagionController {
         tracingTestController.deleteAllTracingTest(contagionID);
     }
 
+    @GetMapping(path = "student/{id}")
+    public String getUserContagion(@PathVariable("id") String infectedID) {
+        return contagionService.getContagionByUser(infectedID);
+    }
+
 }
