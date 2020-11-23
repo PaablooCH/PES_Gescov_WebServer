@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateUserRisk(@PathVariable("id") String id) {
+    public void updateUseRisk(@PathVariable("id") String id) {
         userService.updateUserRisk(id);
     }
 
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}/{profile}")
-    public void updateUserProfile(@PathVariable("id") String id, @RequestParam("profile") String profile) {
+    public void updateUserProfile(@PathVariable("id") String id,@PathVariable("profile") String profile) {
         if(profile.equals("student")) userService.becomeStudent(id);
         if(profile.equals("teacher"))userService.becomeTeacher(id);
         if(profile.equals("tutor"))userService.becomeTutor(id);

@@ -37,9 +37,9 @@ public class ContagionService {
 
     public List<Contagion> getAllContagion() { return contagionDao.findAll(); }
 
-    public String updateContagion(String infectedId) {
-        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedId);
-        if (con.isEmpty()) throw new NotFoundException(User.class, infectedId);
+    public String updateContagion(String infectedID) {
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedID);
+        if (con.isEmpty()) throw new NotFoundException(User.class, infectedID);
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
         return con.get().getId();
@@ -73,5 +73,11 @@ public class ContagionService {
 
     public void existsContagion(String contagionID) {
         if(!contagionDao.existsByEndContagionNullAndId(contagionID)) throw new NotFoundException(Contagion.class, contagionID);
+    }
+
+    public String getContagionByUser(String infectedID) {
+        Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedID);
+        if (con.isEmpty()) throw new NotFoundException(User.class, infectedID);
+        return con.get().getId();
     }
 }
