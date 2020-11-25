@@ -20,7 +20,7 @@ public class EntryRequestController {
     }
 
     @PostMapping
-    public EntryRequest addSchool(@RequestBody EntryRequest entryRequest) {
+    public EntryRequest addEntryRequest(@RequestBody EntryRequest entryRequest) {
         return entryRequestService.addEntryRequest(entryRequest);
     }
 
