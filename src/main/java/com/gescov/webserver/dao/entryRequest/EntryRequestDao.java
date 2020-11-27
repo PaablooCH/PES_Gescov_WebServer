@@ -13,4 +13,6 @@ public interface EntryRequestDao extends MongoRepository<EntryRequest, String>  
 
     List<EntryRequest> findByUserID(String userID);
 
+    EntryRequest findByUserIDAndSchoolIDAndStatus(String userID, String schoolID, EntryRequest.RequestState status);
+
 }
