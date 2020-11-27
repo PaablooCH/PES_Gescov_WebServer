@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "google.api",
+      "type": "java.lang.String",
+      "description": "Description for google.api."
+    }
+  ]
+}

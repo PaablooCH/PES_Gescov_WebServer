@@ -11,6 +11,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -25,6 +26,9 @@ public class UserService {
 
     @Autowired
     SchoolService schoolService;
+
+    @Value("${google.api}")
+    private String googleAPI;
 
     public User addUser(User user) {
         return userDao.insert(user);
@@ -67,6 +71,8 @@ public class UserService {
     }
 
     public List<User> findAllBySchoolID(String schoolID) {
+        Optional<School> s = schoolService.getSchoolById(schoolID);
+        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
         return userDao.findAllBySchoolID(schoolID);
     }
 
@@ -77,7 +83,7 @@ public class UserService {
     @SneakyThrows
     public String verifyToken(String token) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList("673967911868-q9jgm7i3ijsjn0ft3bs6avvpot02a0nl.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList(googleAPI))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);

@@ -34,19 +34,24 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PutMapping (path = "/school/{id}")
-    public void addSchoolID(@NotNull @PathVariable("id") String id, @NotNull @RequestParam("schoolID") String schoolID) {
-        userService.addSchool(id, schoolID);
+    @GetMapping(path = "/school")
+    public List<User> getUsersBySchool(@NotNull @RequestParam("schoolID") String schoolID) {
+        return userService.findAllBySchoolID(schoolID);
     }
 
-    @GetMapping(path = "/school")
-    public List<String> getSchoolsByUser(@NotNull @RequestParam("id") String id) {
+    @GetMapping(path = "/{id}/schools")
+    public List<String> getSchoolsByUser(@NotNull @PathVariable("id") String id) {
         return userService.getSchoolsByUser(id);
     }
 
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") String id)  {
         return userService.getUserById(id).orElse(null);
+    }
+
+    @PutMapping (path = "/school/{id}")
+    public void addSchoolID(@NotNull @PathVariable("id") String id, @NotNull @RequestParam("schoolID") String schoolID) {
+        userService.addSchool(id, schoolID);
     }
 
     @PutMapping(path = "{id}")
