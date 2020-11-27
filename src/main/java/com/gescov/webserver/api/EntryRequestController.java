@@ -3,6 +3,7 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.EntryRequest;
 import com.gescov.webserver.service.EntryRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,7 @@ public class EntryRequestController {
     }
 
     @GetMapping(path = "/schoolID/{schoolID}")
-    public List<EntryRequest> getRequestsBySchool(@PathVariable("schoolID") String schoolID) {
+    public List<Pair<EntryRequest, String>> getRequestsBySchool(@PathVariable("schoolID") String schoolID) {
         return entryRequestService.getRequestsBySchool(schoolID);
     }
 
@@ -35,8 +36,8 @@ public class EntryRequestController {
     }
 
     @PutMapping(path = "/requestID/{requestID}")
-    public void updateEntryRequest(@PathVariable("requestID") String requestID, @NotNull @RequestParam("state") String state) {
-        entryRequestService.updateRequestState(requestID, state);
+    public void updateEntryRequest(@PathVariable("requestID") String requestID, @NotNull @RequestParam("adminID") String adminID, @NotNull @RequestParam("state") String state) {
+        entryRequestService.updateRequestState(requestID, adminID, state);
     }
 
 }
