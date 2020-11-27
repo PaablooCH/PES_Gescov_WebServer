@@ -142,7 +142,7 @@ public class UserService {
         int count = 0;
         List<User> users = userDao.findAllBySchoolID(schoolID);
         for (User u : users){
-            if(contagionService.existsContagion(u.getId())) count++;
+            if(contagionService.existsInfected(u.getId())) count++;
         }
         return count;
     }
