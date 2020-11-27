@@ -8,8 +8,10 @@ import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,4 +110,17 @@ public class SchoolService {
     public void isAdmin(String schoolID, String adminID) {
         if(!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
     }
+
+    public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
+        List<School> schoolList = schoolDao.findAll();
+        if(schoolList.isEmpty()) return null;
+        int punctuation;
+        List<Pair<School, Integer>> aux = new ArrayList<>();
+        for (School school : schoolList){
+            punctuation = userService.countInfectedInSchool(school.getId());
+            aux.add(Pair.of(school, punctuation));
+        }
+        return aux;
+    }
+
 }

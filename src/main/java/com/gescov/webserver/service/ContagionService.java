@@ -71,8 +71,8 @@ public class ContagionService {
         return userService.findAllByIDIn(infectedIDs);
     }
 
-    public void existsContagion(String contagionID) {
-        if(!contagionDao.existsByEndContagionNullAndId(contagionID)) throw new NotFoundException(Contagion.class, contagionID);
+    public boolean existsContagion(String contagionID) {
+        return contagionDao.existsByEndContagionNullAndId(contagionID);
     }
 
     public String getContagionByUser(String infectedID) {

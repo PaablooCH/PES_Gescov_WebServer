@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     SchoolService schoolService;
 
+    @Autowired
+    ContagionService contagionService;
+
     @Value("${google.api}")
     private String googleAPI;
 
@@ -133,5 +136,14 @@ public class UserService {
         if(u.isEmpty()) throw new NotFoundException(User.class, id);
         if(!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
         userDao.save(u.get());
+    }
+
+    public int countInfectedInSchool(String schoolID) {
+        int count = 0;
+        List<User> users = userDao.findAllBySchoolID(schoolID);
+        for (User u : users){
+            if(contagionService.existsContagion(u.getId())) count++;
+        }
+        return count;
     }
 }
