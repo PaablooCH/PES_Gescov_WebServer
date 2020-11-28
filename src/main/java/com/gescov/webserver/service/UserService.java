@@ -30,6 +30,9 @@ public class UserService {
     @Autowired
     ContagionService contagionService;
 
+    @Autowired
+    AssignmentService assignmentService;
+
     @Value("${google.api}")
     private String googleAPI;
 
@@ -145,5 +148,14 @@ public class UserService {
             if(contagionService.existsInfected(u.getId())) count++;
         }
         return count;
+    }
+
+    public void transmitContagion(String userID) {
+        assignmentService.transmitContagion(userID);
+
+    }
+
+    public void infect(String userID) {
+        contagionService.infect(userID);
     }
 }

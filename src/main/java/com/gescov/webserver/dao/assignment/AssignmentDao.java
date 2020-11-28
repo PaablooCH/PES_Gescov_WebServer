@@ -11,4 +11,6 @@ public interface AssignmentDao extends MongoRepository<Assignment, String>, Assi
 
     List<Assignment> findAllByClassSessionID(String classSessionID);
 
+    List<Assignment> findAllByStudentID(String studentID);
+
 }
