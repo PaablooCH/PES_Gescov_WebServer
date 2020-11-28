@@ -1,6 +1,8 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.tracingTest.TracingTestDao;
+import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.TracingTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,14 @@ public class TracingTestService {
     ContagionService contagionService;
 
     public TracingTest addTracingTest(TracingTest tracingTest) {
-        contagionService.existsContagion(tracingTest.getContagionID());
+        if(!contagionService.existsContagion(tracingTest.getContagionID()))
+            throw new NotFoundException(Contagion.class, tracingTest.getContagionID());
         return tracingTestDao.insert(tracingTest);
     }
 
     public List<TracingTest> getTracingTestByUser(String contagionID) {
-        contagionService.existsContagion(contagionID);
+        if(!contagionService.existsContagion(contagionID))
+            throw new NotFoundException(Contagion.class, contagionID);
         return tracingTestDao.findAllByContagionID(contagionID);
     }
 

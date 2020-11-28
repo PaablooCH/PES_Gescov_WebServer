@@ -75,4 +75,23 @@ public class AssignmentService {
     public void deleteAssignmentById(String assID){
         assignmentDao.deleteById(assID);
     }
+
+    public void transmitContagion(String studentID) {
+        List<Assignment> ass = assignmentDao.findAllByStudentID(studentID);
+        for (Assignment assignment : ass) checkPossibleContagion(assignment);
+    }
+
+    private void checkPossibleContagion(Assignment as) {
+        List<Assignment> ass = assignmentDao.findAllByClassSessionID(as.getClassSessionID());
+        for (Assignment a : ass){
+            if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol()) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
+            else if(a.getPosRow() == as.getPosRow() && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol()) userService.infect(a.getStudentID());
+            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
+        }
+    }
 }

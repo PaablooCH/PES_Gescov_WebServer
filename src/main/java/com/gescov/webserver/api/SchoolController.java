@@ -3,9 +3,11 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping("api/schools")
@@ -58,6 +60,11 @@ public class SchoolController {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
         else if (specific.equals("admin")) schoolService.addAdministrator(id, update);
+    }
+
+    @GetMapping(path = "/punctuation")
+    public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
+        return schoolService.getSchoolsAndNumInfected();
     }
 
 }

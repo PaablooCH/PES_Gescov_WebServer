@@ -57,10 +57,8 @@ public class ClassSessionService {
     public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(date); }
 
     public void deleteClassSessionById(String usuID, String classSeID){
-        Optional<ClassSession> cs = classSessionDao.findById(classSeID);
-        if (cs.isEmpty()) throw new NotFoundException(ClassSession.class, classSeID);
-        Optional<Classroom> c = classroomService.getClassroomById(cs.get().getClassroomID());
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, cs.get().getClassroomID());
+        Optional<Classroom> c = getClassroomByCSID(classSeID);
+        if(c.isEmpty()) throw new NotFoundException(Classroom.class, classSeID);
         Optional<School> s = schoolService.getSchoolById(c.get().getSchoolID());
         if (s.isEmpty()) throw new NotFoundException(School.class, c.get().getSchoolID());
         List<String> admins = s.get().getAdministratorsID();
@@ -82,19 +80,23 @@ public class ClassSessionService {
     }
 
     public int getNumCol(String classSessionID) {
-        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
-        if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
-        Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
-        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
+        Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
+        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSessionID);
         return classroom.get().getNumCols();
     }
 
     public int getNumRow(String classSessionID) {
+        Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
+        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSessionID);
+        return classroom.get().getNumRows();
+    }
+
+    private Optional<Classroom> getClassroomByCSID(String classSessionID) {
         Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
         if(classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
         Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
         if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
-        return classroom.get().getNumRows();
+        return classroom;
     }
 
 }

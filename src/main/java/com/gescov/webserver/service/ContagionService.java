@@ -32,6 +32,7 @@ public class ContagionService {
             updateContagion(contagion.getInfectedID());
         if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
             throw new AlreadyExistsException(User.class, contagion.getInfectedID());
+        if(contagion.getInfectedConfirmed()) userService.transmitContagion(contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
 
@@ -71,13 +72,22 @@ public class ContagionService {
         return userService.findAllByIDIn(infectedIDs);
     }
 
-    public void existsContagion(String contagionID) {
-        if(!contagionDao.existsByEndContagionNullAndId(contagionID)) throw new NotFoundException(Contagion.class, contagionID);
+    public boolean existsContagion(String contagionID) {
+        return contagionDao.existsByEndContagionNullAndId(contagionID);
+    }
+
+    public boolean existsInfected(String contagionID) {
+        return contagionDao.existsByEndContagionNullAndInfectedID(contagionID);
     }
 
     public String getContagionByUser(String infectedID) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedID);
         if (con.isEmpty()) throw new NotFoundException(User.class, infectedID);
         return con.get().getId();
+    }
+
+    public void infect(String infectedID) {
+        Contagion contagion = new Contagion(null, infectedID, false);
+        contagionDao.insert(contagion);
     }
 }
