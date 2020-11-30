@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class ContagionService {
 
@@ -89,5 +91,12 @@ public class ContagionService {
     public void infect(String infectedID) {
         Contagion contagion = new Contagion(null, infectedID, false);
         contagionDao.insert(contagion);
+    }
+
+    public void deleteContagion(LocalDate date) {
+        List <Contagion> con = contagionDao.findAllByEndContagionNotNull();
+        for (Contagion c : con) {
+            if (DAYS.between(c.getEndContagion(), date) >= 15) contagionDao.delete(c);
+        }
     }
 }

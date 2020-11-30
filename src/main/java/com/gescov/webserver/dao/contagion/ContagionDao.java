@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom<Contagion, String>{
 
-    Optional<Contagion> findByEndContagionNullAndInfectedID(String infectedId);
+    Optional <Contagion> findByEndContagionNullAndInfectedID(String infectedId);
 
     Boolean existsByEndContagionNullAndInfectedID(String infectedID);
 
@@ -18,6 +18,8 @@ public interface ContagionDao extends MongoRepository<Contagion, String>, Contag
 
     Boolean existsByEndContagionNullAndId(String contagionID);
 
-    List<Contagion> findAllByEndContagionNullAndInfectedIDIn(List<String> infectedIDs);
+    List <Contagion> findAllByEndContagionNullAndInfectedIDIn(List<String> infectedIDs);
+
+    List <Contagion> findAllByEndContagionNotNull();
 
 }
