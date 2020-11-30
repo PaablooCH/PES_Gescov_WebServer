@@ -38,10 +38,12 @@ public class SchoolService {
         return school;
     }
 
-    public void addAdministrator(String schoolID, String adminID) {
+    public void addAdministrator(String schoolID, String adminID, String newAdminID) {
         Optional<School> s = schoolDao.findById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
-        s.get().addAdministrator(adminID);
+        if (!s.get().getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        userService.existsUser(newAdminID);
+        s.get().addAdministrator(newAdminID);
         schoolDao.save(s.get());
     }
 

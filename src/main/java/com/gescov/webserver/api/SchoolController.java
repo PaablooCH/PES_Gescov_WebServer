@@ -59,7 +59,23 @@ public class SchoolController {
     public void updateSchool(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
-        else if (specific.equals("admin")) schoolService.addAdministrator(id, update);
+        //else if (specific.equals("admin")) schoolService.addAdministrator(id, update);
+    }
+
+    @PutMapping(path = "{id}/update")
+    public void updateSchoolName(@PathVariable("id") String id, @NotNull @RequestParam("name") String name) {
+        schoolService.updateSchoolName(id, name);
+    }
+
+    @PutMapping(path = "{id}/update")
+    public void updateSchoolState(@PathVariable("id") String id, @NotNull @RequestParam("state") String state) {
+        schoolService.updateSchoolState(id, state);
+    }
+
+    @PutMapping(path = "{id}/update")
+    public void updateSchoolAdmin(@PathVariable("id") String id, @NotNull @RequestParam("admin") String adminID,
+                                  @NotNull @RequestParam("newAdmin") String newAdminID) {
+        schoolService.addAdministrator(id, adminID, newAdminID);
     }
 
     @GetMapping(path = "/punctuation")
