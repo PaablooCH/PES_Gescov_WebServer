@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -48,10 +49,13 @@ public class UserService {
         return userDao.findById(id);
     }
 
-    public List<String> getSchoolsByUser(String id) {
+    public List<School> getSchoolsByUser(String id) {
         Optional<User> us = getUserById(id);
         if (us.isEmpty()) throw new NotFoundException(User.class, id);
-        return us.get().getSchoolsID();
+        List<School> sc = new ArrayList<>();
+        List<String> aux = us.get().getSchoolsID();
+        for(String s : aux) sc.add(schoolService.getSchoolByID(s));
+        return sc;
     }
 
     public void existsUser(String userID) {

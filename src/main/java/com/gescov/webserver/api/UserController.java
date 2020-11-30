@@ -1,5 +1,6 @@
 package com.gescov.webserver.api;
 
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}/schools")
-    public List<String> getSchoolsByUser(@NotNull @PathVariable("id") String id) {
+    public List<School> getSchoolsByUser(@NotNull @PathVariable("id") String id) {
         return userService.getSchoolsByUser(id);
     }
 

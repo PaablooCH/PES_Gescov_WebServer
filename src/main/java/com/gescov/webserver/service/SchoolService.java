@@ -123,4 +123,7 @@ public class SchoolService {
         return aux;
     }
 
+    public School getSchoolByID(String s) {
+        return schoolDao.findById(s).get();
+    }
 }
