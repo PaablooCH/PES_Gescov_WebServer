@@ -62,17 +62,17 @@ public class SchoolController {
         //else if (specific.equals("admin")) schoolService.addAdministrator(id, update);
     }
 
-    @PutMapping(path = "{id}/update")
+    @PutMapping(path = "{id}/updateName")
     public void updateSchoolName(@PathVariable("id") String id, @NotNull @RequestParam("name") String name) {
         schoolService.updateSchoolName(id, name);
     }
 
-    @PutMapping(path = "{id}/update")
+    @PutMapping(path = "{id}/updateState")
     public void updateSchoolState(@PathVariable("id") String id, @NotNull @RequestParam("state") String state) {
         schoolService.updateSchoolState(id, state);
     }
 
-    @PutMapping(path = "{id}/update")
+    @PutMapping(path = "{id}/updateAdmin")
     public void updateSchoolAdmin(@PathVariable("id") String id, @NotNull @RequestParam("admin") String adminID,
                                   @NotNull @RequestParam("newAdmin") String newAdminID) {
         schoolService.addAdministrator(id, adminID, newAdminID);
