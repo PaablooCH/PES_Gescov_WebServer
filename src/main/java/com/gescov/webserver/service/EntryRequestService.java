@@ -67,12 +67,16 @@ public class EntryRequestService {
     public void updateRequestState(String requestID, String adminID, String state) {
         Optional<EntryRequest> req = entryRequestDao.findById(requestID);
         if (req.isEmpty()) throw new NotFoundException(EntryRequest.class, requestID);
-        if (req.get().getStatus() != EntryRequest.RequestState.PENDING) throw new RequestAnsweredException(EntryRequest.class, requestID);
-        schoolService.isAdmin(req.get().getSchoolID(), adminID);
+        EntryRequest request = req.get();
+        if (request.getStatus() != EntryRequest.RequestState.PENDING) throw new RequestAnsweredException(EntryRequest.class, requestID);
+        schoolService.isAdmin(request.getSchoolID(), adminID);
 
-        req.get().setAnswerDate(LocalDateTime.now());
-        req.get().setStatus(EntryRequest.RequestState.valueOf(state));
-        entryRequestDao.save(req.get());
+        request.setAnswerDate(LocalDateTime.now());
+        request.setStatus(EntryRequest.RequestState.valueOf(state));
+        entryRequestDao.save(request);
+        if ((EntryRequest.RequestState.valueOf(state)).equals(EntryRequest.RequestState.ACCEPTED)) {
+            userService.addSchool(request.getUserID(), request.getSchoolID());
+        }
     }
 
 }
