@@ -51,10 +51,6 @@ public class SchoolService {
         return schoolDao.findAll();
     }
 
-    public Optional<School> getSchoolById(String id) {
-        return schoolDao.findById(id);
-    }
-
     public School getSchoolByName(String schoolName) {
         return schoolDao.findByName(schoolName);
     }
@@ -123,8 +119,14 @@ public class SchoolService {
         return aux;
     }
 
-    public School getSchoolByID(String s) {
-        return schoolDao.findById(s).get();
+    public School getSchoolByID(String id) {
+        Optional <School> sc = schoolDao.findById(id);
+        if (sc.isEmpty()) throw new NotFoundException(School.class, id);
+        return sc.get();
     }
 
+    public void existsSchoolByID(String schoolID) {
+        Optional <School> sc = schoolDao.findById(schoolID);
+        if (sc.isEmpty()) throw new NotFoundException(School.class, schoolID);
+    }
 }

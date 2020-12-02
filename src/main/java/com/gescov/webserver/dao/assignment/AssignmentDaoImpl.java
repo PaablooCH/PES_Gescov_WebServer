@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
 
     @Override
     public List<Assignment> findByClassroomDate(String classroomID, String date) {
-        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDate(classroomID, date);
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDate(classroomID, LocalDate.parse(date));
         if (classSessions.isEmpty()) throw new ClassroomDateException(Classroom.class, classroomID, date);
         Query q = getClassSessionIDs(classSessions);
         return mongoTemplate.find(q, Assignment.class);
@@ -53,7 +55,7 @@ public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
 
     @Override
     public List<Assignment> findByClassroomDateHour(String classroomID, String date, String hour) {
-        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDateAndHour(classroomID, date, hour);
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDateAndHour(classroomID, LocalDate.parse(date), LocalTime.parse(hour));
         if (classSessions.isEmpty()) throw new ClassroomDateException(Classroom.class, classroomID, date);
         Query q = getClassSessionIDs(classSessions);
         return mongoTemplate.find(q, Assignment.class);

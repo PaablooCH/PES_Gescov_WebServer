@@ -55,9 +55,8 @@ public class SubjectController {
     }
 
     @PutMapping(path = "/new/{specific}")
-    public void addStudents(@NotNull @PathVariable ("specific") String specific, @NotNull @RequestParam("id") String id, @NotNull @RequestParam ("userId") String userId){
-        if(specific.equals("student")) subjectService.addStudent(id, userId);
-        if(specific.equals("teacher")) subjectService.addTeacher(id, userId);
+    public void addUser(@NotNull @RequestParam("id") String id, @NotNull @RequestParam ("userId") String userId){
+        subjectService.addUser(id, userId);
     }
 }
 

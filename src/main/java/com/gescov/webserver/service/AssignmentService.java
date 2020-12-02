@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class AssignmentService {
@@ -78,7 +81,11 @@ public class AssignmentService {
 
     public void transmitContagion(String studentID) {
         List<Assignment> ass = assignmentDao.findAllByStudentID(studentID);
-        for (Assignment assignment : ass) checkPossibleContagion(assignment);
+        for (Assignment assignment : ass) {
+            LocalDate s = classSessionService.getDateBySession(assignment.getClassSessionID());
+            if (DAYS.between(classSessionService.getDateBySession(assignment.getClassSessionID()), LocalDate.now()) <= 2)
+                checkPossibleContagion(assignment);
+        }
     }
 
     private void checkPossibleContagion(Assignment as) {

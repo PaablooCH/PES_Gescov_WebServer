@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.subject.SubjectDao;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.NotInSchool;
 import com.gescov.webserver.model.ClassSession;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
@@ -32,10 +33,9 @@ public class SubjectService {
 
     public Subject addSubject(Subject subject, String creatorID){
         String schoolID = subject.getSchoolID();
-        Optional<School> s =  schoolService.getSchoolById(schoolID);
-        if(s.isEmpty())throw new NotFoundException(School.class, schoolID);
-        Optional<User> u = userService.getUserById(creatorID);
-        if(u.isEmpty())throw new NotFoundException(User.class, creatorID);
+        School school = schoolService.getSchoolByID(schoolID);
+        userService.existsUser(creatorID);
+        if (!school.getAdministratorsID().contains(schoolID)) throw new IsNotAnAdministratorException(User.class, creatorID);
         subject.addTeacher(creatorID);
         return subjectDao.insert(subject);
     }
@@ -60,10 +60,8 @@ public class SubjectService {
     public void deleteSubjectById(String id, String adminID) {
         Optional<Subject> s = subjectDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        Optional<School> school = schoolService.getSchoolById(s.get().getSchoolID());
-        if (school.isEmpty()) throw new NotFoundException(School.class, s.get().getSchoolID());
-        List<String> admins = school.get().getAdministratorsID();
-        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        School school = schoolService.getSchoolByID(s.get().getSchoolID());
+        if(!school.getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
         DeleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
     }
@@ -84,17 +82,15 @@ public class SubjectService {
         subjectDao.save(s.get());
     }
 
-    public void addStudent(String id, String userId){
+    public void addUser(String id, String userId){
         Optional<Subject> s = subjectDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        s.get().addStudent(userId);
-        subjectDao.save(s.get());
-    }
-
-    public void addTeacher(String id, String userId){
-        Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        s.get().addTeacher(userId);
+        Optional <User> user = userService.getUserById(userId);
+        if (user.isEmpty()) throw new NotFoundException(User.class, userId);
+        String schoolID = s.get().getSchoolID();
+        if (!user.get().getSchoolsID().contains(schoolID)) throw new NotInSchool(userId, schoolID);
+        if (user.get().isStudent()) s.get().addStudent(userId);
+        else s.get().addTeacher(userId);
         subjectDao.save(s.get());
     }
 }

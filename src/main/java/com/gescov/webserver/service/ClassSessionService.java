@@ -7,6 +7,8 @@ import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,16 +54,15 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionByTeacher(String id){ return classSessionDao.findAllByTeacherID(id); }
 
-    public List<ClassSession> getSessionByHour(String hour){ return classSessionDao.findAllByHour(hour); }
+    public List<ClassSession> getSessionByHour(String hour){ return classSessionDao.findAllByHour(LocalTime.parse(hour)); }
 
-    public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(date); }
+    public List<ClassSession> getSessionByDate(String date){ return classSessionDao.findAllByDate(LocalDate.parse(date)); }
 
     public void deleteClassSessionById(String usuID, String classSeID){
         Optional<Classroom> c = getClassroomByCSID(classSeID);
         if(c.isEmpty()) throw new NotFoundException(Classroom.class, classSeID);
-        Optional<School> s = schoolService.getSchoolById(c.get().getSchoolID());
-        if (s.isEmpty()) throw new NotFoundException(School.class, c.get().getSchoolID());
-        List<String> admins = s.get().getAdministratorsID();
+        School s = schoolService.getSchoolByID(c.get().getSchoolID());
+        List<String> admins = s.getAdministratorsID();
         if(!admins.contains(usuID)) throw new IsNotAnAdministratorException(User.class, usuID);
         deleteAssignmentsOfASession(classSeID);
         classSessionDao.deleteById(classSeID);
@@ -97,6 +98,12 @@ public class ClassSessionService {
         Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
         if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
         return classroom;
+    }
+
+    public LocalDate getDateBySession(String classSessionID) {
+        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
+        if (classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
+        return classSession.get().getDate();
     }
 
 }

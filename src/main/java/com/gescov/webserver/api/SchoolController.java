@@ -33,7 +33,7 @@ public class SchoolController {
 
     @GetMapping(path = "/id/{id}")
     public School getSchoolById(@PathVariable("id") String id) {
-        return schoolService.getSchoolById(id).orElse(null);
+        return schoolService.getSchoolByID(id);
     }
 
     @GetMapping(path = "/name/{schoolName}")

@@ -5,7 +5,6 @@ import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.RequestAnsweredException;
 import com.gescov.webserver.model.EntryRequest;
-import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -33,8 +32,7 @@ public class EntryRequestService {
         String schoolID = entryRequest.getSchoolID();
 
         userService.existsUser(userID);
-        Optional<School> s = schoolService.getSchoolById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        schoolService.existsSchoolByID(schoolID);
         EntryRequest req = entryRequestDao.findByUserIDAndSchoolIDAndStatus(userID, schoolID, EntryRequest.RequestState.PENDING);
         if (req != null) throw new AlreadyExistsException(EntryRequest.class, userID + " + " + schoolID + " + status " + EntryRequest.RequestState.PENDING);
 
@@ -43,9 +41,7 @@ public class EntryRequestService {
     }
 
     public List<Pair<EntryRequest, String>> getRequestsBySchool(String schoolID) {
-        Optional<School> s = schoolService.getSchoolById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
-
+        schoolService.existsSchoolByID(schoolID);
         List<Pair<EntryRequest, String>> result = new ArrayList<>();
         List<EntryRequest> reqs = entryRequestDao.findBySchoolID(schoolID);
         if (!reqs.isEmpty()) {

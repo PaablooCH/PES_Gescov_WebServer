@@ -65,8 +65,7 @@ public class UserService {
     public void addSchool(String id, String schoolID) {
         Optional<User> u = userDao.findById(id);
         if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        Optional<School> s = schoolService.getSchoolById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        School s = schoolService.getSchoolByID(schoolID);
         List<String> schools = u.get().getSchoolsID();
         if (schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
         u.get().addSchool(schoolID);
@@ -81,8 +80,7 @@ public class UserService {
     }
 
     public List<User> findAllBySchoolID(String schoolID) {
-        Optional<School> s = schoolService.getSchoolById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        schoolService.existsSchoolByID(schoolID);
         return userDao.findAllBySchoolID(schoolID);
     }
 
@@ -130,24 +128,10 @@ public class UserService {
         }
     }
 
-    public void becomeStudent(String id){
+    public void changeProfile(String id, boolean b){
         Optional<User> u = userDao.findById(id);
         if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        if (!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
-        userDao.save(u.get());
-    }
-
-    public void becomeTeacher(String id){
-        Optional<User> u = userDao.findById(id);
-        if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        if (!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
-        userDao.save(u.get());
-    }
-
-    public void becomeTutor(String id){
-        Optional<User> u = userDao.findById(id);
-        if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        if (!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
+        u.get().setStudent(b);
         userDao.save(u.get());
     }
 

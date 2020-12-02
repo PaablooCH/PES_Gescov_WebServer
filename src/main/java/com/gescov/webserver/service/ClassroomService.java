@@ -28,9 +28,7 @@ public class ClassroomService {
 
 
     public Classroom addClassroom(Classroom classroom) {
-        String schoolID = classroom.getSchoolID();
-        Optional<School> s = schoolService.getSchoolById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        schoolService.existsSchoolByID(classroom.getSchoolID());
         return classroomDao.insert(classroom);
     }
 
@@ -63,9 +61,8 @@ public class ClassroomService {
     public void deleteClassroomByID(String id, String adminID) {
         Optional<Classroom> c = classroomDao.findById(id);
         if (c.isEmpty()) throw new NotFoundException(Classroom.class, id);
-        Optional<School> s = schoolService.getSchoolById(c.get().getSchoolID());
-        if (s.isEmpty()) throw new NotFoundException(School.class, c.get().getSchoolID());
-        List<String> admins = s.get().getAdministratorsID();
+        School s = schoolService.getSchoolByID(c.get().getSchoolID());
+        List<String> admins = s.getAdministratorsID();
         if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
         deleteClassSessionsOfAClassroom(id);
         classroomDao.deleteById(id);

@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @NoArgsConstructor
 @Setter
@@ -35,10 +37,10 @@ public class ClassSession {
     private String teacherID;
 
     @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
-    private String hour;
+    private LocalTime hour;
 
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    private String date;
+    private LocalDate date;
 
 
     public ClassSession(@JsonProperty ("id") String id, @JsonProperty("classroom") String classroom,
@@ -48,8 +50,8 @@ public class ClassSession {
         this.classroomID = classroom;
         this.subjectID = subject;
         this.teacherID = teacher;
-        this.hour = hour;
-        this.date = date;
+        this.hour = LocalTime.parse(hour);
+        this.date = LocalDate.parse(date);
     }
 
 }

@@ -27,8 +27,8 @@ public class ChatService {
     ChatPreviewService chatPreviewService;
 
     public Chat createChat(Chat chat) {
-        Boolean t1 = checkUsers(chat.getPartA());
-        Boolean t2 = checkUsers(chat.getPartB());
+        boolean t1 = checkUsers(chat.getPartA());
+        boolean t2 = checkUsers(chat.getPartB());
         if(t1){
             if(t2) throw new OnlyStudentTeacherChatException();
         }
@@ -47,8 +47,7 @@ public class ChatService {
     private boolean checkUsers(String part) {
         Optional<User> uA = userService.getUserById(part);
         if (uA.isEmpty()) throw new NotFoundException(User.class, part);
-        if(uA.get().getProfile().equals("Teacher")) return true;
-        return false;
+        return !uA.get().isStudent();
     }
 
     private String getUserName(String part) {

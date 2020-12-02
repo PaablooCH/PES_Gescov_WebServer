@@ -37,7 +37,7 @@ public class User {
 
     private List<String> schoolsID;
 
-    private String profile;
+    private boolean isStudent;
 
 
     public User(@JsonProperty("id") String id,
@@ -50,7 +50,7 @@ public class User {
         this.pic = pic;
         this.risk = false;
         this.schoolsID = new ArrayList<>();
-        this.profile = "Student";
+        this.isStudent = true;
     }
 
     public void addSchool(String schoolID) {

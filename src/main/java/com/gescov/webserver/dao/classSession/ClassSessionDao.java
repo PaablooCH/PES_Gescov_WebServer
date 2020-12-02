@@ -3,13 +3,15 @@ package com.gescov.webserver.dao.classSession;
 import com.gescov.webserver.model.ClassSession;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface ClassSessionDao extends MongoRepository <ClassSession, String> {
 
-    List<ClassSession> findAllByHour(String hour);
+    List<ClassSession> findAllByHour(LocalTime hour);
 
-    List<ClassSession> findAllByDate(String date);
+    List<ClassSession> findAllByDate(LocalDate date);
 
     List<ClassSession> findAllByClassroomID(String variable);
 
@@ -17,8 +19,8 @@ public interface ClassSessionDao extends MongoRepository <ClassSession, String> 
 
     List<ClassSession> findAllByTeacherID(String variable);
 
-    List<ClassSession> findAllByClassroomIDAndDate(String classroomID, String date);
+    List<ClassSession> findAllByClassroomIDAndDate(String classroomID, LocalDate date);
 
-    List<ClassSession> findAllByClassroomIDAndDateAndHour(String classroomID, String date, String hour);
+    List<ClassSession> findAllByClassroomIDAndDateAndHour(String classroomID, LocalDate date, LocalTime hour);
 
 }

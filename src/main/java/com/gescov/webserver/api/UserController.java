@@ -67,9 +67,8 @@ public class UserController {
 
     @PutMapping(path = "{id}/{profile}")
     public void updateUserProfile(@PathVariable("id") String id,@PathVariable("profile") String profile) {
-        if(profile.equals("student")) userService.becomeStudent(id);
-        if(profile.equals("teacher"))userService.becomeTeacher(id);
-        if(profile.equals("tutor"))userService.becomeTutor(id);
+        if(profile.equals("student")) userService.changeProfile(id, true);
+        else if(profile.equals("teacher"))userService.changeProfile(id, false);
     }
 
 }
