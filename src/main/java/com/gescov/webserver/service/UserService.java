@@ -54,12 +54,12 @@ public class UserService {
         if (us.isEmpty()) throw new NotFoundException(User.class, id);
         List<School> sc = new ArrayList<>();
         List<String> aux = us.get().getSchoolsID();
-        for(String s : aux) sc.add(schoolService.getSchoolByID(s));
+        for (String s : aux) sc.add(schoolService.getSchoolByID(s));
         return sc;
     }
 
     public void existsUser(String userID) {
-         if(!userDao.existsById(userID)) throw new NotFoundException(User.class, userID);
+         if (!userDao.existsById(userID)) throw new NotFoundException(User.class, userID);
     }
 
     public void addSchool(String id, String schoolID) {
@@ -68,7 +68,7 @@ public class UserService {
         Optional<School> s = schoolService.getSchoolById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
         List<String> schools = u.get().getSchoolsID();
-        if(schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
+        if (schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
         u.get().addSchool(schoolID);
         userDao.save(u.get());
     }
@@ -93,9 +93,8 @@ public class UserService {
     @SneakyThrows
     public String verifyToken(String token) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList(googleAPI))
-                .build();
-
+                                                                    .setAudience(Collections.singletonList(googleAPI))
+                                                                    .build();
         GoogleIdToken idToken = verifier.verify(token);
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
@@ -112,7 +111,8 @@ public class UserService {
             user.setTokenID(userId);
             User userCreated = addUser(user);
             return userCreated.getId();
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -124,42 +124,49 @@ public class UserService {
         addSchool(studentID, schoolID);
     }
 
+    public void deleteSchool(String id) {
+        List<User> users = userDao.findAllBySchoolID(id);
+        for (User u : users) {
+            if (u.getSchoolsID().remove(id)) userDao.save(u);
+        }
+    }
+
     public void becomeStudent(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
         userDao.save(u.get());
     }
 
     public void becomeTeacher(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
         userDao.save(u.get());
     }
 
     public void becomeTutor(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
         userDao.save(u.get());
     }
 
     public int countInfectedInSchool(String schoolID) {
         int count = 0;
         List<User> users = userDao.findAllBySchoolID(schoolID);
-        for (User u : users){
-            if(contagionService.existsInfected(u.getId())) count++;
+        for (User u : users) {
+            if (contagionService.existsInfected(u.getId())) count++;
         }
         return count;
     }
 
     public void transmitContagion(String userID) {
         assignmentService.transmitContagion(userID);
-
     }
 
     public void infect(String userID) {
         contagionService.infect(userID);
     }
+
 }

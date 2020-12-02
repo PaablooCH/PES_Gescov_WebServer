@@ -63,35 +63,32 @@ public class SchoolService {
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
         List<String> admins = s.get().getAdministratorsID();
-        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        if (!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        schoolDao.deleteById(id);
         deleteAllClassroomsOfSchool(id);
         deleteAllSubjectsOfSchool(id);
-        schoolDao.deleteById(id);
+        userService.deleteSchool(id);
     }
 
     private void deleteAllSubjectsOfSchool(String id) {
         List<Subject> su = subjectService.selectSubjectBySchoolId(id);
-        for(Subject sub : su) {
-            subjectService.deleteSubject(sub.getId());
-        }
+        for (Subject sub : su) subjectService.deleteSubject(sub.getId());
     }
 
     private void deleteAllClassroomsOfSchool(String id) {
         List<Classroom> c = classroomService.getClassroomsBySchoolID(id);
-        for(Classroom cl : c) {
-            classroomService.deleteClassroom(cl.getId());
-        }
+        for (Classroom cl : c) classroomService.deleteClassroom(cl.getId());
     }
 
     public School updateSchool(String id, String name, int latitude, int longitude, String phone, String website, String address){
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        if(!name.equals("")) s.get().setName(name);
-        if(longitude != 0) s.get().setLongitude(longitude);
-        if(latitude != 0) s.get().setLongitude(latitude);
-        if(phone.equals("")) s.get().setPhone(phone);
-        if(!website.equals("")) s.get().setWebsite(website);
-        if(!address.equals("")) s.get().setAddress(address);
+        if (!name.equals("")) s.get().setName(name);
+        if (longitude != 0) s.get().setLongitude(longitude);
+        if (latitude != 0) s.get().setLongitude(latitude);
+        if (phone.equals("")) s.get().setPhone(phone);
+        if (!website.equals("")) s.get().setWebsite(website);
+        if (!address.equals("")) s.get().setAddress(address);
         return schoolDao.save(s.get());
     }
 
@@ -110,15 +107,15 @@ public class SchoolService {
     }
 
     public void isAdmin(String schoolID, String adminID) {
-        if(!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        if (!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
     }
 
     public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
         List<School> schoolList = schoolDao.findAll();
-        if(schoolList.isEmpty()) return null;
+        if (schoolList.isEmpty()) return null;
         int punctuation;
         List<Pair<School, Integer>> aux = new ArrayList<>();
-        for (School school : schoolList){
+        for (School school : schoolList) {
             punctuation = userService.countInfectedInSchool(school.getId());
             aux.add(Pair.of(school, punctuation));
         }
@@ -128,4 +125,5 @@ public class SchoolService {
     public School getSchoolByID(String s) {
         return schoolDao.findById(s).get();
     }
+
 }
