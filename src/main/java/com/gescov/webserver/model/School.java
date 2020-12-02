@@ -36,10 +36,6 @@ public class School {
 
     private float latitude = (float)0.0;
 
-    private int mediumRisk = 7;
-
-    private int highRisk = 15;
-
     @Pattern(regexp="([0-9]{9})")
     private String phone;
 
@@ -57,8 +53,6 @@ public class School {
                   @JsonProperty("address") String address,
                   @JsonProperty("longitude") float longitude,
                   @JsonProperty("latitude") float latitude,
-                  @JsonProperty("mediumRisk") int mediumRisk,
-                  @JsonProperty("highRisk") int highRisk,
                   @JsonProperty("phone") String phone,
                   @JsonProperty("website") String website,
                   @JsonProperty("creatorID") String creatorID) {
@@ -68,8 +62,6 @@ public class School {
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.mediumRisk = mediumRisk;
-        this.highRisk = highRisk;
         this.phone = phone;
         this.website = website;
         this.creatorID = creatorID;
