@@ -102,19 +102,18 @@ public class UserService {
             // Print user identifier
             String userId = payload.getSubject();
             Optional<User> u = userDao.findByTokenID(userId);
-            if(u.isPresent()) return u.get().getId();
+            if (u.isPresent()) return u.get().getId();
 
             // Get profile information from payload
             String email = payload.getEmail();
             String name = (String) payload.get("name");
-            User user = new User(null, name, email);
+            String pic = (String) payload.get("picture");
+            User user = new User(null, name, email, pic);
             user.setTokenID(userId);
             User userCreated = addUser(user);
             return userCreated.getId();
         }
-        else {
-            return null;
-        }
+        else return null;
     }
 
     public void updateUserSchool(String id, String studentID, String schoolID) {
