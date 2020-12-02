@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.contagion.ContagionDao;
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.UNeedToWait;
 import com.gescov.webserver.exception.ZeroInfectedAtSchoolException;
 import com.gescov.webserver.model.Contagion;
 import com.gescov.webserver.model.User;
@@ -31,11 +32,13 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
+        if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
+            throw new AlreadyExistsException(User.class, contagion.getInfectedID());
+        if (contagionDao.existsByInfectedID(contagion.getInfectedID()))
+            throw new UNeedToWait(contagion.getInfectedID());
         if(contagion.getInfectedConfirmed() &&
                 contagionDao.existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(contagion.getInfectedID()))
             updateContagion(contagion.getInfectedID());
-        if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
-            throw new AlreadyExistsException(User.class, contagion.getInfectedID());
         if(contagion.getInfectedConfirmed()) userService.transmitContagion(contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
