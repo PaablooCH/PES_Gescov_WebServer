@@ -35,7 +35,7 @@ public class SubjectService {
         String schoolID = subject.getSchoolID();
         School school = schoolService.getSchoolByID(schoolID);
         userService.existsUser(creatorID);
-        if (!school.getAdministratorsID().contains(schoolID)) throw new IsNotAnAdministratorException(User.class, creatorID);
+        if (!school.getAdministratorsID().contains(creatorID)) throw new IsNotAnAdministratorException(User.class, creatorID);
         subject.addTeacher(creatorID);
         return subjectDao.insert(subject);
     }
