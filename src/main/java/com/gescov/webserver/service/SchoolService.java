@@ -80,16 +80,19 @@ public class SchoolService {
         for (Classroom cl : c) classroomService.deleteClassroom(cl.getId());
     }
 
-    public School updateSchool(String id, String name, int latitude, int longitude, String phone, String website, String address){
+    public School updateSchool(String id, String name, float latitude, float longitude, int mediumRisk, int highRisk, String phone, String website, String address){
         Optional<School> s = schoolDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        if (!name.equals("")) s.get().setName(name);
-        if (longitude != 0) s.get().setLongitude(longitude);
-        if (latitude != 0) s.get().setLongitude(latitude);
-        if (phone.equals("")) s.get().setPhone(phone);
-        if (!website.equals("")) s.get().setWebsite(website);
-        if (!address.equals("")) s.get().setAddress(address);
-        return schoolDao.save(s.get());
+        School sc = s.get();
+        if (!name.equals("")) sc.setName(name);
+        if (longitude != 0.0) sc.setLongitude(longitude);
+        if (latitude != 0.0) sc.setLongitude(latitude);
+        if (mediumRisk != 0) sc.setMediumRisk(mediumRisk);
+        if (highRisk != 0) sc.setHighRisk(highRisk);
+        if (phone.equals("")) sc.setPhone(phone);
+        if (!website.equals("")) sc.setWebsite(website);
+        if (!address.equals("")) sc.setAddress(address);
+        return schoolDao.save(sc);
     }
 
     public void updateSchoolName(String id, String update) {

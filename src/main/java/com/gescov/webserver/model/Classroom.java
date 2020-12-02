@@ -28,9 +28,6 @@ public class Classroom {
     private String name;
 
     @Min(1)
-    private int capacity;
-
-    @Min(1)
     private int numRows;
 
     @Min(1)
@@ -41,13 +38,11 @@ public class Classroom {
 
     public Classroom(@JsonProperty("id") String id,
                      @JsonProperty("name") String name,
-                     @JsonProperty("capacity") int capacity,
                      @JsonProperty("numRows") int numRows,
                      @JsonProperty("numCols") int numCols,
                      @JsonProperty("schoolID") String schoolID) {
         this.id = id;
         this.name = name;
-        this.capacity = capacity;
         this.numRows = numRows;
         this.numCols = numCols;
         this.schoolID = schoolID;

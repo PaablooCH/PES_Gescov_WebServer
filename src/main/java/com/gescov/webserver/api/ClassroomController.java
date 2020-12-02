@@ -55,10 +55,10 @@ public class ClassroomController {
     }
 
     @PutMapping
-    public Classroom updateClassroom(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("capacity") int capacity,
+    public Classroom updateClassroom(@NotNull @RequestParam("id") String id,
                                      @RequestParam("name") String name, @NotNull @RequestParam("numRows") int numRows,
                                      @NotNull @RequestParam("numCols") int numCols) {
-        return classroomService.updateClassroom(id, capacity, name, numRows, numCols);
+        return classroomService.updateClassroom(id, name, numRows, numCols);
     }
 
 }

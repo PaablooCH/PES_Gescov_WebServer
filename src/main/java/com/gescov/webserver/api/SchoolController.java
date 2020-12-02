@@ -49,10 +49,11 @@ public class SchoolController {
 
     @PutMapping
     public School updateSchool(@NotNull @RequestParam("id") String id, @NotNull @RequestParam("name") String name,
-                             @NotNull @RequestParam("latitude") int latitude, @NotNull @RequestParam ("longitude") int longitude,
-                             @NotNull @RequestParam("phone") String phone, @NotNull @RequestParam String website,
+                             @NotNull @RequestParam("latitude") float latitude, @NotNull @RequestParam ("longitude") float longitude,
+                               @NotNull @RequestParam ("mediumRisk") int mediumRisk, @NotNull @RequestParam ("highRisk") int highRisk,
+                               @NotNull @RequestParam("phone") String phone, @NotNull @RequestParam String website,
                              @NotNull @RequestParam ("address") String address) {
-        return schoolService.updateSchool(id, name, latitude, longitude, phone, website, address);
+        return schoolService.updateSchool(id, name, latitude, longitude, mediumRisk, highRisk, phone, website, address);
     }
 
     @PutMapping(path = "{specific}")
