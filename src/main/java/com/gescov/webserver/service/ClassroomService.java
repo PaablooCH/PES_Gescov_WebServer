@@ -3,7 +3,6 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.classroom.ClassroomDao;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.exception.WrongCapacityException;
 import com.gescov.webserver.model.ClassSession;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
@@ -29,7 +28,6 @@ public class ClassroomService {
 
 
     public Classroom addClassroom(Classroom classroom) {
-        if ((classroom.getNumRows() * classroom.getNumCols()) != classroom.getCapacity()) throw new WrongCapacityException(Classroom.class);
         String schoolID = classroom.getSchoolID();
         Optional<School> s = schoolService.getSchoolById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
@@ -82,11 +80,10 @@ public class ClassroomService {
         }
     }
 
-    public Classroom updateClassroom(String id, int capacity, String name, int numRows, int numCols) {
+    public Classroom updateClassroom(String id, String name, int numRows, int numCols) {
         Optional<Classroom> c = classroomDao.findById(id);
         if (c.isEmpty()) throw new NotFoundException(Classroom.class, id);
-        if (capacity != 0) c.get().setCapacity(capacity);
-        if (!name.equals(""))c.get().setName(name);
+        if (!name.equals("")) c.get().setName(name);
         if (numRows != 0) c.get().setNumRows(numRows);
         if (numCols != 0) c.get().setNumCols(numCols);
         return classroomDao.save(c.get());

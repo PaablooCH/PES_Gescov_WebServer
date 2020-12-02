@@ -38,8 +38,7 @@ public class ContagionController {
 
     @PutMapping(path = "/{id}")
     public void updateContagion(@PathVariable("id") String infectedID) {
-        String contagionID = contagionService.updateContagion(infectedID);
-        tracingTestController.deleteAllTracingTest(contagionID);
+        contagionService.updateContagion(infectedID);
     }
 
     @GetMapping(path = "student/{id}")

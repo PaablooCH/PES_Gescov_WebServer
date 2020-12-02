@@ -31,6 +31,8 @@ public class User {
     @Indexed(name = "noSameEmail", unique = true)
     private String email;
 
+    private String pic;
+
     private boolean risk;
 
     private List<String> schoolsID;
@@ -40,10 +42,12 @@ public class User {
 
     public User(@JsonProperty("id") String id,
                 @JsonProperty("name") String name,
-                @JsonProperty("email") String email) {
+                @JsonProperty("email") String email,
+                @JsonProperty("pic") String pic) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.pic = pic;
         this.risk = false;
         this.schoolsID = new ArrayList<>();
         this.profile = "Student";

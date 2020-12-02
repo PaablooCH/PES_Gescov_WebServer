@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -48,14 +49,17 @@ public class UserService {
         return userDao.findById(id);
     }
 
-    public List<String> getSchoolsByUser(String id) {
+    public List<School> getSchoolsByUser(String id) {
         Optional<User> us = getUserById(id);
         if (us.isEmpty()) throw new NotFoundException(User.class, id);
-        return us.get().getSchoolsID();
+        List<School> sc = new ArrayList<>();
+        List<String> aux = us.get().getSchoolsID();
+        for (String s : aux) sc.add(schoolService.getSchoolByID(s));
+        return sc;
     }
 
     public void existsUser(String userID) {
-         if(!userDao.existsById(userID)) throw new NotFoundException(User.class, userID);
+         if (!userDao.existsById(userID)) throw new NotFoundException(User.class, userID);
     }
 
     public void addSchool(String id, String schoolID) {
@@ -64,7 +68,7 @@ public class UserService {
         Optional<School> s = schoolService.getSchoolById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
         List<String> schools = u.get().getSchoolsID();
-        if(schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
+        if (schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
         u.get().addSchool(schoolID);
         userDao.save(u.get());
     }
@@ -89,9 +93,8 @@ public class UserService {
     @SneakyThrows
     public String verifyToken(String token) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList(googleAPI))
-                .build();
-
+                                                                    .setAudience(Collections.singletonList(googleAPI))
+                                                                    .build();
         GoogleIdToken idToken = verifier.verify(token);
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
@@ -99,18 +102,18 @@ public class UserService {
             // Print user identifier
             String userId = payload.getSubject();
             Optional<User> u = userDao.findByTokenID(userId);
-            if(u.isPresent()) return u.get().getId();
+            if (u.isPresent()) return u.get().getId();
 
             // Get profile information from payload
             String email = payload.getEmail();
             String name = (String) payload.get("name");
-            User user = new User(null, name, email);
+            String pic = (String) payload.get("picture");
+            User user = new User(null, name, email, pic);
             user.setTokenID(userId);
             User userCreated = addUser(user);
             return userCreated.getId();
-        } else {
-            return null;
         }
+        else return null;
     }
 
     public void updateUserSchool(String id, String studentID, String schoolID) {
@@ -120,42 +123,49 @@ public class UserService {
         addSchool(studentID, schoolID);
     }
 
+    public void deleteSchool(String id) {
+        List<User> users = userDao.findAllBySchoolID(id);
+        for (User u : users) {
+            if (u.getSchoolsID().remove(id)) userDao.save(u);
+        }
+    }
+
     public void becomeStudent(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Student")) u.get().setProfile("Student");
         userDao.save(u.get());
     }
 
     public void becomeTeacher(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Teacher")) u.get().setProfile("Teacher");
         userDao.save(u.get());
     }
 
     public void becomeTutor(String id){
         Optional<User> u = userDao.findById(id);
-        if(u.isEmpty()) throw new NotFoundException(User.class, id);
-        if(!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
+        if (u.isEmpty()) throw new NotFoundException(User.class, id);
+        if (!u.get().getProfile().equals("Tutor")) u.get().setProfile("Tutor");
         userDao.save(u.get());
     }
 
     public int countInfectedInSchool(String schoolID) {
         int count = 0;
         List<User> users = userDao.findAllBySchoolID(schoolID);
-        for (User u : users){
-            if(contagionService.existsInfected(u.getId())) count++;
+        for (User u : users) {
+            if (contagionService.existsInfected(u.getId())) count++;
         }
         return count;
     }
 
     public void transmitContagion(String userID) {
         assignmentService.transmitContagion(userID);
-
     }
 
     public void infect(String userID) {
         contagionService.infect(userID);
     }
+
 }

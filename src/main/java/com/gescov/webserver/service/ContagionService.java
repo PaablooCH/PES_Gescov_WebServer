@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class ContagionService {
 
@@ -24,6 +26,8 @@ public class ContagionService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TracingTestService tracingTestService;
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
@@ -38,12 +42,11 @@ public class ContagionService {
 
     public List<Contagion> getAllContagion() { return contagionDao.findAll(); }
 
-    public String updateContagion(String infectedID) {
+    public void updateContagion(String infectedID) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedID);
         if (con.isEmpty()) throw new NotFoundException(User.class, infectedID);
         con.get().setEndContagion(LocalDate.now());
         contagionDao.save(con.get());
-        return con.get().getId();
     }
 
     public List<Pair<String, LocalDate>> getNowContagion(String schoolID) {
@@ -90,4 +93,15 @@ public class ContagionService {
         Contagion contagion = new Contagion(null, infectedID, false);
         contagionDao.insert(contagion);
     }
+
+    public void deleteContagion(LocalDate date) {
+        List <Contagion> con = contagionDao.findAllByEndContagionNotNull();
+        for (Contagion c : con) {
+            if (DAYS.between(c.getEndContagion(), date) >= 15) {
+                tracingTestService.deleteAllTracingTest(c.getId());
+                contagionDao.delete(c);
+            }
+        }
+    }
+
 }
