@@ -71,11 +71,16 @@ public class School {
         this.creatorID = creatorID;
         this.administratorsID = new ArrayList<>();
         addAdministrator(creatorID);
-        punctuation.add(Pair.of(LocalDate.now(), 0));
+        this.punctuation = new ArrayList<>();
+        addPunctuation(Pair.of(LocalDate.now(), 0));
     }
 
     public void addAdministrator(String adminID) {
         administratorsID.add(adminID);
+    }
+
+    public void addPunctuation(Pair<LocalDate, Integer> punctuation) {
+        this.punctuation.add(punctuation);
     }
 
 }
