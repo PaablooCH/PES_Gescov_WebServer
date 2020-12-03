@@ -37,8 +37,10 @@ public class ChatService {
         }
         Chat c = chatDao.insert(chat);
         String u1 = getUserName(chat.getPartA());
+        String pic1 = getUserPicture(chat.getPartA());
         String u2 = getUserName(chat.getPartB());
-        chatPreviewService.createChatPreview(new ChatPreview(c.getId(),u1,u2));
+        String pic2 = getUserPicture(chat.getPartB());
+        chatPreviewService.createChatPreview(new ChatPreview(c.getId(),u1,pic1,u2,pic2));
         return c;
     }
 
@@ -54,6 +56,12 @@ public class ChatService {
         Optional<User> uA = userService.getUserById(part);
         if (uA.isEmpty()) throw new NotFoundException(User.class, part);
         return uA.get().getName();
+    }
+
+    private String getUserPicture(String part) {
+        Optional<User> uA = userService.getUserById(part);
+        if (uA.isEmpty()) throw new NotFoundException(User.class, part);
+        return uA.get().getPic();
     }
 
 }
