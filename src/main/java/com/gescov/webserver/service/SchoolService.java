@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SchoolService {
@@ -116,6 +114,7 @@ public class SchoolService {
             punctuation = userService.countInfectedInSchool(school.getId());
             aux.add(Pair.of(school, punctuation));
         }
+        aux.sort(Comparator.comparingInt(Pair::getSecond));
         return aux;
     }
 
