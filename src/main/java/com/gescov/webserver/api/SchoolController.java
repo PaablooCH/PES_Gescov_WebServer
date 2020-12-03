@@ -7,6 +7,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping("api/schools")
@@ -77,9 +78,14 @@ public class SchoolController {
         schoolService.addAdministrator(id, adminID, newAdminID);
     }
 
-    @GetMapping(path = "/punctuation")
+    @GetMapping(path = "/punctuations")
     public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
         return schoolService.getSchoolsAndNumInfected();
+    }
+
+    @GetMapping(path = "/{id}/punctuation")
+    public List<Pair<LocalDate, Integer>> getPunctuation(@PathVariable String id) {
+        return schoolService.getPunctuation(id);
     }
 
 }
