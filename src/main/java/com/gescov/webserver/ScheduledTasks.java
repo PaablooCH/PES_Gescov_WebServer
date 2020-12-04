@@ -19,7 +19,7 @@ public class ScheduledTasks {
         this.schoolService = schoolService;
     }
 
-    @Scheduled(cron = "0 0 0 * * *", zone="Europe/Spain")
+    @Scheduled(cron = "0 0 0 * * *", zone="Europe/Madrid")
     public void deleteContagionWithEndContagionNull() {
         LocalDate date = LocalDate.now();
         contagionService.deleteContagion(date);
