@@ -1,6 +1,5 @@
 package com.gescov.webserver.exception;
 
-import com.gescov.webserver.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

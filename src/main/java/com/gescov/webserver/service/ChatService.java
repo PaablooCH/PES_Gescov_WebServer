@@ -1,7 +1,6 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.chat.ChatDao;
-import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.ChatAlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.OnlyStudentTeacherChatException;
@@ -69,9 +68,8 @@ public class ChatService {
 
     private boolean findSameChat(String partA, String partB){
         Optional<Chat> option1 = chatDao.findByPartAAndPartB(partA, partB);
-        if(!option1.isEmpty()) return true;
+        if (option1.isPresent()) return true;
         Optional<Chat> option2 = chatDao.findByPartAAndPartB(partB, partA);
-        if(!option2.isEmpty()) return true;
-        return false;
+        return option2.isPresent();
     }
 }
