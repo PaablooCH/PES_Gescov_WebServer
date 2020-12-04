@@ -1,6 +1,8 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.chat.ChatDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
+import com.gescov.webserver.exception.ChatAlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.OnlyStudentTeacherChatException;
 import com.gescov.webserver.model.Chat;
@@ -27,6 +29,7 @@ public class ChatService {
     ChatPreviewService chatPreviewService;
 
     public Chat createChat(Chat chat) {
+        if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
         if(t1){
@@ -64,4 +67,11 @@ public class ChatService {
         return uA.get().getPic();
     }
 
+    private boolean findSameChat(String partA, String partB){
+        Optional<Chat> option1 = chatDao.findByPartAAndPartB(partA, partB);
+        if(option1.isEmpty()) return true;
+        Optional<Chat> option2 = chatDao.findByPartAAndPartB(partB, partA);
+        if(option2.isEmpty()) return true;
+        return false;
+    }
 }

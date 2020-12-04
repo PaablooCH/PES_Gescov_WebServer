@@ -15,9 +15,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Document(collection = "chats")
-@CompoundIndexes({
-        @CompoundIndex(name="chatAlreadyExists", def = "{'partA' : 1, 'partB' : 1}", unique = true)
-})
 public class Chat {
 
     @Id
