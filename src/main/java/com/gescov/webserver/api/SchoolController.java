@@ -42,8 +42,13 @@ public class SchoolController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteSchoolById(@PathVariable("id") String id, @NotNull @RequestParam("adminID") String adminID) {
-        schoolService.deleteSchool(id, adminID);
+    public void deleteSchoolById(@PathVariable("id") String id, @NotNull @RequestParam("creatorID") String creatorID) {
+        schoolService.deleteSchool(id, creatorID);
+    }
+
+    @DeleteMapping(path = "{id}/admin")
+    public void deleteAdmin(@PathVariable("id") String id, @NotNull @RequestParam("creatorID") String creatorID, @NotNull @RequestParam("adminID") String adminID) {
+        schoolService.deleteAdmin(id, creatorID, adminID);
     }
 
     @PutMapping

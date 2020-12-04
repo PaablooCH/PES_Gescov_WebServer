@@ -9,4 +9,6 @@ public interface SchoolDao extends MongoRepository<School, String>, SchoolDaoCus
 
     School findByName(String schoolName);
 
+    boolean existsByIdAndCreatorID(String schoolID, String creatorID);
+
 }

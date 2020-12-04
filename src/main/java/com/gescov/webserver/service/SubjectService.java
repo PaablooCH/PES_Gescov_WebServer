@@ -35,24 +35,25 @@ public class SubjectService {
         String schoolID = subject.getSchoolID();
         School school = schoolService.getSchoolByID(schoolID);
         userService.existsUser(creatorID);
-        if (!school.getAdministratorsID().contains(creatorID)) throw new IsNotAnAdministratorException(User.class, creatorID);
+        if (!school.getAdministratorsID().contains(creatorID)) throw new IsNotAnAdministratorException(User.class, creatorID, schoolID);
         subject.addTeacher(creatorID);
         return subjectDao.insert(subject);
     }
 
     public List<Subject> getAllSubject() { return subjectDao.findAll(); }
 
-    public List<Subject> selectSubjectBySchoolId(String id){ return subjectDao.findAllBySchoolID(id);}
+    public List<Subject> selectSubjectBySchoolId(String id) { return subjectDao.findAllBySchoolID(id); }
 
     public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
 
     public List<Subject> getSubjectBySchool(String schoolName) {
         School school = schoolService.getSchoolByName(schoolName);
-        return subjectDao.selectAllBySchoolID(school.getId()); }
+        return subjectDao.selectAllBySchoolID(school.getId());
+    }
 
     public List<Subject> getSubjectByName(String name) { return subjectDao.findAllByName(name); }
 
-    public void deleteSubject(String id){
+    public void deleteSubject(String id) {
         DeleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
     }
@@ -61,14 +62,14 @@ public class SubjectService {
         Optional<Subject> s = subjectDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
         School school = schoolService.getSchoolByID(s.get().getSchoolID());
-        if(!school.getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        if (!school.getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID, school.getId());
         DeleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
     }
 
     private void DeleteClassSessionsOfASubject(String id) {
         List<ClassSession> cs = classSessionService.getSessionBySubject(id);
-        if(!cs.isEmpty()) {
+        if (!cs.isEmpty()) {
             for (ClassSession classSes : cs) {
                 classSessionService.deleteClassSession(classSes.getId());
             }
