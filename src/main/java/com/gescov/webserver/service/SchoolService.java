@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -147,6 +148,20 @@ public class SchoolService {
     public void existsSchoolByID(String schoolID) {
         Optional <School> sc = schoolDao.findById(schoolID);
         if (sc.isEmpty()) throw new NotFoundException(School.class, schoolID);
+    }
+
+    public List<Pair<LocalDate, Integer>> getPunctuation(String schoolID) {
+        Optional<School> school = schoolDao.findById(schoolID);
+        if (school.isEmpty()) throw new NotFoundException(School.class, schoolID);
+        return school.get().getRegister();
+    }
+
+    public void doRegister(LocalDate date) {
+        List<School> schoolList = schoolDao.findAll();
+        for (School school : schoolList) {
+            int punctuation = userService.countInfectedInSchool(school.getId());
+            school.addRegister(Pair.of(date, punctuation));
+        }
     }
 
 }

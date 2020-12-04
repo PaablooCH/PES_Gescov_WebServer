@@ -100,7 +100,7 @@ public class ContagionService {
     public void deleteContagion(LocalDate date) {
         List <Contagion> con = contagionDao.findAllByEndContagionNotNull();
         for (Contagion c : con) {
-            if (DAYS.between(c.getEndContagion(), date) >= 1) {
+            if (DAYS.between(c.getEndContagion(), date) >= 2) {
                 tracingTestService.deleteAllTracingTest(c.getId());
                 contagionDao.delete(c);
             }

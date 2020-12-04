@@ -7,9 +7,11 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.util.Pair;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +49,8 @@ public class School {
 
     private List<String> administratorsID;
 
+    private List<Pair<LocalDate, Integer>> register;
+
 
     public School(@JsonProperty("id") String id,
                   @JsonProperty("name") String name,
@@ -67,10 +71,15 @@ public class School {
         this.creatorID = creatorID;
         this.administratorsID = new ArrayList<>();
         addAdministrator(creatorID);
+        this.register = new ArrayList<>();
     }
 
     public void addAdministrator(String adminID) {
         administratorsID.add(adminID);
+    }
+
+    public void addRegister(Pair<LocalDate, Integer> punctuation) {
+        this.register.add(punctuation);
     }
 
 }
