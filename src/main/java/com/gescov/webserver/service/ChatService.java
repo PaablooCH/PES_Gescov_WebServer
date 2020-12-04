@@ -69,9 +69,9 @@ public class ChatService {
 
     private boolean findSameChat(String partA, String partB){
         Optional<Chat> option1 = chatDao.findByPartAAndPartB(partA, partB);
-        if(option1.isEmpty()) return true;
+        if(!option1.isEmpty()) return true;
         Optional<Chat> option2 = chatDao.findByPartAAndPartB(partB, partA);
-        if(option2.isEmpty()) return true;
+        if(!option2.isEmpty()) return true;
         return false;
     }
 }
