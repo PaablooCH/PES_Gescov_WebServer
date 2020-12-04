@@ -133,14 +133,14 @@ public class SchoolService {
     public List<Pair<LocalDate, Integer>> getPunctuation(String schoolID) {
         Optional<School> school = schoolDao.findById(schoolID);
         if (school.isEmpty()) throw new NotFoundException(School.class, schoolID);
-        return school.get().getPunctuation();
+        return school.get().getRegister();
     }
 
     public void doRegister(LocalDate date) {
         List<School> schoolList = schoolDao.findAll();
         for (School school : schoolList) {
             int punctuation = userService.countInfectedInSchool(school.getId());
-            school.addPunctuation(Pair.of(date, punctuation));
+            school.addRegister(Pair.of(date, punctuation));
         }
     }
 

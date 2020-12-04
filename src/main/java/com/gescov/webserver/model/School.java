@@ -49,7 +49,7 @@ public class School {
 
     private List<String> administratorsID;
 
-    private List<Pair<LocalDate, Integer>> punctuation;
+    private List<Pair<LocalDate, Integer>> register;
 
 
     public School(@JsonProperty("id") String id,
@@ -71,16 +71,15 @@ public class School {
         this.creatorID = creatorID;
         this.administratorsID = new ArrayList<>();
         addAdministrator(creatorID);
-        this.punctuation = new ArrayList<>();
-        addPunctuation(Pair.of(LocalDate.now(), 0));
+        this.register = new ArrayList<>();
     }
 
     public void addAdministrator(String adminID) {
         administratorsID.add(adminID);
     }
 
-    public void addPunctuation(Pair<LocalDate, Integer> punctuation) {
-        this.punctuation.add(punctuation);
+    public void addRegister(Pair<LocalDate, Integer> punctuation) {
+        this.register.add(punctuation);
     }
 
 }
