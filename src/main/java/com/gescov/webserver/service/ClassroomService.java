@@ -63,14 +63,14 @@ public class ClassroomService {
         if (c.isEmpty()) throw new NotFoundException(Classroom.class, id);
         School s = schoolService.getSchoolByID(c.get().getSchoolID());
         List<String> admins = s.getAdministratorsID();
-        if(!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        if (!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID, s.getId());
         deleteClassSessionsOfAClassroom(id);
         classroomDao.deleteById(id);
     }
 
     private void deleteClassSessionsOfAClassroom(String id) {
         List<ClassSession> cs = classSessionService.getSessionByClassroom(id);
-        if(!cs.isEmpty()) {
+        if (!cs.isEmpty()) {
             for (ClassSession classSes : cs) {
                 classSessionService.deleteClassSession(classSes.getId());
             }

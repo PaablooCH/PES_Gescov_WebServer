@@ -51,9 +51,57 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(RequestAnsweredException.class)
-    public ResponseEntity<ApiError> handleIOException(RequestAnsweredException ex, WebRequest request) {
+    public ResponseEntity<ApiError> handleRequestAnsweredException(RequestAnsweredException ex, WebRequest request) {
         ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ChatAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleChatAlreadyExistsException(ChatAlreadyExistsException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ClassroomDateException.class)
+    public ResponseEntity<ApiError> handleClassroomDateException(ClassroomDateException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IsNotAnAdministratorException.class)
+    public ResponseEntity<ApiError> handleIsNotAnAdministratorException(IsNotAnAdministratorException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(NotInSchool.class)
+    public ResponseEntity<ApiError> handleNotInSchool(NotInSchool ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OnlyStudentTeacherChatException.class)
+    public ResponseEntity<ApiError> handleOnlyStudentTeacherChatException(OnlyStudentTeacherChatException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UNeedToWait.class)
+    public ResponseEntity<ApiError> handleUNeedToWait(UNeedToWait ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IsNotTheCreatorException.class)
+    public ResponseEntity<ApiError> handleIsNotTheCreatorException(IsNotTheCreatorException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(NotTeacherException.class)
+    public ResponseEntity<ApiError> handleNotTeacherException(NotTeacherException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
 }

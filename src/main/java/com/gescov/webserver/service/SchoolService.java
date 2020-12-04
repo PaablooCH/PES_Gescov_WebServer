@@ -1,7 +1,9 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.school.SchoolDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
+import com.gescov.webserver.exception.IsNotTheCreatorException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
@@ -30,7 +32,7 @@ public class SchoolService {
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
-        userService.existsUser(creatorID);
+        userService.existsTeacher(creatorID);
         schoolDao.insert(school);
         userService.addSchool(creatorID, school.getId());
         return school;
@@ -39,10 +41,13 @@ public class SchoolService {
     public void addAdministrator(String schoolID, String adminID, String newAdminID) {
         Optional<School> s = schoolDao.findById(schoolID);
         if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
-        if (!s.get().getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
-        userService.existsUser(newAdminID);
-        s.get().addAdministrator(newAdminID);
-        schoolDao.save(s.get());
+        School sc = s.get();
+        userService.existsTeacher(adminID);
+        userService.existsTeacher(newAdminID);
+        isAdmin(schoolID, adminID);
+        if (sc.getAdministratorsID().contains(newAdminID)) throw new AlreadyExistsException(User.class, newAdminID);
+        sc.addAdministrator(newAdminID);
+        schoolDao.save(sc);
     }
 
     public List<School> getAllSchools() {
@@ -53,15 +58,26 @@ public class SchoolService {
         return schoolDao.findByName(schoolName);
     }
 
-    public void deleteSchool(String id, String adminID) {
-        Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        List<String> admins = s.get().getAdministratorsID();
-        if (!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+    public void deleteSchool(String id, String creatorID) {
+        existsSchoolByID(id);
+        userService.existsTeacher(creatorID);
+        isCreator(id, creatorID);
         schoolDao.deleteById(id);
         deleteAllClassroomsOfSchool(id);
         deleteAllSubjectsOfSchool(id);
         userService.deleteSchool(id);
+    }
+
+    public void deleteAdmin(String id, String creatorID, String adminID) {
+        Optional <School> sc = schoolDao.findById(id);
+        if (sc.isEmpty()) throw new NotFoundException(School.class, id);
+        School s = sc.get();
+        userService.existsTeacher(creatorID);
+        isCreator(id, creatorID);
+        userService.existsTeacher(adminID);
+        isAdmin(id, adminID);
+        s.getAdministratorsID().remove(adminID);
+        schoolDao.save(s);
     }
 
     private void deleteAllSubjectsOfSchool(String id) {
@@ -102,7 +118,11 @@ public class SchoolService {
     }
 
     public void isAdmin(String schoolID, String adminID) {
-        if (!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID);
+        if (!schoolDao.existsByIdAndAdministratorsIDIn(schoolID, adminID)) throw new IsNotAnAdministratorException(User.class, adminID, schoolID);
+    }
+
+    public void isCreator(String schoolID, String creatorID) {
+        if (!schoolDao.existsByIdAndCreatorID(schoolID, creatorID)) throw new IsNotTheCreatorException(User.class, creatorID, schoolID);
     }
 
     public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
@@ -128,4 +148,5 @@ public class SchoolService {
         Optional <School> sc = schoolDao.findById(schoolID);
         if (sc.isEmpty()) throw new NotFoundException(School.class, schoolID);
     }
+
 }
