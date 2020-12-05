@@ -94,7 +94,7 @@ public class SchoolController {
     }
 
     @PostMapping(path = "{id}/entry")
-    public boolean checkEntryCode(@PathVariable("id") String id, @NotNull @RequestParam("code") int code, @NotNull @RequestParam("userID") String userID) {
+    public boolean checkEntryCode(@PathVariable("id") String id, @NotNull @RequestParam("code") String code, @NotNull @RequestParam("userID") String userID) {
         return schoolService.checkEntryCode(id, userID, code);
     }
 

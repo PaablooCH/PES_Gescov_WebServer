@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 @Component
 public class ScheduledTasks {
@@ -25,10 +26,15 @@ public class ScheduledTasks {
         contagionService.deleteContagion(date);
     }
 
-    @Scheduled(fixedRate = 21600000/*172800000*/)
+    @Scheduled(cron = "0 0 0 * * *", zone="Europe/Madrid")
     public void doRegister() {
         LocalDate date = LocalDate.now();
         schoolService.doRegister(date);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *", zone="Europe/Madrid")
+    public void updateEntryCode() {
+        schoolService.updateEntryCode();
     }
 
 }

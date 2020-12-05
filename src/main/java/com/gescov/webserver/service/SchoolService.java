@@ -11,10 +11,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
@@ -35,10 +32,9 @@ public class SchoolService {
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
+        school.setEntryCode(generateEntryCode());
         userService.existsTeacher(creatorID);
         schoolDao.insert(school);
-        school.setEntryCode(abs(school.getId().hashCode()));
-        schoolDao.save(school);
         userService.addSchool(creatorID, school.getId());
         return school;
     }
@@ -170,14 +166,43 @@ public class SchoolService {
         }
     }
 
-    public boolean checkEntryCode(String schoolID, String userID, int code) {
+    public boolean checkEntryCode(String schoolID, String userID, String code) {
         School s = getSchoolByID(schoolID);
-        userService.existsUser(userID);
-        if (s.getEntryCode() == code) {
+        if (s.getEntryCode().equals(code)) {
+            userService.existsUser(userID);
             userService.addSchool(userID, schoolID);
             return true;
         }
         else return false;
     }
 
+
+    public void updateEntryCode() {
+        List<School> schoolList = schoolDao.findAll();
+        for (School school : schoolList){
+            school.setEntryCode(generateEntryCode());
+            schoolDao.save(school);
+        }
+    }
+
+    private String generateEntryCode() {
+        int leftLimitUp = 65; // letter 'A'
+        int rightLimitUp = 90; // letter 'Z'
+        int leftLimitLow = 97; // letter 'a'
+        int rightLimitLow = 122; // letter 'z'
+        int targetStringLength = 6;
+        boolean n = Math.random() < 0.5;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        int randomLimitedInt;
+        for (int i = 0; i < targetStringLength; i++) {
+            if (n) randomLimitedInt = leftLimitUp + (int)
+                    (random.nextFloat() * (rightLimitUp - leftLimitUp + 1));
+            else randomLimitedInt = leftLimitLow + (int)
+                    (random.nextFloat() * (rightLimitLow - leftLimitLow + 1));
+            buffer.append((char) randomLimitedInt);
+            n = Math.random() < 0.5;
+        }
+        return buffer.toString();
+    }
 }

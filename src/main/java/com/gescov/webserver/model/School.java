@@ -29,7 +29,7 @@ public class School {
     @Indexed(name = "no_same_school", unique = true)
     private String name;
 
-    private int entryCode;
+    private String entryCode;
 
     private String state;
 
