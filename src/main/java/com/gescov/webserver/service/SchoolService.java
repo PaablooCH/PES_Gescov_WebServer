@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
 
-import static java.lang.Math.abs;
-
 @Service
 public class SchoolService {
 
