@@ -19,6 +19,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Math.abs;
+
 @Service
 public class SchoolService {
 
@@ -38,6 +40,8 @@ public class SchoolService {
         String creatorID = school.getCreatorID();
         userService.existsTeacher(creatorID);
         schoolDao.insert(school);
+        school.setEntryCode(abs(school.getId().hashCode()));
+        schoolDao.save(school);
         userService.addSchool(creatorID, school.getId());
         return school;
     }
