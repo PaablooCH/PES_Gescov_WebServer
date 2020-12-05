@@ -93,4 +93,9 @@ public class SchoolController {
         return schoolService.getPunctuation(id);
     }
 
+    @PostMapping(path = "{id}/entry")
+    public boolean checkEntryCode(@PathVariable("id") String id, @NotNull @RequestParam("code") int code) {
+        return schoolService.checkEntryCode(id, code);
+    }
+
 }

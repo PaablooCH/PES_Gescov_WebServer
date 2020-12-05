@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 
 @NoArgsConstructor
 @Setter
@@ -28,6 +30,8 @@ public class School {
     @NotNull(message = "School's creator must not be null")
     @Indexed(name = "no_same_school", unique = true)
     private String name;
+
+    private int entryCode;
 
     private String state;
 
@@ -72,6 +76,7 @@ public class School {
         this.administratorsID = new ArrayList<>();
         addAdministrator(creatorID);
         this.register = new ArrayList<>();
+        this.entryCode = abs(id.hashCode());
     }
 
     public void addAdministrator(String adminID) {

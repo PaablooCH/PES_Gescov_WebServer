@@ -168,4 +168,9 @@ public class SchoolService {
         }
     }
 
+    public boolean checkEntryCode(String id, int code) {
+        School s = getSchoolByID(id);
+        return s.getEntryCode() == code;
+    }
+
 }
