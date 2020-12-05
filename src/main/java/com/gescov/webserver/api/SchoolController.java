@@ -83,12 +83,12 @@ public class SchoolController {
         schoolService.addAdministrator(id, adminID, newAdminID);
     }
 
-    @GetMapping(path = "/punctuations")
+    @GetMapping(path = "/scores")
     public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
         return schoolService.getSchoolsAndNumInfected();
     }
 
-    @GetMapping(path = "/{id}/punctuation")
+    @GetMapping(path = "/{id}/tracking")
     public List<Pair<LocalDate, Integer>> getPunctuation(@PathVariable String id) {
         return schoolService.getPunctuation(id);
     }
