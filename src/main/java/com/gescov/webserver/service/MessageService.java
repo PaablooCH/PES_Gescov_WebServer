@@ -31,9 +31,9 @@ public class MessageService {
         if(u.isEmpty()) throw new NotFoundException(User.class, m.getCreatorID());
         Optional<Chat> c = chatService.getChatById(m.getChatID());
         if(c.isEmpty()) throw new NotFoundException(Chat.class, m.getChatID());
-        chatPreviewService.updateLastMessage(m.getChatID(),m.getText(),m.getHour());
+        chatPreviewService.updateLastMessage(m.getChatID(),m.getText(),m.getHour(), m.getDate());
         return messageDao.insert(m);
-    };
+    }
 
     public Optional<Message> getMessageByID(String messageID) { return messageDao.findById(messageID); }
 

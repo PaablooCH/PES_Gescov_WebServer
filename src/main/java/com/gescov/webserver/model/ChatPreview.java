@@ -1,5 +1,6 @@
 package com.gescov.webserver.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,13 +34,17 @@ public class ChatPreview {
 
     private String lastText;
 
+    @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
     private String lastTextHour;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    private String lastTextDate;
 
 
     public ChatPreview (@JsonProperty("id") String id, @JsonProperty("chat") String chatID, @JsonProperty("userNameA") String userNameA,
                         @JsonProperty("userPictureA") String userPictureA, @JsonProperty("userNameB") String userNameB,
                         @JsonProperty("userPictureB") String userPictureB, @JsonProperty("lastText") String lastText,
-                        @JsonProperty("lastTextHour") String lastTextHour){
+                        @JsonProperty("lastTextHour") String lastTextHour, @JsonProperty("lastTextDate") String lastTextDate){
         this.id = id;
         this.chatID = chatID;
         this.userNameA = userNameA;
@@ -48,6 +53,7 @@ public class ChatPreview {
         this.userNameB = userNameB;
         this.lastText = lastText;
         this.lastTextHour = lastTextHour;
+        this.lastTextDate = lastTextDate;
     }
 
     public ChatPreview(String id, String u1, String pic1, String u2, String pic2) {

@@ -8,6 +8,7 @@ import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,13 +37,16 @@ public class ChatPreviewService {
         Optional<User> u = userService.getUserById(userID);
         List<ChatPreview> ch = chatPreviewDao.findAllByUserNameA(u.get().getName());
         ch.addAll(chatPreviewDao.findAllByUserNameB(u.get().getName()));
+        ch.sort(Comparator.comparing(ChatPreview::getLastTextDate).reversed());
+        ch.sort(Comparator.comparing(ChatPreview::getLastTextHour).reversed());
         return ch;
     }
 
-    public ChatPreview updateLastMessage(String chatID, String text, String hour){
+    public ChatPreview updateLastMessage(String chatID, String text, String hour, String date){
         Optional<ChatPreview> ch = chatPreviewDao.findByChatID(chatID);
         ch.get().setLastText(text);
         ch.get().setLastTextHour(hour);
+        ch.get().setLastTextDate(date);
         return chatPreviewDao.save(ch.get());
     }
 }
