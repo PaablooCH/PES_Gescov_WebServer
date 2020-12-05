@@ -172,6 +172,7 @@ public class SchoolService {
 
     public boolean checkEntryCode(String schoolID, String userID, int code) {
         School s = getSchoolByID(schoolID);
+        userService.existsUser(userID);
         if (s.getEntryCode() == code) {
             userService.addSchool(userID, schoolID);
             return true;
