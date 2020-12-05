@@ -1,10 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.school.SchoolDao;
-import com.gescov.webserver.exception.AlreadyExistsException;
-import com.gescov.webserver.exception.IsNotAnAdministratorException;
-import com.gescov.webserver.exception.IsNotTheCreatorException;
-import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.*;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
@@ -77,6 +74,7 @@ public class SchoolService {
     }
 
     public void deleteAdmin(String id, String creatorID, String adminID) {
+        if (creatorID.equals(adminID)) throw new CreatorCantBeDeletedException(User.class, creatorID);
         Optional <School> sc = schoolDao.findById(id);
         if (sc.isEmpty()) throw new NotFoundException(School.class, id);
         School s = sc.get();
@@ -172,9 +170,13 @@ public class SchoolService {
         }
     }
 
-    public boolean checkEntryCode(String id, int code) {
-        School s = getSchoolByID(id);
-        return s.getEntryCode() == code;
+    public boolean checkEntryCode(String schoolID, String userID, int code) {
+        School s = getSchoolByID(schoolID);
+        if (s.getEntryCode() == code) {
+            userService.addSchool(userID, schoolID);
+            return true;
+        }
+        else return false;
     }
 
 }

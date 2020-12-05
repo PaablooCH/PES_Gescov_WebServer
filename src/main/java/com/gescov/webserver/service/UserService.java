@@ -69,14 +69,15 @@ public class UserService {
         if (u.get().isStudent()) throw new NotTeacherException(User.class, userID);
     }
 
-    public void addSchool(String id, String schoolID) {
-        Optional<User> u = userDao.findById(id);
-        if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        School s = schoolService.getSchoolByID(schoolID);
-        List<String> schools = u.get().getSchoolsID();
+    public void addSchool(String userID, String schoolID) {
+        Optional<User> u = userDao.findById(userID);
+        if (u.isEmpty()) throw new NotFoundException(User.class, userID);
+        User us = u.get();
+        schoolService.existsSchoolByID(schoolID);
+        List<String> schools = us.getSchoolsID();
         if (schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
-        u.get().addSchool(schoolID);
-        userDao.save(u.get());
+        us.addSchool(schoolID);
+        userDao.save(us);
     }
 
     public void updateUserRisk(String id){

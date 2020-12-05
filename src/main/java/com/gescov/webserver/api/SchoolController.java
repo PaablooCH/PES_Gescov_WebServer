@@ -89,13 +89,13 @@ public class SchoolController {
     }
 
     @GetMapping(path = "/{id}/tracking")
-    public List<Pair<LocalDate, Integer>> getPunctuation(@PathVariable String id) {
+    public List<Pair<LocalDate, Integer>> getPunctuation(@PathVariable("id") String id) {
         return schoolService.getPunctuation(id);
     }
 
     @PostMapping(path = "{id}/entry")
-    public boolean checkEntryCode(@PathVariable("id") String id, @NotNull @RequestParam("code") int code) {
-        return schoolService.checkEntryCode(id, code);
+    public boolean checkEntryCode(@PathVariable("id") String id, @NotNull @RequestParam("code") int code, @NotNull @RequestParam("userID") String userID) {
+        return schoolService.checkEntryCode(id, userID, code);
     }
 
 }
