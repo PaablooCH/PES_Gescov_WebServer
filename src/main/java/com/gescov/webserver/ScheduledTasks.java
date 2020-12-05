@@ -25,9 +25,10 @@ public class ScheduledTasks {
         contagionService.deleteContagion(date);
     }
 
-    @Scheduled(fixedRate = 60000/*172800000*/)
+    @Scheduled(fixedRate = 21600000/*172800000*/)
     public void doRegister() {
         LocalDate date = LocalDate.now();
         schoolService.doRegister(date);
     }
+
 }

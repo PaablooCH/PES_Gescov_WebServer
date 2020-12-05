@@ -164,6 +164,7 @@ public class SchoolService {
         for (School school : schoolList) {
             int punctuation = userService.countInfectedInSchool(school.getId());
             school.addRegister(Pair.of(date, punctuation));
+            schoolDao.save(school);
         }
     }
 
