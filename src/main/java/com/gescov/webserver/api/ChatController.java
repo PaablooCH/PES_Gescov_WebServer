@@ -9,13 +9,14 @@ import com.gescov.webserver.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("api")
+@RequestMapping
 @RestController
 public class ChatController {
 
@@ -30,29 +31,29 @@ public class ChatController {
         this.messageService = messageService;
     }
 
-    @PostMapping
+    @PostMapping(path = "api/chats")
     public Chat addChat(@NotNull @RequestBody Chat chat){
         return chatService.createChat(chat);
     }
 
     @MessageMapping("chats/new")
-    public void addMessage(@Payload Message m) {
-        messageService.createMessage(m);
+    @SendTo ("/topic/public")
+    public Message addMessage(@Payload Message m) {
+        return messageService.createMessage(m);
     }
 
-    @GetMapping(path = "chats/{id}/messages")
+    @GetMapping(path = "api/chats/{id}/messages")
     public List<Message> getChatMessages(@PathVariable ("id") String chatID){
         return messageService.getMessagesByChatID(chatID);
     }
 
-    @GetMapping(path = "chats/previews")
+    @GetMapping(path = "api/chats/previews")
     public List<ChatPreview> getUserChats(@NotNull  @RequestParam ("userID") String userID){
         return chatPreviewService.getChatsFromUserID(userID);
     }
 
-    @GetMapping(path = "chats/{id}")
+    @GetMapping(path = "api/chats/{id}")
     public Optional<Chat> getChat(@NotNull @PathVariable ("id") String id){
         return chatService.getChatById(id);
     }
-
 }
