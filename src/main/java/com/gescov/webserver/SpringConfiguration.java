@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -57,4 +59,13 @@ public class SpringConfiguration {
         return new LocalValidatorFactoryBean();
     }
 
+    @Bean
+    public TaskScheduler taskScheduler() {
+        TaskScheduler scheduler = new ThreadPoolTaskScheduler();
+
+        ((ThreadPoolTaskScheduler) scheduler).setPoolSize(2);
+        ((ThreadPoolTaskScheduler) scheduler).setThreadNamePrefix("scheduled-task-");
+        ((ThreadPoolTaskScheduler) scheduler).setDaemon(true);
+        return scheduler;
+    }
 }
