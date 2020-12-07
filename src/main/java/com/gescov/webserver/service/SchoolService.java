@@ -164,14 +164,27 @@ public class SchoolService {
         }
     }
 
-    public boolean checkEntryCode(String schoolID, String userID, String code) {
-        School s = getSchoolByID(schoolID);
-        if (s.getEntryCode().equals(code)) {
-            userService.existsUser(userID);
-            userService.addSchool(userID, schoolID);
-            return true;
+    public String checkEntryCode(String schoolID, String userID, String code) {
+        if (schoolID == null || schoolID.equals("")) { //general case
+            List<School> sc = getAllSchools();
+            for (School s : sc) {
+                if (s.getEntryCode().equals(code)) {
+                    userService.existsUser(userID);
+                    userService.addSchool(userID, s.getId());
+                    return s.getName();
+                }
+            }
+            throw new IncorrectEntryCodeException("", code);
         }
-        else return false;
+        else { //specific schoolID case
+            School s = getSchoolByID(schoolID);
+            if (s.getEntryCode().equals(code)) {
+                userService.existsUser(userID);
+                userService.addSchool(userID, schoolID);
+                return s.getName();
+            }
+            throw new IncorrectEntryCodeException(schoolID, code);
+        }
     }
 
 
