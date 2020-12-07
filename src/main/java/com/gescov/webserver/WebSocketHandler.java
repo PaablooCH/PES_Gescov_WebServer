@@ -16,7 +16,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         switch (msg){
             case("1"):
                 System.out.println("Recibido 1");
-                session.sendMessage(new TextMessage("Recibido"));
+                session.sendMessage(new TextMessage("Puto quien lo lea"));
                 break;
             default:
                 System.out.println("Connected client");
