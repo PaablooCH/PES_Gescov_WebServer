@@ -1,5 +1,7 @@
 package com.gescov.webserver.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gescov.webserver.dao.chat.ChatDao;
 import com.gescov.webserver.exception.ChatAlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
@@ -31,11 +33,8 @@ public class ChatService {
         if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
-        if(t1){
-            if(t2) throw new OnlyStudentTeacherChatException();
-        }
-        else {
-            if (!t2) throw new OnlyStudentTeacherChatException();
+        if(!t1){
+            if(!t2) throw new OnlyStudentTeacherChatException();
         }
         Chat c = chatDao.insert(chat);
         String u1 = getUserName(chat.getPartA());
@@ -46,7 +45,15 @@ public class ChatService {
         return c;
     }
 
-    public Optional<Chat> getChatById(String id){ return chatDao.findById(id); }
+    public Optional<Chat> getChatById(String id) {
+        return chatDao.findById(id);
+    }
+
+    public boolean isParticipant(String chatID, String creator){
+        Optional<Chat> ch = chatDao.findById(chatID);
+        if(ch.get().getPartA().equals(creator)) return true;
+        return ch.get().getPartB().equals(creator);
+    }
 
     private boolean checkUsers(String part) {
         Optional<User> uA = userService.getUserById(part);

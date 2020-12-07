@@ -110,4 +110,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(NotAParticipantException.class)
+    public ResponseEntity<ApiError> handleNotAParticipantException(NotAParticipantException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
 }

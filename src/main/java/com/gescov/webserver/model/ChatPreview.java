@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -32,28 +33,22 @@ public class ChatPreview {
 
     private String userPictureB;
 
-    private String lastText;
+    private Message lastMessage;
 
-    @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
-    private String lastTextHour;
-
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    private String lastTextDate;
+    private LocalDateTime lastUpdate;
 
 
     public ChatPreview (@JsonProperty("id") String id, @JsonProperty("chat") String chatID, @JsonProperty("userNameA") String userNameA,
                         @JsonProperty("userPictureA") String userPictureA, @JsonProperty("userNameB") String userNameB,
-                        @JsonProperty("userPictureB") String userPictureB, @JsonProperty("lastText") String lastText,
-                        @JsonProperty("lastTextHour") String lastTextHour, @JsonProperty("lastTextDate") String lastTextDate){
+                        @JsonProperty("userPictureB") String userPictureB, final Message lastMessage){
         this.id = id;
         this.chatID = chatID;
         this.userNameA = userNameA;
         this.userPictureA = userPictureA;
         this.userPictureB = userPictureB;
         this.userNameB = userNameB;
-        this.lastText = lastText;
-        this.lastTextHour = lastTextHour;
-        this.lastTextDate = lastTextDate;
+        this.lastMessage = lastMessage;
+        this.lastUpdate = LocalDateTime.now();
     }
 
     public ChatPreview(String id, String u1, String pic1, String u2, String pic2) {
@@ -62,5 +57,6 @@ public class ChatPreview {
         this.userPictureA = pic1;
         this.userNameB = u2;
         this.userPictureB = pic2;
+        this.lastUpdate = LocalDateTime.now();
     }
 }

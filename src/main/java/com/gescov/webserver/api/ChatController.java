@@ -7,7 +7,6 @@ import com.gescov.webserver.service.ChatPreviewService;
 import com.gescov.webserver.service.ChatService;
 import com.gescov.webserver.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -32,6 +31,11 @@ public class ChatController {
     @PostMapping
     public Chat addChat(@NotNull @RequestBody Chat chat){
         return chatService.createChat(chat);
+    }
+
+    @GetMapping(path = "/{id}/last")
+    public Message getLast(@NotNull @PathVariable("id") String id){
+        return messageService.getLastMessageOfChat(id);
     }
 
     @PostMapping(path = "/new")

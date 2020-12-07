@@ -10,4 +10,5 @@ import java.util.List;
 public interface MessageDao extends MongoRepository<Message, String>, MessageDaoCustom<Message, String> {
 
     List<Message> findAllByChatID(String chatID);
+
 }

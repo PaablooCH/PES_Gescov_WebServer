@@ -15,4 +15,5 @@ public interface ChatPreviewDao extends MongoRepository<ChatPreview, String>, Ch
     List<ChatPreview> findAllByUserNameA(String username);
 
     List<ChatPreview> findAllByUserNameB(String username);
+
 }
