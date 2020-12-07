@@ -32,13 +32,13 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
-        if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
-            throw new AlreadyExistsException(User.class, contagion.getInfectedID());
-        if (contagionDao.existsByInfectedID(contagion.getInfectedID()))
-            throw new UNeedToWait(contagion.getInfectedID());
         if(contagion.getInfectedConfirmed() &&
                 contagionDao.existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(contagion.getInfectedID()))
             updateContagion(contagion.getInfectedID());
+        else if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
+            throw new AlreadyExistsException(User.class, contagion.getInfectedID());
+        else if (contagionDao.existsByInfectedIDAndEndContagionNotNull(contagion.getInfectedID()))
+            throw new UNeedToWait(contagion.getInfectedID());
         if(contagion.getInfectedConfirmed()) userService.transmitContagion(contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
