@@ -30,7 +30,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 */
 
         switch (msg){
-            case("1"):
+            case("-1"):
                 session.sendMessage(new TextMessage("Prueba case 1"));
                 break;
             default:
