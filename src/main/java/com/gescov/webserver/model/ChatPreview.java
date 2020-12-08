@@ -51,12 +51,12 @@ public class ChatPreview {
         this.lastUpdate = LocalDateTime.now();
     }
 
-    public ChatPreview(String id, String u1, String pic1, String u2, String pic2) {
+    public ChatPreview(String id, String u1, String pic1, String u2, String pic2, LocalDateTime update) {
         this.chatID = id;
         this.userNameA = u1;
         this.userPictureA = pic1;
         this.userNameB = u2;
         this.userPictureB = pic2;
-        this.lastUpdate = LocalDateTime.now();
+        this.lastUpdate = update;
     }
 }

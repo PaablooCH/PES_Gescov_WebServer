@@ -12,6 +12,7 @@ import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -41,7 +42,7 @@ public class ChatService {
         String pic1 = getUserPicture(chat.getPartA());
         String u2 = getUserName(chat.getPartB());
         String pic2 = getUserPicture(chat.getPartB());
-        chatPreviewService.createChatPreview(new ChatPreview(c.getId(),u1,pic1,u2,pic2));
+        chatPreviewService.createChatPreview(new ChatPreview(c.getId(),u1,pic1,u2,pic2, LocalDateTime.now()));
         return c;
     }
 
