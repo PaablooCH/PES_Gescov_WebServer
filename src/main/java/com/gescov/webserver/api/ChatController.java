@@ -48,8 +48,13 @@ public class ChatController {
         return messageService.getMessagesByChatID(chatID);
     }
 
+    @GetMapping(path = "/preview")
+    public Optional<ChatPreview> getChatPreviewByChatID(@NotNull @RequestParam("chatID") String chatID){
+        return chatPreviewService.getChatPreviewByChatID(chatID);
+    }
+
     @GetMapping(path = "/previews")
-    public List<ChatPreview> getUserChats(@NotNull  @RequestParam ("userID") String userID){
+    public List<ChatPreview> getUserChats(@NotNull @RequestParam ("userID") String userID){
         return chatPreviewService.getChatsFromUserID(userID);
     }
 
