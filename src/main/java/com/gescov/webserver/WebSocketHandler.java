@@ -27,6 +27,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
         Message m = messageService.getLastMessageOfChat(msg);
         String msgJson = new ObjectMapper().writeValueAsString(m);
+        CharSequence c = msgJson;
 
 
         switch (msg){
@@ -34,7 +35,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
                 session.sendMessage(new TextMessage("Prueba case 1"));
                 break;
             default:
-                session.sendMessage(new TextMessage(msg));
+                session.sendMessage(new TextMessage(c));
         }
     }
 }
