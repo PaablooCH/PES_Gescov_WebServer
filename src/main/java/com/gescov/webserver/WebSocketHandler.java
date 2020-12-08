@@ -24,18 +24,12 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     protected  void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String msg = String.valueOf(message.getPayload());
 
-
-        Message m = messageService.getLastMessageOfChat(msg);
-        String msgJson = new ObjectMapper().writeValueAsString(m);
-        CharSequence c = msgJson;
-
-
         switch (msg){
-            case("-1"):
-                session.sendMessage(new TextMessage("Prueba case 1"));
+            case("1"):
+                session.sendMessage(new TextMessage("He recibido el mensaje"));
                 break;
             default:
-                session.sendMessage(new TextMessage(c));
+                session.sendMessage(new TextMessage("Esto es default"));
         }
     }
 }
