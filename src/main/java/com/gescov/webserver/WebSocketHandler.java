@@ -34,7 +34,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
                 session.sendMessage(new TextMessage("Prueba case 1"));
                 break;
             default:
-                session.sendMessage(new TextMessage("Prueba numero 2"));
+                session.sendMessage(new TextMessage(msgJson));
         }
     }
 }
