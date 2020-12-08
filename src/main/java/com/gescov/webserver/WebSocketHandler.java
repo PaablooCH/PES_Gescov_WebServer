@@ -24,10 +24,10 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     protected  void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String msg = String.valueOf(message.getPayload());
 
-/*
+
         Message m = messageService.getLastMessageOfChat(msg);
         String msgJson = new ObjectMapper().writeValueAsString(m);
-*/
+
 
         switch (msg){
             case("-1"):
