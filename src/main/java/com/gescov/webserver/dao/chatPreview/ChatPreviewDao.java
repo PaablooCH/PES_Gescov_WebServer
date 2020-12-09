@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ChatPreviewDao extends MongoRepository<ChatPreview, String>, ChatPreviewDaoCustom<ChatPreview, String> {
 
-    Optional<ChatPreview> findByChatID(String chatID);
+    ChatPreview findByChatID(String chatID);
 
     List<ChatPreview> findAllByUserNameA(String username);
 

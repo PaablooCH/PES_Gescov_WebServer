@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -79,5 +81,17 @@ public class ChatService {
         if (option1.isPresent()) return true;
         Optional<Chat> option2 = chatDao.findByPartAAndPartB(partB, partA);
         return option2.isPresent();
+    }
+
+    public List<String> getChatsIDsOfUser(String userID){
+        Optional<User> u = userService.getUserById(userID);
+        List<Chat> ch = chatDao.findAllByPartA(u.get().getId());
+        ch.addAll(chatDao.findAllByPartB(u.get().getId()));
+        if(ch.isEmpty()) throw new NotFoundException(Chat.class, userID);
+        List<String> ids = new ArrayList<>();
+        for(Chat c : ch){
+            ids.add(c.getId());
+        }
+        return ids;
     }
 }

@@ -39,8 +39,8 @@ public class MessageService {
     }
 
     public Message getLastMessageOfChat(String chatID){
-        Optional<ChatPreview> cp = chatPreviewService.getChatPreviewByChatID(chatID);
-        return cp.get().getLastMessage();
+        ChatPreview cp = chatPreviewService.getChatPreviewByChatID(chatID);
+        return cp.getLastMessage();
     }
 
 

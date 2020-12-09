@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface ChatDao extends MongoRepository<Chat, String>, ChatDaoCustom<Chat, String> {
 
-    List<Chat> findByPartA(String userID);
+    List<Chat> findAllByPartA(String userID);
 
-    List<Chat> findByPartB(String userID);
+    List<Chat> findAllByPartB(String userID);
 
     Optional<Chat> findByPartAAndPartB(String PartA, String PartB);
 }

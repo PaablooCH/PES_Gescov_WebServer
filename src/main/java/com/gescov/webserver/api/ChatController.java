@@ -49,7 +49,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/preview")
-    public Optional<ChatPreview> getChatPreviewByChatID(@NotNull @RequestParam("chatID") String chatID){
+    public ChatPreview getChatPreviewByChatID(@NotNull @RequestParam("chatID") String chatID){
         return chatPreviewService.getChatPreviewByChatID(chatID);
     }
 
