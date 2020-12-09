@@ -15,12 +15,10 @@ import java.util.List;
 public class ContagionController {
 
     private final ContagionService contagionService;
-    private final TracingTestController tracingTestController;
 
     @Autowired
-    public ContagionController(ContagionService contagionService, TracingTestController tracingTestController) {
+    public ContagionController(ContagionService contagionService) {
         this.contagionService = contagionService;
-        this.tracingTestController = tracingTestController;
     }
 
     @PostMapping

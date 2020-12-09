@@ -1,7 +1,5 @@
 package com.gescov.webserver.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gescov.webserver.dao.chat.ChatDao;
 import com.gescov.webserver.exception.ChatAlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
@@ -36,9 +34,7 @@ public class ChatService {
         if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
-        if(!t1){
-            if(!t2) throw new OnlyStudentTeacherChatException();
-        }
+        if(!t1 && !t2) throw new OnlyStudentTeacherChatException();
         Chat c = chatDao.insert(chat);
         String u1 = getUserName(chat.getPartA());
         String pic1 = getUserPicture(chat.getPartA());
@@ -54,13 +50,14 @@ public class ChatService {
 
     public boolean isParticipant(String chatID, String creator){
         Optional<Chat> ch = chatDao.findById(chatID);
-        if(ch.get().getPartA().equals(creator)) return true;
+        if(!ch.isPresent()) throw new NotFoundException(Chat.class, chatID);
+        if (ch.get().getPartA().equals(creator)) return true;
         return ch.get().getPartB().equals(creator);
     }
 
     private boolean checkUsers(String part) {
         Optional<User> uA = userService.getUserById(part);
-        if (uA.isEmpty()) throw new NotFoundException(User.class, part);
+        if(!uA.isPresent()) throw new NotFoundException(User.class, part);
         return !uA.get().isStudent();
     }
 
@@ -85,6 +82,7 @@ public class ChatService {
 
     public List<String> getChatsIDsOfUser(String userID){
         Optional<User> u = userService.getUserById(userID);
+        if (u.isEmpty()) throw new NotFoundException(User.class, userID);
         List<Chat> ch = chatDao.findAllByPartA(u.get().getId());
         ch.addAll(chatDao.findAllByPartB(u.get().getId()));
         if(ch.isEmpty()) throw new NotFoundException(Chat.class, userID);

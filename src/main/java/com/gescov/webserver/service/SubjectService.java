@@ -54,7 +54,7 @@ public class SubjectService {
     public List<Subject> getSubjectByName(String name) { return subjectDao.findAllByName(name); }
 
     public void deleteSubject(String id) {
-        DeleteClassSessionsOfASubject(id);
+        deleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
     }
 
@@ -63,11 +63,11 @@ public class SubjectService {
         if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
         School school = schoolService.getSchoolByID(s.get().getSchoolID());
         if (!school.getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID, school.getId());
-        DeleteClassSessionsOfASubject(id);
+        deleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
     }
 
-    private void DeleteClassSessionsOfASubject(String id) {
+    private void deleteClassSessionsOfASubject(String id) {
         List<ClassSession> cs = classSessionService.getSessionBySubject(id);
         if (!cs.isEmpty()) {
             for (ClassSession classSes : cs) {

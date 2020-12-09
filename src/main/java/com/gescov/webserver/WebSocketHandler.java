@@ -1,10 +1,5 @@
 package com.gescov.webserver;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gescov.webserver.model.ChatPreview;
-import com.gescov.webserver.model.Message;
-import com.gescov.webserver.service.ChatService;
 import com.gescov.webserver.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
@@ -12,7 +7,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class WebSocketHandler extends AbstractWebSocketHandler {
 
@@ -24,12 +18,10 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     protected  void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String msg = String.valueOf(message.getPayload());
 
-        switch (msg){
-            case("1"):
-                session.sendMessage(new TextMessage("He recibido el mensaje"));
-                break;
-            default:
-                session.sendMessage(new TextMessage("Esto es default"));
+        if ("1".equals(msg)) {
+            session.sendMessage(new TextMessage("He recibido el mensaje"));
+        } else {
+            session.sendMessage(new TextMessage("Esto es default"));
         }
     }
 }

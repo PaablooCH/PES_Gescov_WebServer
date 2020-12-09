@@ -60,7 +60,6 @@ public class ClassSessionService {
 
     public void deleteClassSessionById(String usuID, String classSeID){
         Optional<Classroom> c = getClassroomByCSID(classSeID);
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, classSeID);
         School s = schoolService.getSchoolByID(c.get().getSchoolID());
         List<String> admins = s.getAdministratorsID();
         if (!admins.contains(usuID)) throw new IsNotAnAdministratorException(User.class, usuID, s.getId());
@@ -82,13 +81,11 @@ public class ClassSessionService {
 
     public int getNumCol(String classSessionID) {
         Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
-        if(classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSessionID);
         return classroom.get().getNumCols();
     }
 
     public int getNumRow(String classSessionID) {
         Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
-        if (classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSessionID);
         return classroom.get().getNumRows();
     }
 
