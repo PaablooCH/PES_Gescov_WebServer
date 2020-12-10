@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,6 +29,14 @@ public class SchoolService {
 
     @Autowired
     SubjectService subjectService;
+
+    private final SecureRandom rand;
+
+    private boolean boolRandom;
+
+    public SchoolService() throws NoSuchAlgorithmException {
+        this.rand = new SecureRandom();
+    }
 
     public School addSchool(School school) {
         String creatorID = school.getCreatorID();
@@ -196,23 +206,22 @@ public class SchoolService {
         }
     }
 
-    private String generateEntryCode() {
+    public String generateEntryCode() {
         int leftLimitUp = 65; // letter 'A'
         int rightLimitUp = 90; // letter 'Z'
         int leftLimitLow = 97; // letter 'a'
         int rightLimitLow = 122; // letter 'z'
         int targetStringLength = 6;
-        boolean n = Math.random() < 0.5;
-        Random random = new Random();
+        boolRandom = Math.random() < 0.5;
         StringBuilder buffer = new StringBuilder(targetStringLength);
-        int randomLimitedInt;
         for (int i = 0; i < targetStringLength; i++) {
-            if (n) randomLimitedInt = leftLimitUp + (int)
-                    (random.nextFloat() * (rightLimitUp - leftLimitUp + 1));
+            int randomLimitedInt;
+            if (boolRandom) randomLimitedInt = leftLimitUp + (int)
+                    (rand.nextFloat() * (rightLimitUp - leftLimitUp + 1));
             else randomLimitedInt = leftLimitLow + (int)
-                    (random.nextFloat() * (rightLimitLow - leftLimitLow + 1));
+                    (rand.nextFloat() * (rightLimitLow - leftLimitLow + 1));
             buffer.append((char) randomLimitedInt);
-            n = Math.random() < 0.5;
+            boolRandom = Math.random() < 0.5;
         }
         return buffer.toString();
     }
