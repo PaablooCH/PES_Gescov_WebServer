@@ -80,10 +80,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(OnlyStudentTeacherChatException.class)
-    public ResponseEntity<ApiError> handleOnlyStudentTeacherChatException(OnlyStudentTeacherChatException ex, WebRequest request) {
+    @ExceptionHandler(ChatBetweenStudentsNotPermitedException.class)
+    public ResponseEntity<ApiError> handleChatBetweenStudentsNotPermitedException(ChatBetweenStudentsNotPermitedException ex, WebRequest request) {
         ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(UNeedToWait.class)
@@ -113,7 +113,7 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotAParticipantException.class)
     public ResponseEntity<ApiError> handleNotAParticipantException(NotAParticipantException ex, WebRequest request) {
         ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(IncorrectEntryCodeException.class)

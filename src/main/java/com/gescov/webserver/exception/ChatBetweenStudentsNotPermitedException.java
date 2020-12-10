@@ -3,11 +3,11 @@ package com.gescov.webserver.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class OnlyStudentTeacherChatException extends RuntimeException {
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
+public class ChatBetweenStudentsNotPermitedException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public OnlyStudentTeacherChatException() {
+    public ChatBetweenStudentsNotPermitedException() {
         super("Only teacher-student chats");
     }
 }

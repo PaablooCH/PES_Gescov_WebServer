@@ -3,7 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.chat.ChatDao;
 import com.gescov.webserver.exception.ChatAlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.exception.OnlyStudentTeacherChatException;
+import com.gescov.webserver.exception.ChatBetweenStudentsNotPermitedException;
 import com.gescov.webserver.model.Chat;
 import com.gescov.webserver.model.ChatPreview;
 import com.gescov.webserver.model.User;
@@ -34,7 +34,7 @@ public class ChatService {
         if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
-        if(!t1 && !t2) throw new OnlyStudentTeacherChatException();
+        if(!t1 && !t2) throw new ChatBetweenStudentsNotPermitedException();
         Chat c = chatDao.insert(chat);
         String u1 = getUserName(chat.getPartA());
         String pic1 = getUserPicture(chat.getPartA());
