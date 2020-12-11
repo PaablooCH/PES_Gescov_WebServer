@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChatDao extends MongoRepository<Chat, String>, ChatDaoCustom<Chat, String> {
+public interface ChatDao extends MongoRepository<Chat, String> {
 
     List<Chat> findAllByPartA(String userID);
 
     List<Chat> findAllByPartB(String userID);
 
-    Optional<Chat> findByPartAAndPartB(String PartA, String PartB);
+    Optional<Chat> findByPartAAndPartB(String partA, String partB);
 }

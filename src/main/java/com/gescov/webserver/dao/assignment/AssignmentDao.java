@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AssignmentDao extends MongoRepository<Assignment, String>, AssignmentDaoCustom<Assignment, String>{
+public interface AssignmentDao extends MongoRepository<Assignment, String>, AssignmentDaoCustom {
 
     List<Assignment> findAllByClassSessionID(String classSessionID);
 

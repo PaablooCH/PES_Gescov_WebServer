@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ChatPreviewDao extends MongoRepository<ChatPreview, String>, ChatPreviewDaoCustom<ChatPreview, String> {
+public interface ChatPreviewDao extends MongoRepository<ChatPreview, String> {
 
     ChatPreview findByChatID(String chatID);
 

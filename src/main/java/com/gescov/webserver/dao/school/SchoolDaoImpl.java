@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository("schoolMongo")
-public class SchoolDaoImpl<T,ID> implements SchoolDaoCustom<T,ID> {
+public class SchoolDaoImpl implements SchoolDaoCustom {
 
     private final MongoTemplate mongoTemplate;
 

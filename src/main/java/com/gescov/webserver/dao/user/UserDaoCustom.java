@@ -4,7 +4,7 @@ import com.gescov.webserver.model.User;
 
 import java.util.List;
 
-public interface UserDaoCustom<T, ID> {
+public interface UserDaoCustom {
 
     List<User> findAllBySchoolID(String schoolID);
 

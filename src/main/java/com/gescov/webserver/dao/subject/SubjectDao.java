@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SubjectDao extends MongoRepository<Subject, String>, SubjectDaoCustom<Subject, String> {
+public interface SubjectDao extends MongoRepository<Subject, String>, SubjectDaoCustom {
 
     List<Subject> findAllByName(String name);
 

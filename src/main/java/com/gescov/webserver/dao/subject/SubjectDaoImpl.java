@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("subjectMongo")
-public class SubjectDaoImpl<T,ID> implements SubjectDaoCustom<T,ID> {
+public class SubjectDaoImpl implements SubjectDaoCustom {
 
     private final MongoTemplate mongoTemplate;
 

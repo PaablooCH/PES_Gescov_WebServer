@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -32,9 +34,7 @@ public class SchoolService {
 
     private final SecureRandom rand;
 
-    private boolean boolRandom;
-
-    public SchoolService() throws NoSuchAlgorithmException {
+    public SchoolService() {
         this.rand = new SecureRandom();
     }
 
@@ -137,7 +137,7 @@ public class SchoolService {
 
     public List<Pair<School, Integer>> getSchoolsAndNumInfected() {
         List<School> schoolList = schoolDao.findAll();
-        if (schoolList.isEmpty()) return null;
+        if (schoolList.isEmpty()) return new ArrayList<>();
         int punctuation;
         List<Pair<School, Integer>> aux = new ArrayList<>();
         for (School school : schoolList) {
@@ -212,7 +212,7 @@ public class SchoolService {
         int leftLimitLow = 97; // letter 'a'
         int rightLimitLow = 122; // letter 'z'
         int targetStringLength = 6;
-        boolRandom = Math.random() < 0.5;
+        boolean boolRandom = Math.random() < 0.5;
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
             int randomLimitedInt;

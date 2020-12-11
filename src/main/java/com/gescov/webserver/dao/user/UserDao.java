@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserDao extends MongoRepository<User, String>, UserDaoCustom<User, String> {
+public interface UserDao extends MongoRepository<User, String>, UserDaoCustom {
 
     List<User> findAllByIdIn(List<String> usersID);
 

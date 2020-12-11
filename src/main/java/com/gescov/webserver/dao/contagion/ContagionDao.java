@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom<Contagion, String>{
+public interface ContagionDao extends MongoRepository<Contagion, String>, ContagionDaoCustom {
 
     Optional <Contagion> findByEndContagionNullAndInfectedID(String infectedId);
 

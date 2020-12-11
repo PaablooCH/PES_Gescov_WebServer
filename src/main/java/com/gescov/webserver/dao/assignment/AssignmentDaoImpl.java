@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("assignmentMongo")
-public class AssignmentDaoImpl<T, ID> implements AssignmentDaoCustom<T, ID> {
+public class AssignmentDaoImpl implements AssignmentDaoCustom {
 
     private final MongoTemplate mongoTemplate;
     private final ClassSessionDao classSessionDao;

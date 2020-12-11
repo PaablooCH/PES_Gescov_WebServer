@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("contagionMongo")
-public class ContagionDaoImpl<T, ID> implements ContagionDaoCustom<T, ID> {
+public class ContagionDaoImpl implements ContagionDaoCustom {
 
     private final MongoTemplate mongoTemplate;
     private final UserDao userDao;

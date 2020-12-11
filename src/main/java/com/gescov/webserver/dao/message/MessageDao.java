@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MessageDao extends MongoRepository<Message, String>, MessageDaoCustom<Message, String> {
+public interface MessageDao extends MongoRepository<Message, String> {
 
     List<Message> findAllByChatID(String chatID);
 

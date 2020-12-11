@@ -64,7 +64,6 @@ public class SchoolController {
     public void updateSchool(@PathVariable("specific") String specific, @NotNull @RequestParam("id") String id, @NotNull @RequestParam("update") String update) {
         if (specific.equals("name")) schoolService.updateSchoolName(id, update);
         else if (specific.equals("state")) schoolService.updateSchoolState(id, update);
-        //else if (specific.equals("admin")) schoolService.addAdministrator(id, update);
     }
 
     @PutMapping(path = "{id}/updateName")

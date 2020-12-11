@@ -4,7 +4,7 @@ import com.gescov.webserver.model.Assignment;
 
 import java.util.List;
 
-public interface AssignmentDaoCustom<T, ID> {
+public interface AssignmentDaoCustom {
 
     List<Assignment> findByClassroom(String classroomID);
 

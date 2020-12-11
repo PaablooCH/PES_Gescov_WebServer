@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Min;
@@ -16,10 +15,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 @Document(collection = "assignments")
-@CompoundIndexes({
-        @CompoundIndex(name="assignment_pos_occupied", def = "{'posRow' : 1, 'posCol' : 1, 'classSessionID' : 1}", unique = true),
-        @CompoundIndex(name="assignment_student_already_assign", def = "{'studentID' : 1, 'classSessionID' : 1}", unique = true)
-})
+@CompoundIndex(name="assignment_pos_occupied", def = "{'posRow' : 1, 'posCol' : 1, 'classSessionID' : 1}", unique = true)
+@CompoundIndex(name="assignment_student_already_assign", def = "{'studentID' : 1, 'classSessionID' : 1}", unique = true)
 public class Assignment {
 
     @Id

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("userMongo")
-public class UserDaoImpl<T, ID> implements UserDaoCustom<T, ID> {
+public class UserDaoImpl implements UserDaoCustom {
 
     private final MongoTemplate mongoTemplate;
 

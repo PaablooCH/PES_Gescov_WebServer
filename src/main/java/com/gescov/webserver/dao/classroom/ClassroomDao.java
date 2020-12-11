@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClassroomDao extends MongoRepository<Classroom, String>, ClassroomDaoCustom<Classroom, String> {
+public interface ClassroomDao extends MongoRepository<Classroom, String>, ClassroomDaoCustom {
 
     @Query(value = "{'id' : ?0}", fields ="{'id' : 0, 'name' : 0, 'capacity': 0, 'schoolID' :0}")
     Classroom findClassroomById(String id);

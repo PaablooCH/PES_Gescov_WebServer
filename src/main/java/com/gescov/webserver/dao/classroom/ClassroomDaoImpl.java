@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("classroomMongo")
-public class ClassroomDaoImpl<T, ID> implements ClassroomDaoCustom<T, ID> {
+public class ClassroomDaoImpl implements ClassroomDaoCustom {
 
     private final MongoTemplate mongoTemplate;
     private final SchoolDao schoolDao;
