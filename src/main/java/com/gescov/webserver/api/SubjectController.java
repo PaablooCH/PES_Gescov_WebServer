@@ -55,14 +55,10 @@ public class SubjectController {
     }
 
     @PutMapping(path = "/{id}")
-    public Subject enrolStudent(@PathVariable("id") String id, @NotNull @RequestParam ("studentID") String studentID){
-        return subjectService.enrolStudent(id, studentID);
+    public Subject enrolUser(@PathVariable("id") String id, @NotNull @RequestParam ("userId") String userID){
+        return subjectService.addUser(id, userID);
     }
 
-    @PutMapping(path = "/new/{specific}")
-    public void addUser(@NotNull @RequestParam("id") String id, @NotNull @RequestParam ("userId") String userId){
-        subjectService.addUser(id, userId);
-    }
 }
 
 

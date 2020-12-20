@@ -44,30 +44,28 @@ public class ChatService {
         return c;
     }
 
-    public Optional<Chat> getChatById(String id) {
-        return chatDao.findById(id);
+    public Chat getChatById(String id) {
+        Optional<Chat> ch = chatDao.findById(id);
+        if(ch.isEmpty()) throw new NotFoundException(Chat.class, id);
+        return ch.get();
     }
 
     public boolean isParticipant(String chatID, String creator){
-        Optional<Chat> ch = chatDao.findById(chatID);
-        if(ch.isEmpty()) throw new NotFoundException(Chat.class, chatID);
-        if (ch.get().getPartA().equals(creator)) return true;
-        return ch.get().getPartB().equals(creator);
+        Chat ch = getChatById(chatID);
+        if (ch.getPartA().equals(creator)) return true;
+        return ch.getPartB().equals(creator);
     }
 
     private boolean checkUsers(String part) {
-        User uA = userService.getUserById(part);
-        return !uA.isStudent();
+        return !userService.getUserById(part).isStudent();
     }
 
     private String getUserName(String part) {
-        User uA = userService.getUserById(part);
-        return uA.getName();
+        return userService.getUserById(part).getName();
     }
 
     private String getUserPicture(String part) {
-        User uA = userService.getUserById(part);
-        return uA.getPic();
+        return userService.getUserById(part).getPic();
     }
 
     private boolean findSameChat(String partA, String partB){

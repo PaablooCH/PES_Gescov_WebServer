@@ -48,9 +48,7 @@ public class SchoolService {
     }
 
     public void addAdministrator(String schoolID, String adminID, String newAdminID) {
-        Optional<School> s = schoolDao.findById(schoolID);
-        if (s.isEmpty()) throw new NotFoundException(School.class, schoolID);
-        School sc = s.get();
+        School sc = getSchoolByID(schoolID);
         userService.existsTeacher(adminID);
         userService.existsTeacher(newAdminID);
         isAdmin(schoolID, adminID);
@@ -79,9 +77,7 @@ public class SchoolService {
 
     public void deleteAdmin(String id, String creatorID, String adminID) {
         if (creatorID.equals(adminID)) throw new CreatorCantBeDeletedException(User.class, creatorID);
-        Optional <School> sc = schoolDao.findById(id);
-        if (sc.isEmpty()) throw new NotFoundException(School.class, id);
-        School s = sc.get();
+        School s = getSchoolByID(id);
         userService.existsTeacher(creatorID);
         isCreator(id, creatorID);
         userService.existsTeacher(adminID);
@@ -101,9 +97,7 @@ public class SchoolService {
     }
 
     public School updateSchool(String id, String name, float latitude, float longitude, String phone, String website, String address) {
-        Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        School sc = s.get();
+        School sc = getSchoolByID(id);
         if (!name.equals("")) sc.setName(name);
         if (longitude != 0.0) sc.setLongitude(longitude);
         if (latitude != 0.0) sc.setLongitude(latitude);
@@ -114,17 +108,15 @@ public class SchoolService {
     }
 
     public void updateSchoolName(String id, String update) {
-        Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        s.get().setName(update);
-        schoolDao.save(s.get());
+        School s = getSchoolByID(id);
+        s.setName(update);
+        schoolDao.save(s);
     }
 
     public void updateSchoolState(String id, String update) {
-        Optional<School> s = schoolDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(School.class, id);
-        s.get().setState(update);
-        schoolDao.save(s.get());
+        School s = getSchoolByID(id);
+        s.setState(update);
+        schoolDao.save(s);
     }
 
     public void isAdmin(String schoolID, String adminID) {
@@ -149,9 +141,8 @@ public class SchoolService {
     }
 
     public School getSchoolByID(String id) {
-        Optional <School> sc = schoolDao.findById(id);
-        if (sc.isEmpty()) throw new NotFoundException(School.class, id);
-        return sc.get();
+        School sc = getSchoolByID(id);
+        return sc;
     }
 
     public void existsSchoolByID(String schoolID) {
@@ -160,9 +151,8 @@ public class SchoolService {
     }
 
     public List<Pair<LocalDate, Integer>> getPunctuation(String schoolID) {
-        Optional<School> school = schoolDao.findById(schoolID);
-        if (school.isEmpty()) throw new NotFoundException(School.class, schoolID);
-        return school.get().getRegister();
+        School school = getSchoolByID(schoolID);
+        return school.getRegister();
     }
 
     public void doRegister(LocalDate date) {

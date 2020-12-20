@@ -63,9 +63,8 @@ public class SubjectService {
     }
 
     public void deleteSubjectById(String id, String adminID) {
-        Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        School school = schoolService.getSchoolByID(s.get().getSchoolID());
+        Subject s = getSubjectById(id);
+        School school = schoolService.getSchoolByID(s.getSchoolID());
         if (!school.getAdministratorsID().contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID, school.getId());
         deleteClassSessionsOfASubject(id);
         subjectDao.deleteById(id);
@@ -81,31 +80,21 @@ public class SubjectService {
     }
 
     public void updateSubject(String id, String name){
-        Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        s.get().setName(name);
-        subjectDao.save(s.get());
+        Subject s = getSubjectById(id);
+        s.setName(name);
+        subjectDao.save(s);
     }
 
-    public void addUser(String id, String userId){
-        Optional<Subject> s = subjectDao.findById(id);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
+    public Subject addUser(String id, String userId){
+        Subject s = getSubjectById(id);
         User user = userService.getUserById(userId);
-        String schoolID = s.get().getSchoolID();
+        String schoolID = s.getSchoolID();
         if (!user.getSchoolsID().contains(schoolID)) throw new NotInSchool(userId, schoolID);
-        if (user.isStudent()) s.get().addStudent(userId);
-        else s.get().addTeacher(userId);
-        subjectDao.save(s.get());
+        if (user.isStudent()) s.addStudent(userId);
+        else s.addTeacher(userId);
+        subjectDao.save(s);
+        return s;
     }
 
-    public Subject enrolStudent(String id, String studentID) {
-        Subject subject = getSubjectById(id);
-        User student = userService.getUserById(studentID);
-        String schoolID = subject.getSchoolID();
-        if (!student.getSchoolsID().contains(schoolID)) throw new NotFoundException(School.class, schoolID);
-        subject.addStudent(studentID);
-        subjectDao.save(subject);
-        return subject;
-    }
 }
 

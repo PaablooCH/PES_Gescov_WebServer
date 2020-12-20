@@ -39,11 +39,10 @@ public class ClassSessionService {
         String classroomID = session.getClassroomID();
         String subjectID = session.getSubjectID();
         String teacherID = session.getTeacherID();
-        Optional<Classroom> c = classroomService.getClassroomById(classroomID);
+        Classroom c = classroomService.getClassroomById(classroomID);
         Subject s = subjectService.getSubjectById(subjectID);
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
         if (s.getTeachersID().contains(teacherID)) throw new NotFoundException(User.class, teacherID);
-        String classSchool = c.get().getSchoolID();
+        String classSchool = c.getSchoolID();
         String subjectSchool = s.getSchoolID();
         if (!classSchool.equals(subjectSchool)) throw new NotEqualsException(School.class, classSchool, subjectSchool);
         if (classSessionDao.existsByClassroomIDAndDateIsAndHourIs(classroomID, session.getDate(), session.getHour()))
@@ -63,9 +62,14 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionByDate(String date) { return classSessionDao.findAllByDate(LocalDate.parse(date)); }
 
+    public ClassSession getClassSessionByID(String id){
+        Optional<ClassSession> classSession = classSessionDao.findById(id);
+        if (classSession.isEmpty()) throw new NotFoundException(ClassSession.class, id);
+        return classSession.get();
+    }
     public void deleteClassSessionById(String usuID, String classSeID){
-        Optional<Classroom> c = getClassroomByCSID(classSeID);
-        School s = schoolService.getSchoolByID(c.get().getSchoolID());
+        Classroom c = getClassroomByCSID(classSeID);
+        School s = schoolService.getSchoolByID(c.getSchoolID());
         List<String> admins = s.getAdministratorsID();
         if (!admins.contains(usuID)) throw new IsNotAnAdministratorException(User.class, usuID, s.getId());
         deleteAssignmentsOfASession(classSeID);
@@ -85,27 +89,24 @@ public class ClassSessionService {
     }
 
     public int getNumCol(String classSessionID) {
-        Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
-        return classroom.get().getNumCols();
+        Classroom classroom = getClassroomByCSID(classSessionID);
+        return classroom.getNumCols();
     }
 
     public int getNumRow(String classSessionID) {
-        Optional<Classroom> classroom = getClassroomByCSID(classSessionID);
-        return classroom.get().getNumRows();
+        Classroom classroom = getClassroomByCSID(classSessionID);
+        return classroom.getNumRows();
     }
 
-    private Optional<Classroom> getClassroomByCSID(String classSessionID) {
-        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
-        if (classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
-        Optional<Classroom> classroom = classroomService.getClassroomById(classSession.get().getClassroomID());
-        if (classroom.isEmpty()) throw new NotFoundException(Classroom.class, classSession.get().getClassroomID());
+    private Classroom getClassroomByCSID(String classSessionID) {
+        ClassSession classSession = getClassSessionByID(classSessionID);
+        Classroom classroom = classroomService.getClassroomById(classSession.getClassroomID());
         return classroom;
     }
 
     public LocalDate getDateBySession(String classSessionID) {
-        Optional<ClassSession> classSession = classSessionDao.findById(classSessionID);
-        if (classSession.isEmpty()) throw new NotFoundException(ClassSession.class, classSessionID);
-        return classSession.get().getDate();
+        ClassSession classSession = getClassSessionByID(classSessionID);
+        return classSession.getDate();
     }
 
 }

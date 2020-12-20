@@ -30,8 +30,7 @@ public class ChatPreviewService {
     UserService userService;
 
     public ChatPreview createChatPreview(ChatPreview cp){
-        Optional<Chat> c = chatService.getChatById(cp.getChatID());
-        if(c.isEmpty()) throw new NotFoundException(Chat.class, cp.getChatID());
+        chatService.getChatById(cp.getChatID());
         return chatPreviewDao.insert(cp);
     }
 

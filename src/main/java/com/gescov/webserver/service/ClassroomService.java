@@ -43,13 +43,14 @@ public class ClassroomService {
         return classroomDao.findAllBySchoolID(id);
     }
 
-    public Optional<Classroom> getClassroomById(String id) {
-        return classroomDao.findById(id);
+    public Classroom getClassroomById(String id) {
+        Optional<Classroom> classroom = classroomDao.findById(id);
+        if (classroom.isEmpty()) throw new NotFoundException(Classroom.class, id);
+        return classroom.get();
     }
 
     public Pair<Integer, Integer> getClassroomDistributionById(String id) {
-        Classroom c = classroomDao.findClassroomById(id);
-        if (c == null) throw new NotFoundException(Classroom.class, id);
+        Classroom c = getClassroomById(id);
         return Pair.of(c.getNumRows(), c.getNumCols());
     }
 
@@ -59,9 +60,8 @@ public class ClassroomService {
     }
 
     public void deleteClassroomByID(String id, String adminID) {
-        Optional<Classroom> c = classroomDao.findById(id);
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, id);
-        School s = schoolService.getSchoolByID(c.get().getSchoolID());
+        Classroom c = getClassroomById(id);
+        School s = schoolService.getSchoolByID(c.getSchoolID());
         List<String> admins = s.getAdministratorsID();
         if (!admins.contains(adminID)) throw new IsNotAnAdministratorException(User.class, adminID, s.getId());
         deleteClassSessionsOfAClassroom(id);
@@ -78,12 +78,11 @@ public class ClassroomService {
     }
 
     public Classroom updateClassroom(String id, String name, int numRows, int numCols) {
-        Optional<Classroom> c = classroomDao.findById(id);
-        if (c.isEmpty()) throw new NotFoundException(Classroom.class, id);
-        if (!name.equals("")) c.get().setName(name);
-        if (numRows != 0) c.get().setNumRows(numRows);
-        if (numCols != 0) c.get().setNumCols(numCols);
-        return classroomDao.save(c.get());
+        Classroom c = getClassroomById(id);
+        if (!name.equals("")) c.setName(name);
+        if (numRows != 0) c.setNumRows(numRows);
+        if (numCols != 0) c.setNumCols(numCols);
+        return classroomDao.save(c);
     }
 
 }

@@ -65,27 +65,23 @@ public class UserService {
     }
 
     public void existsTeacher(String userID) {
-        Optional<User> u = userDao.findById(userID);
-        if (u.isEmpty()) throw new NotFoundException(User.class, userID);
-        if (u.get().isStudent()) throw new NotTeacherException(User.class, userID);
+        User u = getUserById(userID);
+        if (u.isStudent()) throw new NotTeacherException(User.class, userID);
     }
 
     public void addSchool(String userID, String schoolID) {
-        Optional<User> u = userDao.findById(userID);
-        if (u.isEmpty()) throw new NotFoundException(User.class, userID);
-        User us = u.get();
+        User u = getUserById(userID);
         schoolService.existsSchoolByID(schoolID);
-        List<String> schools = us.getSchoolsID();
+        List<String> schools = u.getSchoolsID();
         if (schools.contains(schoolID)) throw new AlreadyExistsException(School.class, schoolID);
-        us.addSchool(schoolID);
-        userDao.save(us);
+        u.addSchool(schoolID);
+        userDao.save(u);
     }
 
     public void updateUserRisk(String id){
-        Optional<User> u = userDao.findById(id);
-        if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        u.get().setRisk(!u.get().isRisk());
-        userDao.save(u.get());
+        User u = getUserById(id);
+        u.setRisk(!u.isRisk());
+        userDao.save(u);
     }
 
     public List<User> findAllBySchoolID(String schoolID) {
@@ -138,10 +134,9 @@ public class UserService {
     }
 
     public void changeProfile(String id, boolean b){
-        Optional<User> u = userDao.findById(id);
-        if (u.isEmpty()) throw new NotFoundException(User.class, id);
-        u.get().setStudent(b);
-        userDao.save(u.get());
+        User u = getUserById(id);
+        u.setStudent(b);
+        userDao.save(u);
     }
 
     public int countInfectedInSchool(String schoolID) {
@@ -162,17 +157,15 @@ public class UserService {
     }
 
     private void addDeviceToken(String userID, String deviceToken){
-        Optional<User> user = userDao.findById(userID);
-        if (user.isEmpty()) throw new NotFoundException(User.class, userID);
-        user.get().addDeviceToken(deviceToken);
-        userDao.save(user.get());
+        User user = getUserById(userID);
+        user.addDeviceToken(deviceToken);
+        userDao.save(user);
     }
 
     private void deleteDeviceToken(String userID, String deviceToken){
-        Optional<User> user = userDao.findById(userID);
-        if (user.isEmpty()) throw new NotFoundException(User.class, userID);
-        user.get().deleteDeviceToken(deviceToken);
-        userDao.save(user.get());
+        User user = getUserById(userID);
+        user.deleteDeviceToken(deviceToken);
+        userDao.save(user);
     }
 
 }

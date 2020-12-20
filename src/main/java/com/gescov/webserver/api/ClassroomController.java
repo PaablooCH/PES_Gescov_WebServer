@@ -43,7 +43,7 @@ public class ClassroomController {
 
     @GetMapping(path = "{id}")
     public Classroom getClassroomById(@PathVariable("id") String id)  {
-        return classroomService.getClassroomById(id).orElse(null);
+        return classroomService.getClassroomById(id);
     }
 
     @GetMapping(path = "/distribution")

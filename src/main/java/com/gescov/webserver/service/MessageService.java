@@ -30,8 +30,7 @@ public class MessageService {
 
     public Message createMessage(Message m){
         userService.existsUser(m.getCreatorID());
-        Optional<Chat> c = chatService.getChatById(m.getChatID());
-        if(c.isEmpty()) throw new NotFoundException(Chat.class, m.getChatID());
+        chatService.getChatById(m.getChatID());
         if(!chatService.isParticipant(m.getChatID(),m.getCreatorID())) throw new NotAParticipantException(User.class, m.getCreatorID(), m.getChatID());
         chatPreviewService.updateLastMessage(m.getChatID(),m);
         return messageDao.insert(m);
@@ -43,7 +42,11 @@ public class MessageService {
     }
 
 
-    public Optional<Message> getMessageByID(String messageID) { return messageDao.findById(messageID); }
+    public Message getMessageByID(String messageID) {
+        Optional<Message> message = messageDao.findById(messageID);
+        if(message.isEmpty()) throw new NotFoundException(Message.class, messageID);
+        return message.get();
+    }
 
     public List<Message> getMessagesByChatID(String chatID){ return messageDao.findAllByChatID(chatID); }
 }

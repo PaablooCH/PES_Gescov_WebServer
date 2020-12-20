@@ -59,7 +59,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<Chat> getChat(@NotNull @PathVariable ("id") String id){
+    public Chat getChat(@NotNull @PathVariable ("id") String id){
         return chatService.getChatById(id);
     }
 }
