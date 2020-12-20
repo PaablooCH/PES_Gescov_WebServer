@@ -44,7 +44,11 @@ public class SubjectService {
 
     public List<Subject> selectSubjectBySchoolId(String id) { return subjectDao.findAllBySchoolID(id); }
 
-    public Optional<Subject> findById(String id) { return subjectDao.findById(id); }
+    public Subject getSubjectById(String id) {
+        Optional<Subject> subject = subjectDao.findById(id);
+        if (subject.isEmpty()) throw new NotFoundException(Subject.class, id);
+        return subject.get();
+    }
 
     public List<Subject> getSubjectBySchool(String schoolName) {
         School school = schoolService.getSchoolByName(schoolName);
@@ -86,13 +90,22 @@ public class SubjectService {
     public void addUser(String id, String userId){
         Optional<Subject> s = subjectDao.findById(id);
         if (s.isEmpty()) throw new NotFoundException(Subject.class, id);
-        Optional <User> user = userService.getUserById(userId);
-        if (user.isEmpty()) throw new NotFoundException(User.class, userId);
+        User user = userService.getUserById(userId);
         String schoolID = s.get().getSchoolID();
-        if (!user.get().getSchoolsID().contains(schoolID)) throw new NotInSchool(userId, schoolID);
-        if (user.get().isStudent()) s.get().addStudent(userId);
+        if (!user.getSchoolsID().contains(schoolID)) throw new NotInSchool(userId, schoolID);
+        if (user.isStudent()) s.get().addStudent(userId);
         else s.get().addTeacher(userId);
         subjectDao.save(s.get());
+    }
+
+    public Subject enrolStudent(String id, String studentID) {
+        Subject subject = getSubjectById(id);
+        User student = userService.getUserById(studentID);
+        String schoolID = subject.getSchoolID();
+        if (!student.getSchoolsID().contains(schoolID)) throw new NotFoundException(School.class, schoolID);
+        subject.addStudent(studentID);
+        subjectDao.save(subject);
+        return subject;
     }
 }
 

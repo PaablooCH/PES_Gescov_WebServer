@@ -33,7 +33,7 @@ public class ClassSession {
     @NotNull
     private String teacherID;
 
-    @JsonFormat(pattern = "HH-mm-ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "HH-mm", shape = JsonFormat.Shape.STRING)
     private LocalTime hour;
 
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)

@@ -31,7 +31,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/id")
-    public Optional<Subject> getSubjectById(@NotNull @RequestParam("id") String id) { return subjectService.findById(id); }
+    public Subject getSubjectById(@NotNull @RequestParam("id") String id) { return subjectService.getSubjectById(id); }
 
     @GetMapping(path = "/schools/{specific}")
     public List<Subject> getSubjectBySchoolId(@PathVariable("specific") String id) { return subjectService.selectSubjectBySchoolId(id); }
@@ -52,6 +52,11 @@ public class SubjectController {
     @PutMapping
     public void updateSubject(@NotNull @RequestParam ("id") String id, @NotNull @RequestBody String name){
         subjectService.updateSubject(id, name);
+    }
+
+    @PutMapping(path = "/{id}")
+    public Subject enrolStudent(@PathVariable("id") String id, @NotNull @RequestParam ("studentID") String studentID){
+        return subjectService.enrolStudent(id, studentID);
     }
 
     @PutMapping(path = "/new/{specific}")

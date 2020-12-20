@@ -46,15 +46,16 @@ public class UserService {
         return userDao.findAll();
     }
 
-    public Optional<User> getUserById(String id) {
-        return userDao.findById(id);
+    public User getUserById(String id) {
+        Optional<User> user = userDao.findById(id);
+        if(user.isEmpty()) throw new NotFoundException(User.class, id);
+        return user.get();
     }
 
     public List<School> getSchoolsByUser(String id) {
-        Optional<User> us = getUserById(id);
-        if (us.isEmpty()) throw new NotFoundException(User.class, id);
+        User us = getUserById(id);
         List<School> sc = new ArrayList<>();
-        List<String> aux = us.get().getSchoolsID();
+        List<String> aux = us.getSchoolsID();
         for (String s : aux) sc.add(schoolService.getSchoolByID(s));
         return sc;
     }

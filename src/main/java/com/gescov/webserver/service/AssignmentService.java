@@ -67,8 +67,8 @@ public class AssignmentService {
     private List<Pair<Assignment, String>> getPairs(List<Assignment> ass) {
         List<String> nameSts = new ArrayList<>();
         for (Assignment a : ass){
-            Optional<User> u = userService.getUserById(a.getStudentID());
-            u.ifPresent(user -> nameSts.add(user.getName()));
+            User u = userService.getUserById(a.getStudentID());
+            nameSts.add(u.getName());
         }
         List<Pair<Assignment, String>> aux = new ArrayList<>();
         for(int i = 0; i < ass.size(); i++) aux.add(Pair.of(ass.get(i), nameSts.get(i)));

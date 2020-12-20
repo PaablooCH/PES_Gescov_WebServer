@@ -122,4 +122,16 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ClassroomInUseException.class)
+    public ResponseEntity<ApiError> handleClassroomInUseException(ClassroomInUseException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotEqualsException.class)
+    public ResponseEntity<ApiError> handleNotEqualsException(NotEqualsException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
 }

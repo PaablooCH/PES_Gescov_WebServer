@@ -29,8 +29,7 @@ public class MessageService {
     ChatPreviewService chatPreviewService;
 
     public Message createMessage(Message m){
-        Optional<User> u = userService.getUserById(m.getCreatorID());
-        if(u.isEmpty()) throw new NotFoundException(User.class, m.getCreatorID());
+        userService.existsUser(m.getCreatorID());
         Optional<Chat> c = chatService.getChatById(m.getChatID());
         if(c.isEmpty()) throw new NotFoundException(Chat.class, m.getChatID());
         if(!chatService.isParticipant(m.getChatID(),m.getCreatorID())) throw new NotAParticipantException(User.class, m.getCreatorID(), m.getChatID());

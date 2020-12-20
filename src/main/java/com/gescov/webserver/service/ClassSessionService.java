@@ -1,7 +1,9 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.classSession.ClassSessionDao;
+import com.gescov.webserver.exception.ClassroomInUseException;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
+import com.gescov.webserver.exception.NotEqualsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,14 @@ public class ClassSessionService {
         String subjectID = session.getSubjectID();
         String teacherID = session.getTeacherID();
         Optional<Classroom> c = classroomService.getClassroomById(classroomID);
-        Optional<Subject> s = subjectService.findById(subjectID);
-        Optional<User> u = userService.getUserById(teacherID);
+        Subject s = subjectService.getSubjectById(subjectID);
         if (c.isEmpty()) throw new NotFoundException(Classroom.class, classroomID);
-        if (s.isEmpty()) throw new NotFoundException(Subject.class, subjectID);
-        if (u.isEmpty()) throw new NotFoundException(User.class, teacherID);
+        if (s.getTeachersID().contains(teacherID)) throw new NotFoundException(User.class, teacherID);
+        String classSchool = c.get().getSchoolID();
+        String subjectSchool = s.getSchoolID();
+        if (!classSchool.equals(subjectSchool)) throw new NotEqualsException(School.class, classSchool, subjectSchool);
+        if (classSessionDao.existsByClassroomIDAndDateIsAndHourIs(classroomID, session.getDate(), session.getHour()))
+            throw new ClassroomInUseException(classroomID, session.getDate(), session.getHour());
         return classSessionDao.insert(session);
     }
 

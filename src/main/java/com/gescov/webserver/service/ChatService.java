@@ -50,27 +50,24 @@ public class ChatService {
 
     public boolean isParticipant(String chatID, String creator){
         Optional<Chat> ch = chatDao.findById(chatID);
-        if(!ch.isPresent()) throw new NotFoundException(Chat.class, chatID);
+        if(ch.isEmpty()) throw new NotFoundException(Chat.class, chatID);
         if (ch.get().getPartA().equals(creator)) return true;
         return ch.get().getPartB().equals(creator);
     }
 
     private boolean checkUsers(String part) {
-        Optional<User> uA = userService.getUserById(part);
-        if(!uA.isPresent()) throw new NotFoundException(User.class, part);
-        return !uA.get().isStudent();
+        User uA = userService.getUserById(part);
+        return !uA.isStudent();
     }
 
     private String getUserName(String part) {
-        Optional<User> uA = userService.getUserById(part);
-        if (uA.isEmpty()) throw new NotFoundException(User.class, part);
-        return uA.get().getName();
+        User uA = userService.getUserById(part);
+        return uA.getName();
     }
 
     private String getUserPicture(String part) {
-        Optional<User> uA = userService.getUserById(part);
-        if (uA.isEmpty()) throw new NotFoundException(User.class, part);
-        return uA.get().getPic();
+        User uA = userService.getUserById(part);
+        return uA.getPic();
     }
 
     private boolean findSameChat(String partA, String partB){
@@ -81,10 +78,9 @@ public class ChatService {
     }
 
     public List<String> getChatsIDsOfUser(String userID){
-        Optional<User> u = userService.getUserById(userID);
-        if (u.isEmpty()) throw new NotFoundException(User.class, userID);
-        List<Chat> ch = chatDao.findAllByPartA(u.get().getId());
-        ch.addAll(chatDao.findAllByPartB(u.get().getId()));
+        User u = userService.getUserById(userID);
+        List<Chat> ch = chatDao.findAllByPartA(u.getId());
+        ch.addAll(chatDao.findAllByPartB(u.getId()));
         if(ch.isEmpty()) throw new NotFoundException(Chat.class, userID);
         List<String> ids = new ArrayList<>();
         for(Chat c : ch){

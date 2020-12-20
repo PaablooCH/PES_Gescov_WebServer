@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") String id)  {
-        return userService.getUserById(id).orElse(null);
+        return userService.getUserById(id);
     }
 
     @PutMapping (path = "/school/{id}")

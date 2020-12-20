@@ -46,9 +46,8 @@ public class EntryRequestService {
         List<EntryRequest> reqs = entryRequestDao.findBySchoolID(schoolID);
         if (!reqs.isEmpty()) {
             for (EntryRequest req : reqs) {
-                Optional<User> us = userService.getUserById(req.getUserID());
-                if (us.isEmpty()) throw new NotFoundException(User.class, req.getUserID());
-                String userName = us.get().getName();
+                User us = userService.getUserById(req.getUserID());
+                String userName = us.getName();
                 result.add(Pair.of(req, userName));
             }
         }
