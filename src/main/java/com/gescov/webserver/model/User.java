@@ -39,6 +39,7 @@ public class User {
 
     private boolean isStudent;
 
+    private List<String> devices;
 
     public User(@JsonProperty("id") String id,
                 @JsonProperty("name") String name,
@@ -51,10 +52,15 @@ public class User {
         this.risk = false;
         this.schoolsID = new ArrayList<>();
         this.isStudent = true;
+        this.devices = new ArrayList<>();
     }
 
     public void addSchool(String schoolID) {
         schoolsID.add(schoolID);
     }
+
+    public void addDeviceToken(String deviceToken) { this.devices.add(deviceToken); }
+
+    public void deleteDeviceToken(String deviceToken) { this.devices.remove(deviceToken); }
 
 }

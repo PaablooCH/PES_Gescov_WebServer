@@ -160,4 +160,18 @@ public class UserService {
         contagionService.infect(userID);
     }
 
+    private void addDeviceToken(String userID, String deviceToken){
+        Optional<User> user = userDao.findById(userID);
+        if (user.isEmpty()) throw new NotFoundException(User.class, userID);
+        user.get().addDeviceToken(deviceToken);
+        userDao.save(user.get());
+    }
+
+    private void deleteDeviceToken(String userID, String deviceToken){
+        Optional<User> user = userDao.findById(userID);
+        if (user.isEmpty()) throw new NotFoundException(User.class, userID);
+        user.get().deleteDeviceToken(deviceToken);
+        userDao.save(user.get());
+    }
+
 }
