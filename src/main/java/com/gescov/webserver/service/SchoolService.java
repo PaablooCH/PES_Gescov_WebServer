@@ -141,8 +141,9 @@ public class SchoolService {
     }
 
     public School getSchoolByID(String id) {
-        School sc = getSchoolByID(id);
-        return sc;
+        Optional <School> sc = schoolDao.findById(id);
+        if (sc.isEmpty()) throw new NotFoundException(School.class, id);
+        return sc.get();
     }
 
     public void existsSchoolByID(String schoolID) {
