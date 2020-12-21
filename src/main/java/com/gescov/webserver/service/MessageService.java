@@ -3,7 +3,6 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.message.MessageDao;
 import com.gescov.webserver.exception.NotAParticipantException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.Chat;
 import com.gescov.webserver.model.ChatPreview;
 import com.gescov.webserver.model.Message;
 import com.gescov.webserver.model.User;

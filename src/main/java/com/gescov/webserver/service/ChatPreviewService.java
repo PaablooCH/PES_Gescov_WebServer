@@ -1,8 +1,6 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.chatPreview.ChatPreviewDao;
-import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.Chat;
 import com.gescov.webserver.model.ChatPreview;
 import com.gescov.webserver.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ChatPreviewService {

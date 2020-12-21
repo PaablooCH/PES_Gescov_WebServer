@@ -134,4 +134,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ChatWithSamePersonNotAllowedException.class)
+    public ResponseEntity<ApiError> handleChatWithSamePersonNotAllowedException(ChatWithSamePersonNotAllowedException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
 }
