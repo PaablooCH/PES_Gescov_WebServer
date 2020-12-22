@@ -1,6 +1,7 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.subject.SubjectDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.NotInSchool;
@@ -90,8 +91,14 @@ public class SubjectService {
         User user = userService.getUserById(userId);
         String schoolID = s.getSchoolID();
         if (!user.getSchoolsID().contains(schoolID)) throw new NotInSchool(userId, schoolID);
-        if (user.isStudent()) s.addStudent(userId);
-        else s.addTeacher(userId);
+        if (user.isStudent()) {
+            if (s.getStudentsID().contains(userId)) throw new AlreadyExistsException(User.class, userId);
+            s.addStudent(userId);
+        }
+        else {
+            if (s.getTeachersID().contains(userId)) throw new AlreadyExistsException(User.class, userId);
+            s.addTeacher(userId);
+        }
         subjectDao.save(s);
         return s;
     }

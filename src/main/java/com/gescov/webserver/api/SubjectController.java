@@ -54,7 +54,7 @@ public class SubjectController {
     }
 
     @PutMapping(path = "/{id}")
-    public Subject enrolUser(@PathVariable("id") String id, @NotNull @RequestParam ("userId") String userID){
+    public Subject enrolUser(@PathVariable("id") String id, @NotNull @RequestParam ("userID") String userID){
         return subjectService.addUser(id, userID);
     }
 
