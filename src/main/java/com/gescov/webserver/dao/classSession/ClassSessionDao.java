@@ -23,6 +23,4 @@ public interface ClassSessionDao extends MongoRepository <ClassSession, String> 
 
     List<ClassSession> findAllByClassroomIDAndDateAndHour(String classroomID, LocalDate date, LocalTime hour);
 
-    Boolean existsByClassroomIDAndDateIsAndHourIs(String classroomID, LocalDate date, LocalTime hour);
-
 }

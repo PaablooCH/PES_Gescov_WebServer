@@ -45,9 +45,24 @@ public class ClassSessionService {
         String classSchool = c.getSchoolID();
         String subjectSchool = s.getSchoolID();
         if (!classSchool.equals(subjectSchool)) throw new NotEqualsException(School.class, classSchool, subjectSchool);
-        if (classSessionDao.existsByClassroomIDAndDateIsAndHourIs(classroomID, session.getDate(), session.getHour()))
+        if (session.getHour().isAfter(session.getFinishHour())){
+            LocalTime z = session.getHour();
+            session.setHour(session.getFinishHour());
+            session.setFinishHour(z);
+        }
+        if (isClassroomNotFree(classroomID, session.getDate(), session.getHour(), session.getFinishHour()))
             throw new ClassroomInUseException(classroomID, session.getDate(), session.getHour());
         return classSessionDao.insert(session);
+    }
+
+    private boolean isClassroomNotFree(String classroomID, LocalDate date, LocalTime hour, LocalTime finishHour) {
+        List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDate(classroomID, date);
+        for (ClassSession cs : classSessions){
+            if (cs.getHour().isAfter(hour) && cs.getHour().isBefore(finishHour)) return true;
+            else if (cs.getFinishHour().isAfter(hour) && cs.getFinishHour().isBefore(finishHour)) return true;
+            else if (cs.getHour().equals(hour) && cs.getFinishHour().equals(finishHour)) return true;
+        }
+        return false;
     }
 
     public List<ClassSession> getAllSessions() { return classSessionDao.findAll(); }
