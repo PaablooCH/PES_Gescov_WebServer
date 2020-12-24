@@ -10,7 +10,7 @@ import java.time.LocalTime;
 public class ClassroomInUseException extends RuntimeException{
     private static final long serialVersionUID = 1L;
 
-    public ClassroomInUseException(String id, LocalDate date, LocalTime hour) {
-        super("Classroom with 'id' " + id + " will be in use at " + hour + "hour in " + date + "!");
+    public ClassroomInUseException(String id, LocalDate date, LocalTime hour, LocalTime finishHour) {
+        super("Classroom with 'id' " + id + " will be in use at those " + hour + " " + finishHour + " hours in " + date + "!");
     }
 }

@@ -41,7 +41,7 @@ public class ClassSessionService {
         String teacherID = session.getTeacherID();
         Classroom c = classroomService.getClassroomById(classroomID);
         Subject s = subjectService.getSubjectById(subjectID);
-        if (s.getTeachersID().contains(teacherID)) throw new NotFoundException(User.class, teacherID);
+        if (!s.getTeachersID().contains(teacherID)) throw new NotFoundException(User.class, teacherID);
         String classSchool = c.getSchoolID();
         String subjectSchool = s.getSchoolID();
         if (!classSchool.equals(subjectSchool)) throw new NotEqualsException(School.class, classSchool, subjectSchool);
@@ -51,7 +51,7 @@ public class ClassSessionService {
             session.setFinishHour(z);
         }
         if (isClassroomNotFree(classroomID, session.getDate(), session.getHour(), session.getFinishHour()))
-            throw new ClassroomInUseException(classroomID, session.getDate(), session.getHour());
+            throw new ClassroomInUseException(classroomID, session.getDate(), session.getHour(), session.getFinishHour());
         return classSessionDao.insert(session);
     }
 
@@ -61,6 +61,7 @@ public class ClassSessionService {
             if (cs.getHour().isAfter(hour) && cs.getHour().isBefore(finishHour)) return true;
             else if (cs.getFinishHour().isAfter(hour) && cs.getFinishHour().isBefore(finishHour)) return true;
             else if (cs.getHour().equals(hour) && cs.getFinishHour().equals(finishHour)) return true;
+            else if (cs.getHour().isBefore(hour) && cs.getFinishHour().isAfter(finishHour)) return true;
         }
         return false;
     }
