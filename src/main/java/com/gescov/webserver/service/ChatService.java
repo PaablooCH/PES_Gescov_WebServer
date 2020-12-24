@@ -2,9 +2,9 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.chat.ChatDao;
 import com.gescov.webserver.exception.ChatAlreadyExistsException;
+import com.gescov.webserver.exception.ChatBetweenStudentsNotPermitedException;
 import com.gescov.webserver.exception.ChatWithSamePersonNotAllowedException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.exception.ChatBetweenStudentsNotPermitedException;
 import com.gescov.webserver.model.Chat;
 import com.gescov.webserver.model.ChatPreview;
 import com.gescov.webserver.model.User;

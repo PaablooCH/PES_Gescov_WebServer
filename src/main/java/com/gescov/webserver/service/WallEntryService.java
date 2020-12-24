@@ -2,7 +2,6 @@ package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.wall.WallEntryDao;
 import com.gescov.webserver.exception.IncorrectEntryCodeException;
-import com.gescov.webserver.exception.IsNotAnAdministratorException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.model.WallEntry;
