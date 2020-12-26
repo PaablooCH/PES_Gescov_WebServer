@@ -26,4 +26,14 @@ public class WallEntryController {
     public List<WallEntry> getAllEntryofSchool(@NotNull @PathVariable ("id")String id){
         return wallEntryService.getAllEntrysOfSchool(id);
     }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteWallEntryByID(@NotNull @PathVariable ("id")String id){
+        wallEntryService.deleteEntry(id);
+    }
+
+    @PutMapping(path = "{id}")
+    public WallEntry updateWallEntryText(@NotNull @PathVariable("id") String id, @NotNull @RequestParam ("text") String text){
+        return wallEntryService.updateEntryText(id, text);
+    }
 }

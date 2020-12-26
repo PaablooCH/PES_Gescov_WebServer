@@ -140,4 +140,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(NotAnyTextException.class)
+    public ResponseEntity<ApiError> handleNotAnyTextException(NotAnyTextException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
 }
