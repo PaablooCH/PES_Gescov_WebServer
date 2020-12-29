@@ -2,6 +2,7 @@ package com.gescov.webserver.api;
 
 
 import com.gescov.webserver.model.Subject;
+import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,9 @@ public class SubjectController {
 
     @GetMapping(path = "/id")
     public Subject getSubjectById(@NotNull @RequestParam("id") String id) { return subjectService.getSubjectById(id); }
+
+    @GetMapping(path = "{id}/users")
+    public List<User> getUsersBySubjectId(@NotNull @PathVariable("id") String id) { return subjectService.selectStudentsBySubject(id); }
 
     @GetMapping(path = "/schools/{specific}")
     public List<Subject> getSubjectBySchoolId(@PathVariable("specific") String id) { return subjectService.selectSubjectBySchoolId(id); }
