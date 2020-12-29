@@ -156,16 +156,18 @@ public class UserService {
         contagionService.infect(userID);
     }
 
-    private void addDeviceToken(String userID, String deviceToken){
+    public User addDeviceToken(String userID, String deviceToken){
         User user = getUserById(userID);
         user.addDeviceToken(deviceToken);
         userDao.save(user);
+        return user;
     }
 
-    private void deleteDeviceToken(String userID, String deviceToken){
+    public User deleteDeviceToken(String userID, String deviceToken){
         User user = getUserById(userID);
         user.deleteDeviceToken(deviceToken);
         userDao.save(user);
+        return user;
     }
 
 }
