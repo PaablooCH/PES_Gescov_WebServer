@@ -12,6 +12,7 @@ import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,18 @@ public class SubjectService {
 
     public List<Subject> getAllSubject() { return subjectDao.findAll(); }
 
-    public List<Subject> selectSubjectBySchoolId(String id) { return subjectDao.findAllBySchoolID(id); }
+    public List<Subject> selectSubjectBySchoolId(String id) {
+         return subjectDao.findAllBySchoolID(id);
+    }
+
+    public List<User> selectStudentsBySubject(String id) {
+        Subject s = getSubjectById(id);
+        List<User> result = new ArrayList<>();
+        for (String st : s.getStudentsID()) {
+            result.add(userService.getUserById(st));
+        }
+        return result;
+    }
 
     public Subject getSubjectById(String id) {
         Optional<Subject> subject = subjectDao.findById(id);

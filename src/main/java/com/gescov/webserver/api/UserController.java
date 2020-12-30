@@ -1,5 +1,7 @@
 package com.gescov.webserver.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.UserService;
@@ -69,6 +71,16 @@ public class UserController {
     public void updateUserProfile(@PathVariable("id") String id,@PathVariable("profile") String profile) {
         if(profile.equals("student")) userService.changeProfile(id, true);
         else if(profile.equals("teacher"))userService.changeProfile(id, false);
+    }
+
+    @PutMapping(path = "{id}/deviceToken")
+    public User addDeviceToken(@PathVariable("id") String id, @RequestBody String deviceToken) {
+        return userService.addDeviceToken(id, deviceToken);
+    }
+
+    @DeleteMapping(path = "{id}/deviceToken")
+    public User deleteDeviceToken(@PathVariable("id") String id,@RequestBody String deviceToken) {
+        return userService.deleteDeviceToken(id, deviceToken);
     }
 
 }
