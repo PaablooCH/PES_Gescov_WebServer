@@ -1,5 +1,6 @@
 package com.gescov.webserver.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
@@ -73,7 +74,7 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}/deviceToken")
-    public User addDeviceToken(@PathVariable("id") String id,@RequestBody String deviceToken) {
+    public User addDeviceToken(@PathVariable("id") String id, @RequestBody String deviceToken) {
         return userService.addDeviceToken(id, deviceToken);
     }
 
