@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("api/classSessions")
@@ -30,15 +29,19 @@ public class ClassSessionController {
         return sessionService.getAllSessions();
     }
 
-    @GetMapping(path = "{specific}")
-    public List<ClassSession> getSpecificSessions(@PathVariable("specific") String specific, @NotNull @RequestParam("name") String name){
-        List<ClassSession> returned = new ArrayList<>();
-        if(specific.equals("classroom")) returned = sessionService.getSessionByClassroom(name);
-        if(specific.equals("subject")) returned = sessionService.getSessionBySubject(name);
-        if(specific.equals("teacher")) returned = sessionService.getSessionByTeacher(name);
-        if(specific.equals("hour")) returned = sessionService.getSessionByHour(name);
-        if(specific.equals("date")) returned = sessionService.getSessionByDate(name);
-        return returned;
+    @GetMapping(path = "/subject/{id}")
+    public List<ClassSession> getSessionBySubject(@PathVariable("id") String id){
+        return sessionService.getSessionBySubject(id);
+    }
+
+    @GetMapping(path = "/classroom/{id}")
+    public List<ClassSession> getSessionByClassroom(@PathVariable("id") String id){
+        return sessionService.getSessionByClassroom(id);
+    }
+
+    @GetMapping(path = "/teacher/{id}")
+    public List<ClassSession> getSessionByTeacher(@PathVariable("id") String id){
+        return sessionService.getSessionByTeacher(id);
     }
 
     @DeleteMapping

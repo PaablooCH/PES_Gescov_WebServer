@@ -13,11 +13,11 @@ public interface ClassSessionDao extends MongoRepository <ClassSession, String> 
 
     List<ClassSession> findAllByDate(LocalDate date);
 
-    List<ClassSession> findAllByClassroomID(String variable);
+    List<ClassSession> findAllByClassroomID(String id);
 
-    List<ClassSession> findAllBySubjectID(String variable);
+    List<ClassSession> findAllBySubjectID(String id);
 
-    List<ClassSession> findAllByTeacherID(String variable);
+    List<ClassSession> findAllByTeacherID(String id);
 
     List<ClassSession> findAllByClassroomIDAndDate(String classroomID, LocalDate date);
 

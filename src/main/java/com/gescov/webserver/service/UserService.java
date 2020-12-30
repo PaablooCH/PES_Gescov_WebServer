@@ -52,6 +52,13 @@ public class UserService {
         return user.get();
     }
 
+    public User getTeacherByID(String id) {
+        Optional<User> user = userDao.findById(id);
+        if (user.isEmpty()) throw new NotFoundException(User.class, id);
+        if (user.get().isStudent()) throw new NotTeacherException(User.class, id);
+        return user.get();
+    }
+
     public List<School> getSchoolsByUser(String id) {
         User us = getUserById(id);
         List<School> sc = new ArrayList<>();

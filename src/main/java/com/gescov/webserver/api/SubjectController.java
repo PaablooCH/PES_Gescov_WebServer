@@ -62,6 +62,16 @@ public class SubjectController {
         return subjectService.addUser(id, userID);
     }
 
+    @GetMapping(path = "/user/{id}")
+    public List<Subject> getSubjectsByUserID(@PathVariable("id") String id){
+        return subjectService.getSubjectsByUserID(id);
+    }
+
+    @GetMapping(path = "/{id}/teachers")
+    public List<User> getTeachersBySubjectID(@PathVariable("id") String id){
+        return subjectService.getTeachersBySubjectID(id);
+    }
+
 }
 
 

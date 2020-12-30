@@ -1,7 +1,5 @@
 package com.gescov.webserver.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gescov.webserver.model.Classroom;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.UserService;
