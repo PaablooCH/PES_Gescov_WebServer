@@ -25,8 +25,8 @@ public class TracingTestController {
     }
 
     @GetMapping
-    public List<TracingTest> getTracingTestByUser(@NonNull @RequestParam("contID") String contagionID) {
-        return tracingTestService.getTracingTestByUser(contagionID);
+    public List<TracingTest> getTracingTestByUser(@NonNull @RequestParam("userID") String userID) {
+        return tracingTestService.getTracingTestByUser(userID);
     }
 
 }

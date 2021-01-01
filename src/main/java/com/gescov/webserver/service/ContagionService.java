@@ -86,10 +86,10 @@ public class ContagionService {
         return contagionDao.existsByEndContagionNullAndInfectedID(contagionID);
     }
 
-    public String getContagionByUser(String infectedID) {
+    public Contagion getContagionByUser(String infectedID) {
         Optional<Contagion> con = contagionDao.findByEndContagionNullAndInfectedID(infectedID);
         if (con.isEmpty()) throw new NotFoundException(User.class, infectedID);
-        return con.get().getId();
+        return con.get();
     }
 
     public void infect(String infectedID) {
