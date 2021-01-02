@@ -33,6 +33,9 @@ public class ClassSession {
     @NotNull
     private String teacherID;
 
+    @NotNull
+    private String concept;
+
     @JsonFormat(pattern = "HH-mm", shape = JsonFormat.Shape.STRING)
     private LocalTime hour;
 
@@ -44,11 +47,13 @@ public class ClassSession {
 
     public ClassSession(@JsonProperty ("id") String id, @JsonProperty("classroomID") String classroomID,
                         @JsonProperty("subjectID") String subjectID, @JsonProperty ("teacherID") String teacherID,
-                        @JsonProperty ("hour") String hour, @JsonProperty ("finishHour") String finishHour, @JsonProperty("date") String date) {
+                        @JsonProperty("concept") String concept, @JsonProperty ("hour") String hour,
+                        @JsonProperty ("finishHour") String finishHour, @JsonProperty("date") String date) {
         this.id = id;
         this.classroomID = classroomID;
         this.subjectID = subjectID;
         this.teacherID = teacherID;
+        this.concept = concept;
         this.hour = LocalTime.parse(hour);
         this.finishHour = LocalTime.parse(finishHour);
         this.date = LocalDate.parse(date);
