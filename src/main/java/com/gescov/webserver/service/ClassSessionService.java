@@ -72,11 +72,10 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionBySubject(String id) { return classSessionDao.findAllBySubjectID(id); }
 
-    public List<ClassSession> getSessionByTeacher(String id) { return classSessionDao.findAllByTeacherID(id); }
-
-    public List<ClassSession> getSessionByHour(String hour) { return classSessionDao.findAllByHour(LocalTime.parse(hour)); }
-
-    public List<ClassSession> getSessionByDate(String date) { return classSessionDao.findAllByDate(LocalDate.parse(date)); }
+    public List<ClassSession> getSessionByTeacher(String id) {
+        User user = userService.getTeacherByID(id);
+        return classSessionDao.findAllByTeacherID(user.getId());
+    }
 
     public ClassSession getClassSessionByID(String id){
         Optional<ClassSession> classSession = classSessionDao.findById(id);
@@ -116,8 +115,7 @@ public class ClassSessionService {
 
     private Classroom getClassroomByCSID(String classSessionID) {
         ClassSession classSession = getClassSessionByID(classSessionID);
-        Classroom classroom = classroomService.getClassroomById(classSession.getClassroomID());
-        return classroom;
+        return classroomService.getClassroomById(classSession.getClassroomID());
     }
 
     public LocalDate getDateBySession(String classSessionID) {

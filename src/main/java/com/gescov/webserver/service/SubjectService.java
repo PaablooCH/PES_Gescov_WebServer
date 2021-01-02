@@ -115,5 +115,18 @@ public class SubjectService {
         return s;
     }
 
+    public List<Subject> getSubjectsByUserID(String id) {
+        User user = userService.getUserById(id);
+        return subjectDao.findAllByStudentsIDContaining(user.getId());
+    }
+
+    public List<User> getTeachersBySubjectID(String id) {
+        Subject subject = getSubjectById(id);
+        List<User> teachers = new ArrayList<>();
+        for (String teacherID : subject.getTeachersID()){
+            teachers.add(userService.getTeacherByID(teacherID));
+        }
+        return teachers;
+    }
 }
 

@@ -24,10 +24,9 @@ public class TracingTestService {
         return tracingTestDao.insert(tracingTest);
     }
 
-    public List<TracingTest> getTracingTestByUser(String contagionID) {
-        if(!contagionService.existsContagion(contagionID))
-            throw new NotFoundException(Contagion.class, contagionID);
-        return tracingTestDao.findAllByContagionID(contagionID);
+    public List<TracingTest> getTracingTestByUser(String userID) {
+        Contagion contagion = contagionService.getContagionByUser(userID);
+        return tracingTestDao.findAllByContagionID(contagion.getId());
     }
 
     public void deleteAllTracingTest(String contagionID) {
