@@ -1,6 +1,7 @@
 package com.gescov.webserver.api;
 
 import com.gescov.webserver.model.Classroom;
+import com.gescov.webserver.model.Schedule;
 import com.gescov.webserver.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -19,7 +20,6 @@ public class ClassroomController {
     public ClassroomController(ClassroomService classroomService) {
         this.classroomService = classroomService;
     }
-
 
     @PostMapping
     public Classroom addClassroom(@RequestBody Classroom classroom) {
@@ -59,6 +59,11 @@ public class ClassroomController {
                                      @RequestParam("name") String name, @NotNull @RequestParam("numRows") int numRows,
                                      @NotNull @RequestParam("numCols") int numCols) {
         return classroomService.updateClassroom(id, name, numRows, numCols);
+    }
+
+    @PostMapping(path = "{id}/schedule")
+    public Classroom addScheduleInClassroom(@PathVariable("id") String id, @NotNull @RequestBody Schedule schedule)  {
+        return classroomService.addSchedule(id, schedule);
     }
 
 }

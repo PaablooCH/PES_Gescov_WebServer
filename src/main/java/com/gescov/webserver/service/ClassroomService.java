@@ -1,16 +1,16 @@
 package com.gescov.webserver.service;
 
 import com.gescov.webserver.dao.classroom.ClassroomDao;
+import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.IsNotAnAdministratorException;
+import com.gescov.webserver.exception.NotEqualsException;
 import com.gescov.webserver.exception.NotFoundException;
-import com.gescov.webserver.model.ClassSession;
-import com.gescov.webserver.model.Classroom;
-import com.gescov.webserver.model.School;
-import com.gescov.webserver.model.User;
+import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +22,9 @@ public class ClassroomService {
 
     @Autowired
     SchoolService schoolService;
+
+    @Autowired
+    SubjectService subjectService;
 
     @Autowired
     ClassSessionService classSessionService;
@@ -83,6 +86,34 @@ public class ClassroomService {
         if (numRows != 0) c.setNumRows(numRows);
         if (numCols != 0) c.setNumCols(numCols);
         return classroomDao.save(c);
+    }
+
+    public Classroom addSchedule(String id, Schedule schedule) {
+        Classroom c = getClassroomById(id);
+        Subject s = subjectService.getSubjectById(schedule.getSubjectID());
+        if (!c.getSchoolID().equals(s.getSchoolID())) throw new NotEqualsException(School.class, c.getSchoolID(), s.getSchoolID());
+        validateSchedule(c, schedule);
+        c.getScheduleList().add(schedule);
+        classroomDao.save(c);
+        return c;
+    }
+
+    public void validateSchedule(Classroom c, Schedule newS) {
+        if (newS.getEnd().isBefore(newS.getStart())) {
+            LocalTime aux = newS.getEnd();
+            newS.setEnd(newS.getStart());
+            newS.setStart(aux);
+        }
+        List<Schedule> sc = c.getScheduleList();
+        for (Schedule s : sc) {
+            if (s.getDay() == newS.getDay() &&
+                    ((s.getStart().equals(newS.getStart()) && s.getEnd().equals(newS.getEnd())) ||
+                    (s.getStart().isAfter(newS.getStart()) && s.getStart().isBefore(newS.getEnd())) ||
+                    (s.getEnd().isAfter(newS.getStart()) && s.getEnd().isBefore(newS.getEnd())) ||
+                    (s.getStart().isBefore(newS.getStart()) && s.getEnd().isAfter(newS.getEnd())))) {
+                throw new AlreadyExistsException(Schedule.class, c.getId());
+            }
+        }
     }
 
 }
