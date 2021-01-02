@@ -5,6 +5,7 @@ import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -63,7 +64,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/user/{id}")
-    public List<Subject> getSubjectsByUserID(@PathVariable("id") String id){
+    public List<Pair<Subject, String>> getSubjectsByUserID(@PathVariable("id") String id){
         return subjectService.getSubjectsByUserID(id);
     }
 

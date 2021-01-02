@@ -10,6 +10,7 @@ import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.Subject;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -115,9 +116,12 @@ public class SubjectService {
         return s;
     }
 
-    public List<Subject> getSubjectsByUserID(String id) {
+    public List<Pair<Subject, String>> getSubjectsByUserID(String id) {
         User user = userService.getUserById(id);
-        return subjectDao.findAllByStudentsIDContaining(user.getId());
+        List<Subject> subjects = subjectDao.findAllByStudentsIDContaining(user.getId());
+        List<Pair<Subject, String>> aux = new ArrayList<>();
+        for (Subject s : subjects) aux.add(Pair.of(s, schoolService.getSchoolByID(s.getSchoolID()).getName()));
+        return aux;
     }
 
     public List<User> getTeachersBySubjectID(String id) {
