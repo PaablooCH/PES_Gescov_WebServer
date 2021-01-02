@@ -39,9 +39,9 @@ public class ContagionController {
         contagionService.updateContagion(infectedID);
     }
 
-    @GetMapping(path = "student/{id}")
-    public String getUserContagion(@PathVariable("id") String infectedID) {
-        return contagionService.getContagionByUser(infectedID);
+    @GetMapping(path = "/student/{id}")
+    public String getUserContagionID(@PathVariable("id") String infectedID) {
+        return contagionService.getContagionByUser(infectedID).getId();
     }
 
 }

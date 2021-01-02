@@ -165,8 +165,10 @@ public class UserService {
 
     public User addDeviceToken(String userID, String deviceToken){
         User user = getUserById(userID);
-        user.addDeviceToken(deviceToken);
-        userDao.save(user);
+        if(!user.getDevices().contains(deviceToken)){
+            user.addDeviceToken(deviceToken);
+            userDao.save(user);
+        }
         return user;
     }
 
