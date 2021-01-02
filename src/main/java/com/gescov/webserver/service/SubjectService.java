@@ -118,7 +118,9 @@ public class SubjectService {
 
     public List<Pair<Subject, String>> getSubjectsByUserID(String id) {
         User user = userService.getUserById(id);
-        List<Subject> subjects = subjectDao.findAllByStudentsIDContaining(user.getId());
+        List<Subject> subjects;
+        if (user.isStudent()) subjects = subjectDao.findAllByStudentsIDContaining(user.getId());
+        else subjects = subjectDao.findAllByTeachersIDContaining(user.getId());
         List<Pair<Subject, String>> aux = new ArrayList<>();
         for (Subject s : subjects) aux.add(Pair.of(s, schoolService.getSchoolByID(s.getSchoolID()).getName()));
         return aux;
