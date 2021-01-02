@@ -61,8 +61,8 @@ public class ClassroomController {
         return classroomService.updateClassroom(id, name, numRows, numCols);
     }
 
-    @PostMapping(path = "{id}/schedule/new")
-    public Classroom addScheduleInClassroom(@PathVariable("id") String id, @RequestBody Schedule schedule)  {
+    @PostMapping(path = "{id}/schedule")
+    public Classroom addScheduleInClassroom(@PathVariable("id") String id, @NotNull @RequestBody Schedule schedule)  {
         return classroomService.addSchedule(id, schedule);
     }
 

@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor
@@ -36,7 +35,6 @@ public class Classroom {
     @NotNull(message = "Classrooms' schoolID must not be null")
     private String schoolID;
 
-    @NotNull
     private List<Schedule> scheduleList;
 
     public Classroom(@JsonProperty("id") String id,
@@ -52,7 +50,7 @@ public class Classroom {
         this.scheduleList = new ArrayList<>();
     }
 
-    void addSchedule (Schedule schedule){
+    void addSchedule(Schedule schedule){
         scheduleList.add(schedule);
     }
 

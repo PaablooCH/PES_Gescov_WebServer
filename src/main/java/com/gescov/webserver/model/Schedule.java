@@ -6,14 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @NoArgsConstructor
 @Setter
 @Getter
 public class Schedule {
-
     @NotNull(message = "Day must not be null")
     private daysWeek day;
 
@@ -24,7 +22,7 @@ public class Schedule {
     private LocalTime end;
 
     @NotNull(message = "Subject's id must not be null")
-    private String idSubject;
+    private String subjectID;
 
     public enum daysWeek {
         MONDAY ("Monday"),
@@ -40,9 +38,9 @@ public class Schedule {
         }
     }
 
-    public Schedule(@JsonProperty("idSubject") String idSubject, @JsonProperty("start") String start,
+    public Schedule(@JsonProperty("subjectID") String subjectID, @JsonProperty("start") String start,
                     @JsonProperty("end") String end, @JsonProperty("day") daysWeek day) {
-        this.idSubject = idSubject;
+        this.subjectID = subjectID;
         this.start = LocalTime.parse(start);
         this.end = LocalTime.parse(end);
         this.day = day;
