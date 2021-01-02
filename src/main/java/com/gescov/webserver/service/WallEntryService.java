@@ -6,6 +6,7 @@ import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.model.WallEntry;
+import com.gescov.webserver.model.WallEntryReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,14 @@ public class WallEntryService {
         WallEntry we = getEntryByID(entryID);
         if(newText.equals(""))throw new NotAnyTextException();
         we.setText(newText);
+        return wallEntryDao.save(we);
+    }
+
+    public WallEntry addReply(String entryID, WallEntryReply reply, String userID){
+        WallEntry we = getEntryByID(entryID);
+        User u = userService.getUserById(userID);
+        reply.setUsername(u.getName());
+        we.addReply(reply);
         return wallEntryDao.save(we);
     }
 
