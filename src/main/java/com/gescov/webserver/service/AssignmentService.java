@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.assignment.AssignmentDao;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.PlaceOutOfIndexException;
+import com.gescov.webserver.exception.UAreInfected;
 import com.gescov.webserver.model.Assignment;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,12 @@ public class AssignmentService {
     @Autowired
     UserService userService;
 
-
     public Assignment addAssignment(Assignment assignment) {
         int numRow = classSessionService.getNumRow(assignment.getClassSessionID());
         int numCol = classSessionService.getNumCol(assignment.getClassSessionID());
         if (assignment.getPosRow() > numRow || assignment.getPosCol() > numCol) throw new PlaceOutOfIndexException(numRow, numCol);
         userService.existsUser(assignment.getStudentID());
+        if (userService.existsInfected(assignment.getStudentID())) throw new UAreInfected(assignment.getStudentID());
         return assignmentDao.insert(assignment);
     }
 

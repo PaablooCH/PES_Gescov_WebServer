@@ -30,6 +30,9 @@ public class ContagionService {
     @Autowired
     TracingTestService tracingTestService;
 
+    @Autowired
+    NotificationService notificationService;
+
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
         if(contagion.getInfectedConfirmed() &&
@@ -82,8 +85,8 @@ public class ContagionService {
         return contagionDao.existsByEndContagionNullAndId(contagionID);
     }
 
-    public boolean existsInfected(String contagionID) {
-        return contagionDao.existsByEndContagionNullAndInfectedID(contagionID);
+    public boolean existsInfected(String infectedID) {
+        return contagionDao.existsByEndContagionNullAndInfectedID(infectedID);
     }
 
     public Contagion getContagionByUser(String infectedID) {
@@ -94,6 +97,9 @@ public class ContagionService {
 
     public void infect(String infectedID) {
         Contagion contagion = new Contagion(null, infectedID, false);
+        User user = userService.getUserById(infectedID);
+        for (String dT : user.getDevices())
+            notificationService.sendNotiToDevice(dT, "You have been in contact with a positive", "Somebody next to you reported an infection.");
         contagionDao.insert(contagion);
     }
 

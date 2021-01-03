@@ -179,4 +179,7 @@ public class UserService {
         return user;
     }
 
+    public boolean existsInfected(String studentID) {
+        return contagionService.existsInfected(studentID);
+    }
 }

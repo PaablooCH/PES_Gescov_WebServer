@@ -146,4 +146,10 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UAreInfected.class)
+    public ResponseEntity<ApiError> handleUAreInfected(UAreInfected ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
 }
