@@ -4,6 +4,11 @@
       "name": "google.api",
       "type": "java.lang.String",
       "description": "Description for google.api."
+    },
+    {
+      "name": "app.firebase-config",
+      "type": "java.lang.String",
+      "description": "Description for app.firebase-config."
     }
   ]
 }

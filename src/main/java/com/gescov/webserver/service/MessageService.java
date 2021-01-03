@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.message.MessageDao;
 import com.gescov.webserver.exception.NotAParticipantException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.model.Chat;
 import com.gescov.webserver.model.ChatPreview;
 import com.gescov.webserver.model.Message;
 import com.gescov.webserver.model.User;
@@ -27,11 +28,27 @@ public class MessageService {
     @Autowired
     ChatPreviewService chatPreviewService;
 
-    public Message createMessage(Message m){
-        userService.existsUser(m.getCreatorID());
-        chatService.getChatById(m.getChatID());
-        if(!chatService.isParticipant(m.getChatID(),m.getCreatorID())) throw new NotAParticipantException(User.class, m.getCreatorID(), m.getChatID());
-        chatPreviewService.updateLastMessage(m.getChatID(),m);
+    @Autowired
+    NotificationService notificationService;
+
+    public Message createMessage(Message m) {
+        String msgCreator = m.getCreatorID();
+        User sender = userService.getUserById(msgCreator);
+        Chat chat = chatService.getChatById(m.getChatID());
+        if (!chatService.isParticipant(m.getChatID(), msgCreator)) throw new NotAParticipantException(User.class, msgCreator, m.getChatID());
+        if (msgCreator.equals(chat.getPartA())) {
+            User receiver = userService.getUserById(chat.getPartB());
+            for (String d : receiver.getDevices()) {
+                notificationService.sendNotiToDevice(d, sender.getName(), m.getText());
+            }
+        }
+        else {
+            User receiver = userService.getUserById(chat.getPartA());
+            for (String d : receiver.getDevices()) {
+                notificationService.sendNotiToDevice(d, sender.getName(), m.getText());
+            }
+        }
+        chatPreviewService.updateLastMessage(m.getChatID(), m);
         return messageDao.insert(m);
     }
 
