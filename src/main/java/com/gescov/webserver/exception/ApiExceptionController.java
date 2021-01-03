@@ -104,6 +104,12 @@ public class ApiExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(NotStudentException.class)
+    public ResponseEntity<ApiError> handleNotStudentException(NotStudentException ex, WebRequest request) {
+        ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(CreatorCantBeDeletedException.class)
     public ResponseEntity<ApiError> handleCreatorCantBeDeletedException(CreatorCantBeDeletedException ex, WebRequest request) {
         ApiError apiError = new ApiError(new Date(), ex.getMessage(), request.getDescription(false));

@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.user.UserDao;
 import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.NotStudentException;
 import com.gescov.webserver.exception.NotTeacherException;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
@@ -74,6 +75,11 @@ public class UserService {
     public void existsTeacher(String userID) {
         User u = getUserById(userID);
         if (u.isStudent()) throw new NotTeacherException(User.class, userID);
+    }
+
+    public void existsStudent(String userID) {
+        User u = getUserById(userID);
+        if (!u.isStudent()) throw new NotStudentException(User.class, userID);
     }
 
     public void addSchool(String userID, String schoolID) {

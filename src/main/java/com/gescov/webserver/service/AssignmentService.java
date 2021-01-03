@@ -33,7 +33,7 @@ public class AssignmentService {
         int numRow = classSessionService.getNumRow(assignment.getClassSessionID());
         int numCol = classSessionService.getNumCol(assignment.getClassSessionID());
         if (assignment.getPosRow() > numRow || assignment.getPosCol() > numCol) throw new PlaceOutOfIndexException(numRow, numCol);
-        userService.existsUser(assignment.getStudentID());
+        userService.existsStudent(assignment.getStudentID());
         if (userService.existsInfected(assignment.getStudentID())) throw new UAreInfected(assignment.getStudentID());
         return assignmentDao.insert(assignment);
     }
