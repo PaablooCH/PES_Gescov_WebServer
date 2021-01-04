@@ -3,6 +3,7 @@ package com.gescov.webserver.service;
 import com.gescov.webserver.dao.wall.WallEntryDao;
 import com.gescov.webserver.exception.NotAnyTextException;
 import com.gescov.webserver.exception.NotFoundException;
+import com.gescov.webserver.exception.NotInSchool;
 import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import com.gescov.webserver.model.WallEntry;
@@ -59,8 +60,10 @@ public class WallEntryService {
     }
 
     public WallEntry addReply(String entryID, WallEntryReply reply, String userID){
+        if (reply.getText().equals("")) throw new NotAnyTextException();
         WallEntry we = getEntryByID(entryID);
         User u = userService.getUserById(userID);
+        if(!u.getSchoolsID().contains(we.getSchoolID())) throw new NotInSchool(u.getId(),we.getSchoolID());
         reply.setUsername(u.getName());
         we.addReply(reply);
         return wallEntryDao.save(we);
