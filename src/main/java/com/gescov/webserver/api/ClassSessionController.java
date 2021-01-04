@@ -3,6 +3,7 @@ package com.gescov.webserver.api;
 import com.gescov.webserver.model.ClassSession;
 import com.gescov.webserver.service.ClassSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -30,8 +31,8 @@ public class ClassSessionController {
     }
 
     @GetMapping(path = "/subject/{id}")
-    public List<ClassSession> getSessionBySubject(@PathVariable("id") String id){
-        return sessionService.getSessionBySubject(id);
+    public List<Pair<ClassSession, Pair<String, String>>> getSessionBySubject(@PathVariable("id") String id){
+        return sessionService.getSessionInfoBySubject(id);
     }
 
     @GetMapping(path = "/classroom/{id}")

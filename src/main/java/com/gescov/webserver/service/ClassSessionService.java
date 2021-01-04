@@ -7,10 +7,12 @@ import com.gescov.webserver.exception.NotEqualsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,7 +72,20 @@ public class ClassSessionService {
 
     public List<ClassSession> getSessionByClassroom(String id) { return classSessionDao.findAllByClassroomID(id); }
 
-    public List<ClassSession> getSessionBySubject(String id) { return classSessionDao.findAllBySubjectID(id); }
+    public List<ClassSession> getSessionBySubject(String id) {
+        return classSessionDao.findAllBySubjectID(id);
+    }
+
+    public List<Pair<ClassSession, Pair<String, String>>> getSessionInfoBySubject(String id) {
+        List<ClassSession> cs = classSessionDao.findAllBySubjectID(id);
+        List<Pair<ClassSession, Pair<String, String>>> result = new ArrayList<>();
+        for (ClassSession cl : cs) {
+            Classroom c = classroomService.getClassroomById(cl.getClassroomID());
+            User u = userService.getTeacherByID(cl.getTeacherID());
+            result.add(Pair.of(cl, Pair.of(c.getName(), u.getName())));
+        }
+        return result;
+    }
 
     public List<ClassSession> getSessionByTeacher(String id) {
         User user = userService.getTeacherByID(id);
