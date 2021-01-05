@@ -29,8 +29,8 @@ public class WallEntryController {
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteWallEntryByID(@NotNull @PathVariable ("id")String id){
-        wallEntryService.deleteEntry(id);
+    public void deleteWallEntryByID(@NotNull @PathVariable ("id")String id, @NotNull @RequestParam ("userID") String userID){
+        wallEntryService.deleteEntry(id, userID);
     }
 
     @PutMapping(path = "{id}")

@@ -41,8 +41,11 @@ public class WallEntryService {
         return we;
     }
 
-    public void deleteEntry(String entryID){
+    public void deleteEntry(String entryID, String userID){
         WallEntry we = getEntryByID(entryID);
+        School sch = schoolService.getSchoolByID(we.getSchoolID());
+        User u = userService.getUserById(userID);
+        schoolService.isAdmin(sch.getId(), userID);
         wallEntryDao.deleteById(we.getId());
     }
 
