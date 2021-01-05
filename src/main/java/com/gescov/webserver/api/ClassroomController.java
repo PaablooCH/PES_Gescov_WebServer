@@ -62,7 +62,7 @@ public class ClassroomController {
     }
 
     @PostMapping(path = "/{id}/schedule")
-    public Classroom addScheduleInClassroom(@PathVariable("id") String id, @NotNull @RequestBody Schedule schedule)  {
+    public Classroom addScheduleInClassroom(@PathVariable("id") String id, @NotNull @RequestBody List<Schedule> schedule)  {
         return classroomService.addSchedule(id, schedule);
     }
 

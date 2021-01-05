@@ -87,31 +87,42 @@ public class ClassroomService {
         return classroomDao.save(c);
     }
 
-    public Classroom addSchedule(String id, Schedule schedule) {
+    public Classroom addSchedule(String id, List<Schedule> schedule) {
         Classroom c = getClassroomById(id);
-        Subject s = subjectService.getSubjectById(schedule.getSubjectID());
-        if (!c.getSchoolID().equals(s.getSchoolID())) throw new NotEqualsException(School.class, c.getSchoolID(), s.getSchoolID());
+        for (Schedule s : schedule) {
+            Subject su = subjectService.getSubjectById(s.getSubjectID());
+            if (!c.getSchoolID().equals(su.getSchoolID()))
+                throw new NotEqualsException(School.class, c.getSchoolID(), su.getSchoolID());
+        }
         validateSchedule(c, schedule);
-        c.getScheduleList().add(schedule);
+        c.setScheduleList(schedule);
         classroomDao.save(c);
         return c;
     }
 
-    public void validateSchedule(Classroom c, Schedule newS) {
+    public void validateSchedule(Classroom c, List<Schedule> newSchedule) {
+        for (Schedule newS : newSchedule) {
+            validateHours(newS);
+            for (Schedule s : newSchedule) {
+                if (s.getSubjectID().equals(newS.getSubjectID()) && s.hashCode() == newS.hashCode()) continue;
+                if (!validateSubjectSchedule(s, newS)) throw new AlreadyExistsException(Schedule.class, c.getId());
+            }
+        }
+    }
+
+    public boolean validateSubjectSchedule(Schedule s, Schedule newS) {
+        return s.getDay() != newS.getDay() ||
+                ((!s.getStart().equals(newS.getStart()) || !s.getEnd().equals(newS.getEnd())) &&
+                        (!s.getStart().isAfter(newS.getStart()) || !s.getStart().isBefore(newS.getEnd())) &&
+                        (!s.getEnd().isAfter(newS.getStart()) || !s.getEnd().isBefore(newS.getEnd())) &&
+                        (!s.getStart().isBefore(newS.getStart()) || !s.getEnd().isAfter(newS.getEnd())));
+    }
+
+    public void validateHours(Schedule newS) {
         if (newS.getEnd().isBefore(newS.getStart())) {
             LocalTime aux = newS.getEnd();
             newS.setEnd(newS.getStart());
             newS.setStart(aux);
-        }
-        List<Schedule> sc = c.getScheduleList();
-        for (Schedule s : sc) {
-            if (s.getDay() == newS.getDay() &&
-                    ((s.getStart().equals(newS.getStart()) && s.getEnd().equals(newS.getEnd())) ||
-                    (s.getStart().isAfter(newS.getStart()) && s.getStart().isBefore(newS.getEnd())) ||
-                    (s.getEnd().isAfter(newS.getStart()) && s.getEnd().isBefore(newS.getEnd())) ||
-                    (s.getStart().isBefore(newS.getStart()) && s.getEnd().isAfter(newS.getEnd())))) {
-                throw new AlreadyExistsException(Schedule.class, c.getId());
-            }
         }
     }
 
