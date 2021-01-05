@@ -29,7 +29,6 @@ public class ClassroomService {
     @Autowired
     ClassSessionService classSessionService;
 
-
     public Classroom addClassroom(Classroom classroom) {
         schoolService.existsSchoolByID(classroom.getSchoolID());
         return classroomDao.insert(classroom);
@@ -114,6 +113,10 @@ public class ClassroomService {
                 throw new AlreadyExistsException(Schedule.class, c.getId());
             }
         }
+    }
+
+    public List<Schedule> getScheduleByClassroomId(String id) {
+        return getClassroomById(id).getScheduleList();
     }
 
 }
