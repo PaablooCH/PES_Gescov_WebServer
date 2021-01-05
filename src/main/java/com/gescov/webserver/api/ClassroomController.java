@@ -67,7 +67,7 @@ public class ClassroomController {
     }
 
     @GetMapping(path = "/{id}/schedule")
-    public List<Schedule> getScheduleByClassroomId(@PathVariable("id") String id)  {
+    public List<Pair<String, Schedule>> getScheduleByClassroomId(@PathVariable("id") String id)  {
         return classroomService.getScheduleByClassroomId(id);
     }
 

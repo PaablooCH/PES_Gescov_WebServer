@@ -11,6 +11,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,8 +127,14 @@ public class ClassroomService {
         }
     }
 
-    public List<Schedule> getScheduleByClassroomId(String id) {
-        return getClassroomById(id).getScheduleList();
+    public List<Pair<String, Schedule>> getScheduleByClassroomId(String id) {
+        Classroom cl = getClassroomById(id);
+        List<Pair<String, Schedule>> result = new ArrayList<>();
+        for (Schedule s : cl.getScheduleList()) {
+            Subject su = subjectService.getSubjectById(s.getSubjectID());
+            result.add(Pair.of(su.getName(), s));
+        }
+        return result;
     }
 
 }
