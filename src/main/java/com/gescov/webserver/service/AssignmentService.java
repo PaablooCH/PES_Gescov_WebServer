@@ -5,6 +5,7 @@ import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.PlaceOutOfIndexException;
 import com.gescov.webserver.exception.UAreInfected;
 import com.gescov.webserver.model.Assignment;
+import com.gescov.webserver.model.ClassSession;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -51,7 +52,18 @@ public class AssignmentService {
         return getPairs(ass);
     }
 
-    public List<Assignment> getAssignmentByClassSessionId(String classSessionID) {
+    public List<Pair<Assignment,String>> getAssignmentByClassSessionId(String classSessionID) {
+        ClassSession cs = classSessionService.getClassSessionByID(classSessionID);
+        List<Pair<Assignment, String>> result = new ArrayList<>();
+        List<Assignment> ass = assignmentDao.findAllByClassSessionID(cs.getId());
+        for(Assignment a : ass){
+            User u = userService.getUserById(a.getStudentID());
+            result.add(Pair.of(a,u.getName()));
+        }
+        return result;
+    }
+
+    public List<Assignment> getAssignmentBySessionId(String classSessionID) {
         return assignmentDao.findAllByClassSessionID(classSessionID);
     }
 

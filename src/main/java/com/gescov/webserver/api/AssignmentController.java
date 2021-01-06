@@ -27,7 +27,7 @@ public class AssignmentController {
     }
 
     @GetMapping(path = "/classSession/{id}")
-    public List<Assignment> getAssignmentByClassId(@PathVariable("id") String classSessionID) {
+    public List<Pair<Assignment,String>> getAssignmentByClassId(@PathVariable("id") String classSessionID) {
         return assignmentService.getAssignmentByClassSessionId(classSessionID);
     }
 

@@ -107,7 +107,7 @@ public class ClassSessionService {
     }
 
     private void deleteAssignmentsOfASession(String classSeID) {
-        List<Assignment> as = assignmentService.getAssignmentByClassSessionId(classSeID);
+        List<Assignment> as = assignmentService.getAssignmentBySessionId(classSeID);
         for (Assignment ass : as){
             assignmentService.deleteAssignmentById(ass.getId());
         }
