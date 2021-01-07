@@ -33,8 +33,6 @@ public class User {
 
     private String pic;
 
-    private boolean risk;
-
     private List<String> schoolsID;
 
     private boolean isStudent;
@@ -49,7 +47,6 @@ public class User {
         this.name = name;
         this.email = email;
         this.pic = pic;
-        this.risk = false;
         this.schoolsID = new ArrayList<>();
         this.isStudent = true;
         this.devices = new ArrayList<>();
