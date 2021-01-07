@@ -16,11 +16,11 @@ public class WallEntryReply {
 
     private String text;
 
-    private LocalDateTime hour;
+    private LocalDateTime time;
 
     public WallEntryReply(@JsonProperty ("text") String text){
         this.username = "anonimo";
         this.text = text;
-        this.hour = LocalDateTime.now();
+        this.time = LocalDateTime.now();
     }
 }
