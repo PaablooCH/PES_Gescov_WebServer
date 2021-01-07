@@ -91,12 +91,6 @@ public class UserService {
         userDao.save(u);
     }
 
-    public void updateUserRisk(String id){
-        User u = getUserById(id);
-        u.setRisk(!u.isRisk());
-        userDao.save(u);
-    }
-
     public List<User> findAllBySchoolID(String schoolID) {
         schoolService.existsSchoolByID(schoolID);
         return userDao.findAllBySchoolID(schoolID);

@@ -55,11 +55,6 @@ public class UserController {
         userService.addSchool(id, schoolID);
     }
 
-    @PutMapping(path = "{id}")
-    public void updateUseRisk(@PathVariable("id") String id) {
-        userService.updateUserRisk(id);
-    }
-
     @PutMapping(path = "{id}/add")
     public void updateUserSchool(@PathVariable("id") String id, @RequestParam("studID") String studentID,@RequestParam("schoolID") String schoolID) {
         userService.updateUserSchool(id, studentID, schoolID);
