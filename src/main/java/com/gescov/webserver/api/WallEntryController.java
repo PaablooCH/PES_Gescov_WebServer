@@ -19,28 +19,29 @@ public class WallEntryController {
     public WallEntryController(WallEntryService wallEntryService){ this.wallEntryService = wallEntryService;}
 
     @PostMapping
-    public WallEntry addEntry(@NotNull @RequestBody WallEntry wallEntry, @NotNull @RequestParam ("creatorID") String creatorID){
+    public WallEntry addEntry(@NotNull @RequestBody WallEntry wallEntry, @NotNull @RequestParam ("creatorID") String creatorID) {
         return wallEntryService.addEntry(wallEntry, creatorID);
     }
 
     @GetMapping(path = "{id}")
-    public List<WallEntry> getAllEntryofSchool(@NotNull @PathVariable ("id")String id){
+    public List<WallEntry> getAllEntryofSchool(@NotNull @PathVariable ("id")String id) {
         return wallEntryService.getAllEntrysOfSchool(id);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteWallEntryByID(@NotNull @PathVariable ("id")String id, @NotNull @RequestParam ("userID") String userID){
+    public void deleteWallEntryByID(@NotNull @PathVariable ("id")String id, @NotNull @RequestParam ("userID") String userID) {
         wallEntryService.deleteEntry(id, userID);
     }
 
     @PutMapping(path = "{id}")
-    public WallEntry updateWallEntryText(@NotNull @PathVariable("id") String id, @NotNull @RequestParam ("text") String text){
+    public WallEntry updateWallEntryText(@NotNull @PathVariable("id") String id, @NotNull @RequestParam ("text") String text) {
         return wallEntryService.updateEntryText(id, text);
     }
 
     @PostMapping(path = "{id}/reply")
     public WallEntry addReply(@NotNull @PathVariable ("id") String id, @NotNull @RequestBody WallEntryReply rep,
-                              @NotNull @RequestParam ("userID") String userID){
+                              @NotNull @RequestParam ("userID") String userID) {
         return wallEntryService.addReply(id,rep,userID);
     }
+
 }

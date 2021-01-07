@@ -25,5 +25,6 @@ public class SubjectDaoImpl implements SubjectDaoCustom {
         q.addCriteria(Criteria.where("schoolID").is(schoolID));
         return mongoTemplate.find(q, Subject.class);
     }
+
 }
 

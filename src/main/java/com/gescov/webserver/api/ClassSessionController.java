@@ -21,7 +21,7 @@ public class ClassSessionController {
     }
 
     @PostMapping
-    public ClassSession addSession(@NotNull @RequestBody ClassSession sessions){
+    public ClassSession addSession(@NotNull @RequestBody ClassSession sessions) {
         return sessionService.addSession(sessions);
     }
 
@@ -31,22 +31,23 @@ public class ClassSessionController {
     }
 
     @GetMapping(path = "/subject/{id}")
-    public List<Pair<ClassSession, Pair<String, String>>> getSessionBySubject(@PathVariable("id") String id){
+    public List<Pair<ClassSession, Pair<String, String>>> getSessionBySubject(@PathVariable("id") String id) {
         return sessionService.getSessionInfoBySubject(id);
     }
 
     @GetMapping(path = "/classroom/{id}")
-    public List<ClassSession> getSessionByClassroom(@PathVariable("id") String id){
+    public List<ClassSession> getSessionByClassroom(@PathVariable("id") String id) {
         return sessionService.getSessionByClassroom(id);
     }
 
     @GetMapping(path = "/teacher/{id}")
-    public List<ClassSession> getSessionByTeacher(@PathVariable("id") String id){
+    public List<ClassSession> getSessionByTeacher(@PathVariable("id") String id) {
         return sessionService.getSessionByTeacher(id);
     }
 
     @DeleteMapping
-    public void deleteClassSession(@NotNull @RequestParam ("usuID") String usuID, @NotNull @RequestParam("id") String id){
+    public void deleteClassSession(@NotNull @RequestParam ("usuID") String usuID, @NotNull @RequestParam("id") String id) {
         sessionService.deleteClassSessionById(usuID, id);
     }
+
 }

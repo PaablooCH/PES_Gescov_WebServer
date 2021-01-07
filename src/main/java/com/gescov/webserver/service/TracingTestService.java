@@ -19,7 +19,7 @@ public class TracingTestService {
     ContagionService contagionService;
 
     public TracingTest addTracingTest(TracingTest tracingTest) {
-        if(!contagionService.existsContagion(tracingTest.getContagionID()))
+        if (!contagionService.existsContagion(tracingTest.getContagionID()))
             throw new NotFoundException(Contagion.class, tracingTest.getContagionID());
         return tracingTestDao.insert(tracingTest);
     }
@@ -32,4 +32,5 @@ public class TracingTestService {
     public void deleteAllTracingTest(String contagionID) {
         tracingTestDao.deleteAllByContagionID(contagionID);
     }
+
 }

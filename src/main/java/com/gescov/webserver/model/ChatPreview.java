@@ -58,4 +58,5 @@ public class ChatPreview {
         this.userPictureB = pic2;
         this.lastUpdate = update;
     }
+
 }

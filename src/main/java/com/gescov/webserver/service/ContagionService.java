@@ -67,9 +67,7 @@ public class ContagionService {
     private List<Contagion> getContagions(String schoolID) {
         List<User> infected = userService.findAllBySchoolID(schoolID);
         List<String> infectedIDs = new ArrayList<>();
-        for (User in : infected) {
-            infectedIDs.add(in.getId());
-        }
+        for (User in : infected) infectedIDs.add(in.getId());
         return contagionDao.findAllByEndContagionNullAndInfectedIDIn(infectedIDs);
     }
 

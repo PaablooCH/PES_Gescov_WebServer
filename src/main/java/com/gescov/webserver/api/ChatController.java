@@ -21,14 +21,14 @@ public class ChatController {
     private final MessageService messageService;
 
     @Autowired
-    public ChatController(ChatService chatService, ChatPreviewService chatPreviewService, MessageService messageService){
+    public ChatController(ChatService chatService, ChatPreviewService chatPreviewService, MessageService messageService) {
         this.chatService = chatService;
         this.chatPreviewService = chatPreviewService;
         this.messageService = messageService;
     }
 
     @PostMapping
-    public Chat addChat(@NotNull @RequestBody Chat chat){
+    public Chat addChat(@NotNull @RequestBody Chat chat) {
         return chatService.createChat(chat);
     }
 
@@ -43,17 +43,17 @@ public class ChatController {
     }
 
     @GetMapping(path = "/{id}/messages")
-    public List<Message> getChatMessages(@PathVariable ("id") String chatID){
+    public List<Message> getChatMessages(@PathVariable ("id") String chatID) {
         return messageService.getMessagesByChatID(chatID);
     }
 
     @GetMapping(path = "/preview")
-    public ChatPreview getChatPreviewByChatID(@NotNull @RequestParam("chatID") String chatID){
+    public ChatPreview getChatPreviewByChatID(@NotNull @RequestParam("chatID") String chatID) {
         return chatPreviewService.getChatPreviewByChatID(chatID);
     }
 
     @GetMapping(path = "/previews")
-    public List<ChatPreview> getUserChats(@NotNull @RequestParam ("userID") String userID){
+    public List<ChatPreview> getUserChats(@NotNull @RequestParam ("userID") String userID) {
         return chatPreviewService.getChatsFromUserID(userID);
     }
 
@@ -61,4 +61,5 @@ public class ChatController {
     public Chat getChat(@NotNull @PathVariable ("id") String id){
         return chatService.getChatById(id);
     }
+
 }

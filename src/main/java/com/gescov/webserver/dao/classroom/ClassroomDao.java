@@ -14,5 +14,6 @@ public interface ClassroomDao extends MongoRepository<Classroom, String>, Classr
     Classroom findClassroomById(String id);
 
     List<Classroom> findAllBySchoolID(String id);
+
 }
 

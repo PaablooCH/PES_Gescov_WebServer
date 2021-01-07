@@ -188,7 +188,6 @@ public class SchoolService {
         }
     }
 
-
     public void updateEntryCode() {
         List<School> schoolList = schoolDao.findAll();
         for (School school : schoolList){
@@ -216,4 +215,5 @@ public class SchoolService {
         }
         return buffer.toString();
     }
+
 }

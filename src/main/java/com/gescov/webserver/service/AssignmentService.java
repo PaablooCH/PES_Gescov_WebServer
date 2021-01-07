@@ -114,7 +114,6 @@ public class AssignmentService {
                 userService.infect(a.getStudentID());
             }
         }
-
     }
 
 }

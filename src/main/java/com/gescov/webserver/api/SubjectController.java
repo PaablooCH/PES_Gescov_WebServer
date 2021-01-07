@@ -41,35 +41,35 @@ public class SubjectController {
     public List<Subject> getSubjectBySchoolId(@PathVariable("specific") String id) { return subjectService.selectSubjectBySchoolId(id); }
 
     @GetMapping(path = "{specific}")
-    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NotNull @RequestParam("name") String name){
+    public List<Subject> getSubjectsBySchool(@PathVariable("specific") String specific, @NotNull @RequestParam("name") String name) {
         List<Subject> returned = new ArrayList<>();
-        if(specific.equals("schools")) returned =  subjectService.getSubjectBySchool(name);
-        if(specific.equals("names")) returned = subjectService.getSubjectByName(name);
+        if (specific.equals("schools")) returned =  subjectService.getSubjectBySchool(name);
+        if (specific.equals("names")) returned = subjectService.getSubjectByName(name);
         return returned;
     }
 
     @DeleteMapping
-    public void deleteSubject(@NotNull @RequestParam("id") String id, @NotNull @RequestParam ("admindID") String adminID){
+    public void deleteSubject(@NotNull @RequestParam("id") String id, @NotNull @RequestParam ("admindID") String adminID) {
         subjectService.deleteSubjectById(id, adminID);
     }
 
     @PutMapping
-    public void updateSubject(@NotNull @RequestParam ("id") String id, @NotNull @RequestBody String name){
+    public void updateSubject(@NotNull @RequestParam ("id") String id, @NotNull @RequestBody String name) {
         subjectService.updateSubject(id, name);
     }
 
     @PutMapping(path = "/{id}")
-    public Subject enrolUser(@PathVariable("id") String id, @NotNull @RequestParam ("userID") String userID){
+    public Subject enrolUser(@PathVariable("id") String id, @NotNull @RequestParam ("userID") String userID) {
         return subjectService.addUser(id, userID);
     }
 
     @GetMapping(path = "/user/{id}")
-    public List<Pair<Subject, String>> getSubjectsByUserID(@PathVariable("id") String id){
+    public List<Pair<Subject, String>> getSubjectsByUserID(@PathVariable("id") String id) {
         return subjectService.getSubjectsByUserID(id);
     }
 
     @GetMapping(path = "/{id}/teachers")
-    public List<User> getTeachersBySubjectID(@PathVariable("id") String id){
+    public List<User> getTeachersBySubjectID(@PathVariable("id") String id) {
         return subjectService.getTeachersBySubjectID(id);
     }
 

@@ -24,4 +24,5 @@ public class SchoolDaoImpl implements SchoolDaoCustom {
         q.addCriteria(Criteria.where("administratorsID").is(adminID));
         return !mongoTemplate.find(q, School.class).isEmpty();
     }
+
 }

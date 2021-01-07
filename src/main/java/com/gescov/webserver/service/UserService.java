@@ -49,7 +49,7 @@ public class UserService {
 
     public User getUserById(String id) {
         Optional<User> user = userDao.findById(id);
-        if(user.isEmpty()) throw new NotFoundException(User.class, id);
+        if (user.isEmpty()) throw new NotFoundException(User.class, id);
         return user.get();
     }
 
@@ -91,7 +91,7 @@ public class UserService {
         userDao.save(u);
     }
 
-    public void updateUserRisk(String id){
+    public void updateUserRisk(String id) {
         User u = getUserById(id);
         u.setRisk(!u.isRisk());
         userDao.save(u);
@@ -146,7 +146,7 @@ public class UserService {
         }
     }
 
-    public void changeProfile(String id, boolean b){
+    public void changeProfile(String id, boolean b) {
         User u = getUserById(id);
         u.setStudent(b);
         userDao.save(u);
@@ -171,14 +171,14 @@ public class UserService {
 
     public User addDeviceToken(String userID, String deviceToken){
         User user = getUserById(userID);
-        if(!user.getDevices().contains(deviceToken)){
+        if (!user.getDevices().contains(deviceToken)){
             user.addDeviceToken(deviceToken);
             userDao.save(user);
         }
         return user;
     }
 
-    public User deleteDeviceToken(String userID, String deviceToken){
+    public User deleteDeviceToken(String userID, String deviceToken) {
         User user = getUserById(userID);
         user.deleteDeviceToken(deviceToken);
         userDao.save(user);

@@ -30,4 +30,5 @@ public class Chat {
         this.partA = partA;
         this.partB = partB;
     }
+
 }

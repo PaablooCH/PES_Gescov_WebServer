@@ -52,7 +52,7 @@ public class MessageService {
         return messageDao.insert(m);
     }
 
-    public Message getLastMessageOfChat(String chatID){
+    public Message getLastMessageOfChat(String chatID) {
         ChatPreview cp = chatPreviewService.getChatPreviewByChatID(chatID);
         return cp.getLastMessage();
     }
@@ -60,9 +60,10 @@ public class MessageService {
 
     public Message getMessageByID(String messageID) {
         Optional<Message> message = messageDao.findById(messageID);
-        if(message.isEmpty()) throw new NotFoundException(Message.class, messageID);
+        if (message.isEmpty()) throw new NotFoundException(Message.class, messageID);
         return message.get();
     }
 
-    public List<Message> getMessagesByChatID(String chatID){ return messageDao.findAllByChatID(chatID); }
+    public List<Message> getMessagesByChatID(String chatID) { return messageDao.findAllByChatID(chatID); }
+
 }

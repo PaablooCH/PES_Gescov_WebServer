@@ -36,7 +36,7 @@ public class ChatService {
         if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
-        if(!t1 && !t2) throw new ChatBetweenStudentsNotPermitedException();
+        if (!t1 && !t2) throw new ChatBetweenStudentsNotPermitedException();
         Chat c = chatDao.insert(chat);
         String u1 = getUserName(chat.getPartA());
         String pic1 = getUserPicture(chat.getPartA());
@@ -48,11 +48,11 @@ public class ChatService {
 
     public Chat getChatById(String id) {
         Optional<Chat> ch = chatDao.findById(id);
-        if(ch.isEmpty()) throw new NotFoundException(Chat.class, id);
+        if (ch.isEmpty()) throw new NotFoundException(Chat.class, id);
         return ch.get();
     }
 
-    public boolean isParticipant(String chatID, String creator){
+    public boolean isParticipant(String chatID, String creator) {
         Chat ch = getChatById(chatID);
         if (ch.getPartA().equals(creator)) return true;
         return ch.getPartB().equals(creator);
@@ -70,22 +70,21 @@ public class ChatService {
         return userService.getUserById(part).getPic();
     }
 
-    private boolean findSameChat(String partA, String partB){
+    private boolean findSameChat(String partA, String partB) {
         Optional<Chat> option1 = chatDao.findByPartAAndPartB(partA, partB);
         if (option1.isPresent()) return true;
         Optional<Chat> option2 = chatDao.findByPartAAndPartB(partB, partA);
         return option2.isPresent();
     }
 
-    public List<String> getChatsIDsOfUser(String userID){
+    public List<String> getChatsIDsOfUser(String userID) {
         User u = userService.getUserById(userID);
         List<Chat> ch = chatDao.findAllByPartA(u.getId());
         ch.addAll(chatDao.findAllByPartB(u.getId()));
-        if(ch.isEmpty()) throw new NotFoundException(Chat.class, userID);
+        if (ch.isEmpty()) throw new NotFoundException(Chat.class, userID);
         List<String> ids = new ArrayList<>();
-        for(Chat c : ch){
-            ids.add(c.getId());
-        }
+        for (Chat c : ch) ids.add(c.getId());
         return ids;
     }
+
 }

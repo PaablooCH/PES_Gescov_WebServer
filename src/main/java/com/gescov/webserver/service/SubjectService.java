@@ -34,7 +34,7 @@ public class SubjectService {
 
 
 
-    public Subject addSubject(Subject subject, String creatorID){
+    public Subject addSubject(Subject subject, String creatorID) {
         String schoolID = subject.getSchoolID();
         School school = schoolService.getSchoolByID(schoolID);
         userService.existsUser(creatorID);
@@ -93,13 +93,13 @@ public class SubjectService {
         }
     }
 
-    public void updateSubject(String id, String name){
+    public void updateSubject(String id, String name) {
         Subject s = getSubjectById(id);
         s.setName(name);
         subjectDao.save(s);
     }
 
-    public Subject addUser(String id, String userId){
+    public Subject addUser(String id, String userId) {
         Subject s = getSubjectById(id);
         User user = userService.getUserById(userId);
         String schoolID = s.getSchoolID();
@@ -134,5 +134,6 @@ public class SubjectService {
         }
         return teachers;
     }
+
 }
 

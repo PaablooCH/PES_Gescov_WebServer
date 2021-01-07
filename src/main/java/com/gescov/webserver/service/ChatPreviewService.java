@@ -52,6 +52,7 @@ public class ChatPreviewService {
         ch.setLastUpdate(LocalDateTime.now());
         return chatPreviewDao.save(ch);
     }
+
 }
 
 

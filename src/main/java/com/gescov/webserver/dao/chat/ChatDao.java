@@ -15,4 +15,5 @@ public interface ChatDao extends MongoRepository<Chat, String> {
     List<Chat> findAllByPartB(String userID);
 
     Optional<Chat> findByPartAAndPartB(String partA, String partB);
+
 }
