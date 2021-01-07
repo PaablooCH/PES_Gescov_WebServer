@@ -33,7 +33,11 @@ public class ChatService {
 
     public Chat createChat(Chat chat) {
         if(chat.getPartA().equals(chat.getPartB())) throw new ChatWithSamePersonNotAllowedException();
-        if(findSameChat(chat.getPartA(), chat.getPartB())) throw new ChatAlreadyExistsException(Chat.class, chat.getPartA(), chat.getPartB());
+        if(findSameChat(chat.getPartA(), chat.getPartB())){
+            Optional<Chat> c = chatDao.findByPartAAndPartB(chat.getPartA(), chat.getPartB());
+            if(c.isEmpty()) c = chatDao.findByPartAAndPartB(chat.getPartB(), chat.getPartA());
+            return c.get();
+        }
         boolean t1 = checkUsers(chat.getPartA());
         boolean t2 = checkUsers(chat.getPartB());
         if (!t1 && !t2) throw new ChatBetweenStudentsNotPermitedException();
