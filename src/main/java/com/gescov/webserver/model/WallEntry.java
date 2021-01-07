@@ -26,7 +26,7 @@ public class WallEntry {
 
     private String text;
 
-    private LocalDateTime hour;
+    private LocalDateTime time;
 
     private List<WallEntryReply> replies;
 
@@ -36,7 +36,7 @@ public class WallEntry {
         this.schoolID = schoolID;
         this.title = title;
         this.text = text;
-        this.hour = LocalDateTime.now();
+        this.time = LocalDateTime.now();
         this.replies = new ArrayList<>();
     }
 

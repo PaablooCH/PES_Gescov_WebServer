@@ -37,7 +37,7 @@ public class WallEntryService {
 
     public List<WallEntry> getAllEntrysOfSchool(String schoolID) {
         List<WallEntry> we = wallEntryDao.getAllBySchoolID(schoolID);
-        we.sort(Comparator.comparing(WallEntry::getHour));
+        we.sort(Comparator.comparing(WallEntry::getTime));
         return we;
     }
 
