@@ -36,7 +36,6 @@ public class ChatPreview {
 
     private LocalDateTime lastUpdate;
 
-
     public ChatPreview (@JsonProperty("id") String id, @JsonProperty("chat") String chatID, @JsonProperty("userNameA") String userNameA,
                         @JsonProperty("userPictureA") String userPictureA, @JsonProperty("userNameB") String userNameB,
                         @JsonProperty("userPictureB") String userPictureB, final Message lastMessage){

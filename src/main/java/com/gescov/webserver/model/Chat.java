@@ -24,7 +24,6 @@ public class Chat {
     @NotNull
     private String partB;
 
-
     public Chat (@JsonProperty("id") String id, @JsonProperty("partA") String partA, @JsonProperty("partB") String partB){
         this.id = id;
         this.partA = partA;
