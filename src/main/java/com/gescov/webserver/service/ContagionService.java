@@ -35,14 +35,14 @@ public class ContagionService {
 
     public Contagion addContagion(Contagion contagion) {
         userService.existsUser(contagion.getInfectedID());
-        if(contagion.getInfectedConfirmed() &&
-                contagionDao.existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(contagion.getInfectedID()))
+        if (Boolean.TRUE.equals(contagion.getInfectedConfirmed()) &&
+                Boolean.TRUE.equals(contagionDao.existsByEndContagionNullAndInfectedIDAndInfectedConfirmedIsFalse(contagion.getInfectedID())))
             updateContagion(contagion.getInfectedID());
-        else if (contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID()))
+        else if (Boolean.TRUE.equals(contagionDao.existsByEndContagionNullAndInfectedID(contagion.getInfectedID())))
             throw new AlreadyExistsException(User.class, contagion.getInfectedID());
-        else if (contagionDao.existsByInfectedIDAndEndContagionNotNull(contagion.getInfectedID()))
+        else if (Boolean.TRUE.equals(contagionDao.existsByInfectedIDAndEndContagionNotNull(contagion.getInfectedID())))
             throw new UNeedToWait(contagion.getInfectedID());
-        if(contagion.getInfectedConfirmed()) userService.transmitContagion(contagion.getInfectedID());
+        if (Boolean.TRUE.equals(contagion.getInfectedConfirmed())) userService.transmitContagion(contagion.getInfectedID());
         return contagionDao.insert(contagion);
     }
 
@@ -60,7 +60,7 @@ public class ContagionService {
         if (con.isEmpty()) throw new ZeroInfectedAtSchoolException(schoolID);
         List<User> us = getUsers(con);
         List<Pair<String, LocalDate>> aux = new ArrayList<>();
-        for(int i = 0; i < con.size(); i++) aux.add(Pair.of(us.get(i).getName(), con.get(i).getStartContagion()));
+        for (int i = 0; i < con.size(); i++) aux.add(Pair.of(us.get(i).getName(), con.get(i).getStartContagion()));
         return aux;
     }
 

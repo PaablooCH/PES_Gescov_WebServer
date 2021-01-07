@@ -61,11 +61,12 @@ public class SpringConfiguration {
 
     @Bean
     public TaskScheduler taskScheduler() {
-        TaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 
-        ((ThreadPoolTaskScheduler) scheduler).setPoolSize(2);
-        ((ThreadPoolTaskScheduler) scheduler).setThreadNamePrefix("scheduled-task-");
-        ((ThreadPoolTaskScheduler) scheduler).setDaemon(true);
+        scheduler.setPoolSize(2);
+        scheduler.setThreadNamePrefix("scheduled-task-");
+        scheduler.setDaemon(true);
         return scheduler;
     }
+
 }

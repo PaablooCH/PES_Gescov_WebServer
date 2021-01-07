@@ -56,7 +56,7 @@ public class AssignmentService {
         ClassSession cs = classSessionService.getClassSessionByID(classSessionID);
         List<Pair<Assignment, String>> result = new ArrayList<>();
         List<Assignment> ass = assignmentDao.findAllByClassSessionID(cs.getId());
-        for(Assignment a : ass){
+        for (Assignment a : ass) {
             User u = userService.getUserById(a.getStudentID());
             result.add(Pair.of(a,u.getName()));
         }
@@ -79,12 +79,12 @@ public class AssignmentService {
 
     private List<Pair<Assignment, String>> getPairs(List<Assignment> ass) {
         List<String> nameSts = new ArrayList<>();
-        for (Assignment a : ass){
+        for (Assignment a : ass) {
             User u = userService.getUserById(a.getStudentID());
             nameSts.add(u.getName());
         }
         List<Pair<Assignment, String>> aux = new ArrayList<>();
-        for(int i = 0; i < ass.size(); i++) aux.add(Pair.of(ass.get(i), nameSts.get(i)));
+        for (int i = 0; i < ass.size(); i++) aux.add(Pair.of(ass.get(i), nameSts.get(i)));
         return aux;
     }
 
@@ -102,15 +102,19 @@ public class AssignmentService {
 
     private void checkPossibleContagion(Assignment as) {
         List<Assignment> ass = assignmentDao.findAllByClassSessionID(as.getClassSessionID());
-        for (Assignment a : ass){
-            if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol()) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() + 1 && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol() + 1) userService.infect(a.getStudentID());
-            else if(a.getPosRow() == as.getPosRow() && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol()) userService.infect(a.getStudentID());
-            else if (a.getPosRow() == as.getPosRow() - 1 && a.getPosCol() == as.getPosCol() - 1) userService.infect(a.getStudentID());
+        for (Assignment a : ass) {
+            if (((a.getPosRow() == as.getPosRow() + 1) && (a.getPosCol() == as.getPosCol() + 1)) ||
+                    ((a.getPosRow() == as.getPosRow() + 1) && a.getPosCol() == as.getPosCol()) ||
+                    ((a.getPosRow() == as.getPosRow() + 1) && (a.getPosCol() == as.getPosCol() - 1)) ||
+                    (a.getPosRow() == as.getPosRow() && (a.getPosCol() == as.getPosCol() + 1)) ||
+                    ((a.getPosRow() == as.getPosRow() - 1) && (a.getPosCol() == as.getPosCol() + 1)) ||
+                    (a.getPosRow() == as.getPosRow() && (a.getPosCol() == as.getPosCol() - 1)) ||
+                    ((a.getPosRow() == as.getPosRow() - 1) && a.getPosCol() == as.getPosCol()) ||
+                    ((a.getPosRow() == as.getPosRow() - 1) && (a.getPosCol() == as.getPosCol() - 1))) {
+                userService.infect(a.getStudentID());
+            }
         }
+
     }
+
 }

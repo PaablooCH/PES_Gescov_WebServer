@@ -37,7 +37,7 @@ public class ClassSessionService {
     @Autowired
     AssignmentService assignmentService;
 
-    public ClassSession addSession(ClassSession session){
+    public ClassSession addSession(ClassSession session) {
         String classroomID = session.getClassroomID();
         String subjectID = session.getSubjectID();
         String teacherID = session.getTeacherID();
@@ -59,11 +59,13 @@ public class ClassSessionService {
 
     private boolean isClassroomNotFree(String classroomID, LocalDate date, LocalTime hour, LocalTime finishHour) {
         List<ClassSession> classSessions = classSessionDao.findAllByClassroomIDAndDate(classroomID, date);
-        for (ClassSession cs : classSessions){
-            if (cs.getHour().isAfter(hour) && cs.getHour().isBefore(finishHour)) return true;
-            else if (cs.getFinishHour().isAfter(hour) && cs.getFinishHour().isBefore(finishHour)) return true;
-            else if (cs.getHour().equals(hour) && cs.getFinishHour().equals(finishHour)) return true;
-            else if (cs.getHour().isBefore(hour) && cs.getFinishHour().isAfter(finishHour)) return true;
+        for (ClassSession cs : classSessions) {
+            if ((cs.getHour().isAfter(hour) && cs.getHour().isBefore(finishHour)) ||
+                    (cs.getFinishHour().isAfter(hour) && cs.getFinishHour().isBefore(finishHour)) ||
+                    (cs.getHour().equals(hour) && cs.getFinishHour().equals(finishHour)) ||
+                    (cs.getHour().isBefore(hour) && cs.getFinishHour().isAfter(finishHour))) {
+                return true;
+            }
         }
         return false;
     }
@@ -92,12 +94,12 @@ public class ClassSessionService {
         return classSessionDao.findAllByTeacherID(user.getId());
     }
 
-    public ClassSession getClassSessionByID(String id){
+    public ClassSession getClassSessionByID(String id) {
         Optional<ClassSession> classSession = classSessionDao.findById(id);
         if (classSession.isEmpty()) throw new NotFoundException(ClassSession.class, id);
         return classSession.get();
     }
-    public void deleteClassSessionById(String usuID, String classSeID){
+    public void deleteClassSessionById(String usuID, String classSeID) {
         Classroom c = getClassroomByCSID(classSeID);
         School s = schoolService.getSchoolByID(c.getSchoolID());
         List<String> admins = s.getAdministratorsID();
@@ -108,7 +110,7 @@ public class ClassSessionService {
 
     private void deleteAssignmentsOfASession(String classSeID) {
         List<Assignment> as = assignmentService.getAssignmentBySessionId(classSeID);
-        for (Assignment ass : as){
+        for (Assignment ass : as) {
             assignmentService.deleteAssignmentById(ass.getId());
         }
     }
