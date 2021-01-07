@@ -5,6 +5,7 @@ import com.gescov.webserver.exception.AlreadyExistsException;
 import com.gescov.webserver.exception.NotFoundException;
 import com.gescov.webserver.exception.RequestAnsweredException;
 import com.gescov.webserver.model.EntryRequest;
+import com.gescov.webserver.model.School;
 import com.gescov.webserver.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -27,17 +28,34 @@ public class EntryRequestService {
     @Autowired
     SchoolService schoolService;
 
+    @Autowired
+    NotificationService notificationService;
+
     public EntryRequest addEntryRequest(EntryRequest entryRequest) {
         String userID = entryRequest.getUserID();
         String schoolID = entryRequest.getSchoolID();
 
-        userService.existsUser(userID);
-        schoolService.existsSchoolByID(schoolID);
+        User applicant = userService.getUserById(userID);
+        School school = schoolService.getSchoolByID(schoolID);
         EntryRequest req = entryRequestDao.findByUserIDAndSchoolIDAndStatus(userID, schoolID, EntryRequest.RequestState.PENDING);
         if (req != null) throw new AlreadyExistsException(EntryRequest.class, userID + " + " + schoolID + " + status " + EntryRequest.RequestState.PENDING);
 
         entryRequestDao.insert(entryRequest);
+        sendNotiToAdmins(school, applicant);
+
         return entryRequest;
+    }
+
+    private void sendNotiToAdmins(School school, User applicant) {
+        List<String> adminsID = school.getAdministratorsID();
+        List<User> admins = new ArrayList<>();
+        for (String id : adminsID) admins.add(userService.getUserById(id));
+        for (User us : admins) {
+            for (String token : us.getDevices()) {
+                notificationService.sendNotiToDevice(token, "You have received an entry request at " +
+                                            school.getName() + ".", applicant.getName() + " requested entering!");
+            }
+        }
     }
 
     public List<Pair<EntryRequest, String>> getRequestsBySchool(String schoolID) {
@@ -66,11 +84,25 @@ public class EntryRequestService {
         if (request.getStatus() != EntryRequest.RequestState.PENDING) throw new RequestAnsweredException(EntryRequest.class, requestID);
         schoolService.isAdmin(request.getSchoolID(), adminID);
 
+        User applicant = userService.getUserById(request.getUserID());
+        School schoolApplied = schoolService.getSchoolByID(request.getSchoolID());
+
         request.setAnswerDate(LocalDateTime.now());
         request.setStatus(EntryRequest.RequestState.valueOf(state));
         entryRequestDao.save(request);
         if ((EntryRequest.RequestState.valueOf(state)).equals(EntryRequest.RequestState.ACCEPTED)) {
-            userService.addSchool(request.getUserID(), request.getSchoolID());
+            userService.addSchool(applicant.getId(), schoolApplied.getId());
+            sendNotiToUser(applicant, schoolApplied, true);
+        }
+        else sendNotiToUser(applicant, schoolApplied, false);
+    }
+
+    private void sendNotiToUser(User applicant, School school, boolean isAccepted) {
+        for (String token : applicant.getDevices()) {
+            if (isAccepted) notificationService.sendNotiToDevice(token, "You have been accepted at " +
+                    school.getName() + ".", null);
+            else notificationService.sendNotiToDevice(token, "You have been rejected at " +
+                    school.getName() + ".", null);
         }
     }
 

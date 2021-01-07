@@ -47,9 +47,8 @@ public class NotificationService {
                 .putData("body", body)
                 .build();
 
-        String response = null;
         try {
-            response = FirebaseMessaging.getInstance().send(message);
+            FirebaseMessaging.getInstance().send(message);
         } catch (FirebaseMessagingException e) {
             System.out.println(e.getMessage());
         }
