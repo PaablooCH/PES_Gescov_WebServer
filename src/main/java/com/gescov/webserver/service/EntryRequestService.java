@@ -52,8 +52,8 @@ public class EntryRequestService {
         for (String id : adminsID) admins.add(userService.getUserById(id));
         for (User us : admins) {
             for (String token : us.getDevices()) {
-                notificationService.sendNotiToDevice(token, "You have received an entry request at " +
-                                            school.getName() + ".", applicant.getName() + " requested entering!");
+                notificationService.sendNotiToDevice(token, "You have received an entry request!", applicant.getName() + " requested entering at " +
+                                                                   school.getName() + "!");
             }
         }
     }
@@ -100,9 +100,9 @@ public class EntryRequestService {
     private void sendNotiToUser(User applicant, School school, boolean isAccepted) {
         for (String token : applicant.getDevices()) {
             if (isAccepted) notificationService.sendNotiToDevice(token, "You have been accepted at " +
-                    school.getName() + ".", null);
+                    school.getName() + ".", "");
             else notificationService.sendNotiToDevice(token, "You have been rejected at " +
-                    school.getName() + ".", null);
+                    school.getName() + ".", "");
         }
     }
 
