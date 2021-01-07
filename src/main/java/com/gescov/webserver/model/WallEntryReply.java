@@ -19,7 +19,7 @@ public class WallEntryReply {
     private LocalDateTime time;
 
     public WallEntryReply(@JsonProperty ("text") String text){
-        this.username = "anonimo";
+        this.username = "anonymous";
         this.text = text;
         this.time = LocalDateTime.now();
     }
