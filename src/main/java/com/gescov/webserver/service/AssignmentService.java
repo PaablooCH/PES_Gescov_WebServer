@@ -95,7 +95,7 @@ public class AssignmentService {
     public void transmitContagion(String studentID) {
         List<Assignment> ass = assignmentDao.findAllByStudentID(studentID);
         for (Assignment assignment : ass) {
-            if (DAYS.between(classSessionService.getDateBySession(assignment.getClassSessionID()), LocalDate.now()) <= 2)
+            if (DAYS.between(classSessionService.getDateBySession(assignment.getClassSessionID()), LocalDate.now()) <= 100)
                 checkPossibleContagion(assignment);
         }
     }
